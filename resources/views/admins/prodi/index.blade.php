@@ -54,6 +54,7 @@
                                             <th scope="col">Kode Prodi</th>
                                             <th scope="col">Nama Prodi</th>
                                             <th scope="col">Jenjang</th>
+                                            <th scope="col">Ketua</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
@@ -64,6 +65,7 @@
                                                 <td>{{ $prodi->kode_prodi }}</td>
                                                 <td>{{ $prodi->nama_prodi }}</td>
                                                 <td>{{ $prodi->jenjang }}</td>
+                                                <td>{{ $prodi->ketua->nama_user }}</td>
                                                 <td>
                                                     {{-- <a href="{{ url('/prodi/' . $prodi->id_prodi) }}" class="btn btn-link"><span
                                                         class="badge bg-info text-dark"><i

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class isLogin
+class RedirectIfMahasiswaNotAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -17,13 +17,11 @@ class isLogin
      */
     public function handle(Request $request, Closure $next)
     {
-
-        if (Auth::guard('web')->check()) {
-            return $next($request);
+        if (!auth()->guard('mahasiswa')->check()) {
+            return redirect('/login')->with('notLogin', 'Anda Harus Login Terlebih Dahulu');
         }
-        
-        return redirect('login')->with('notLogin', 'Anda Harus Login Terlebih Dahulu');        
-        
-        
+
+        return $next($request);
+
     }
 }

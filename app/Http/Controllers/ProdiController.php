@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prodi;
+use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -18,7 +19,7 @@ class ProdiController extends Controller
         if(session('success_message')){
             Alert::toast( session('success_message'),'success');
         }
-        
+
         return view('admins.prodi.index',[
             'prodis' => Prodi::all()
         ]);
@@ -31,8 +32,7 @@ class ProdiController extends Controller
      */
     public function create()
     {
-        $title = 'Prodi';
-        return view('admins.prodi.create')->with('title', $title);
+        return view('admins.prodi.create', ['users' => User::all()]);
     }
 
     /**
@@ -44,16 +44,19 @@ class ProdiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'id_user' => 'required',
             'kode_prodi'  => 'required',
             'nama_prodi'  => 'required',
             'jenjang'  => 'required',
         ], [
+            'id_user' => 'Ketua prodi harus diisi',
             'kode_prodi.required' => '',
             'nama_prodi.required' => '',
             'jenjang.required' => '',
         ]);
 
         $data = [
+            'id_user' => $request->id_user,
             'kode_prodi' => $request->kode_prodi,
             'nama_prodi' => $request->nama_prodi,
             'jenjang' => $request->jenjang,
@@ -85,7 +88,9 @@ class ProdiController extends Controller
     public function edit(Prodi $prodi)
     {
         $data = Prodi::where('id_prodi', $prodi->id_prodi)->first();
-        return view('admins.prodi.edit')->with('data', $data);
+        $users = User::all();
+
+        return view('admins.prodi.edit', compact('data', 'users'));
     }
 
     /**
@@ -98,16 +103,19 @@ class ProdiController extends Controller
     public function update(Request $request, Prodi $prodi)
     {
         $request->validate([
+            'id_user' => 'required',
             'kode_prodi'  => 'required',
             'nama_prodi'  => 'required',
             'jenjang'  => 'required',
         ], [
+            'id_user' => 'Ketua prodi harus diisi',
             'kode_prodi.required' => '',
             'nama_prodi.required' => '',
             'jenjang.required' => '',
         ]);
 
         $data = [
+            'id_user' => $request->id_user,
             'kode_prodi' => $request->kode_prodi,
             'nama_prodi' => $request->nama_prodi,
             'jenjang' => $request->jenjang,

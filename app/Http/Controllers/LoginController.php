@@ -45,33 +45,25 @@ class LoginController extends Controller
         ]);
 
         $credentials = $request->only('nim', 'password');
-
         if (Auth::guard('mahasiswa')->attempt($credentials)) {
             // Logika jika pengguna berhasil login sebagai mahasiswa guard
             $request->session()->regenerate();
             $mahasiswa = Auth::guard('mahasiswa')->user();
-            session(['nama_mhs' => $mahasiswa->nama_mhs]);
-            session(['fotomhs' => $mahasiswa->foto_mhs]); // Menggunakan kolom 'foto_mhs' sebagai contoh
-            return redirect('/index')->with('success', 'Anda Berhasil Login');
-        } elseif (Auth::guard('web')->attempt($credentials)) {
-            // Logika jika pengguna berhasil login sebagai web guard
-            $request->session()->regenerate();
-            $user = Auth::user();
-            session(['nama_user' => $user->nama_user]);
-            session(['foto_user' => $user->foto_user]); // Menggunakan kolom 'foto_user' sebagai contoh
-            return redirect('/dashboard')->with('success', 'Anda Berhasil Logout');
-        } else {
-            // Logika jika pengguna gagal login di kedua guard
-            return back()->withErrors([
-                'nim' => 'Nim atau password yang diberikan tidak cocok dengan data kami.',
+
+            session(['fotomhs' => $mahasiswa->foto_mhs]);
+            session([ // Menggunakan kolom 'foto_mhs' sebagai contoh
+                'nama_mhs' => $mahasiswa->nama_mhs,
+                'fotomhs' => $mahasiswa->foto_mhs
             ]);
+
+            return redirect('/index')->with('success', 'Anda Berhasil Login');
         }
-        
+
+        return back()->withErrors([ 'nim' => 'Nim atau password yang diberikan tidak cocok dengan data kami.']);
     }
 
-    public function logout(){
+    public function logout() {
         Auth::logout();
         return redirect('/');
     }
-
 }

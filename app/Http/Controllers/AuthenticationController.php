@@ -25,7 +25,7 @@ class AuthenticationController extends Controller
         Session::flash('email', $request->email);
 
         $data = User::all();
-        
+
         return view('login')->with('data', $data);
     }
 
@@ -74,26 +74,10 @@ class AuthenticationController extends Controller
                 // Logika untuk dosen
                 return redirect('/dashboard')->with('success', 'Anda Berhasil Login');
             }
-        } else {
-            // Logika jika pengguna gagal login di web guard
-            // Coba login sebagai mahasiswa guard
-            if (Auth::guard('mahasiswa')->attempt($credentials)) {
-                // Logika jika pengguna berhasil login sebagai mahasiswa guard
-                $request->session()->regenerate();
-                $mahasiswa = Auth::guard('mahasiswa')->user();
-                session(['nama_mhs' => $mahasiswa->nama_mhs]);
-                session(['fotomhs' => $mahasiswa->fotomhs]);
-                return redirect('/index')->with('success', 'Anda Berhasil Login');
-            } else {
-                // Logika jika pengguna gagal login di kedua guard
-                return back()->withErrors([
-                    'email' => 'Email atau password yang diberikan tidak cocok dengan data kami.',
-                ]);
-            }
         }
     }
 
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -105,7 +89,7 @@ class AuthenticationController extends Controller
     {
         return view('register');
     }
-    
+
     public function register(Request $request)
     {
         $request->validate([
