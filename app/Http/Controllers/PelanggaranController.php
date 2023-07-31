@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\AuthService;
 use App\Models\Dosen;
 use App\Models\Mahasiswa;
 use App\Models\Pelanggaran;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 
 class PelanggaranController extends Controller
 {
-    public function index()
+    public function index(AuthService $authService)
     {
         $user_or_msh = false;
         if ($user = auth()->guard('web')->user()) $user_or_msh = 'user';
