@@ -37,13 +37,31 @@
                                 </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <label for="prodi" class="form-label">Ketua Prodi</label>
+                                <select class="form-select @error('id_sp') is-invalid @enderror" name="id_user">
+                                    <option selected value="">Pilih User</option>
+                                    @foreach($users as $user)
+                                        @if (old('id_user') == $user->id_user)
+                                            <option value="{{ $user->id_user }}" selected>{{ $user->nama_user }}</option>
+                                        @else
+                                            <option value="{{ $user->id_user }}">{{ $user->nama_user }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @error('id_user')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <button class="btn btn-primary" type="submit">Simpan</button>
                             </div>
-    
+
                         </div>
                     </div>
-    
+
                 </form>
             </div>
     </div>

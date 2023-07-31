@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
+class RedirectIfNotAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -19,15 +19,15 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        $has_session = null;
+        $has_session = false;
         foreach (['web', 'mahasiswa'] as $guard) {
             if (auth()->guard($guard)->check()) {
-                $has_session = $guard;
+                $has_session = true;
             }
         }
 
-        if ($has_session) {
-            return redirect($has_session == 'web' ? '/dashboard' : '/index')->with('messageLogin', 'Kamu Dalam Keadaan Login');
+        if (!$has_session) {
+            return redirect('/login')->with('notLogin', 'Anda Harus Login Terlebih Dahulu');
         }
 
         return $next($request);
