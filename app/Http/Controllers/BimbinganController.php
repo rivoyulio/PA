@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\AuthService;
+use App\Http\Services\BimbinganService;
 use App\Models\Bimbingan;
 use App\Models\Mahasiswa;
-use App\Models\Prodi;
-use App\Models\Kelas;
 use App\Models\Dosen;
 use Illuminate\Http\Request;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BimbinganController extends Controller
 {
@@ -17,36 +17,43 @@ class BimbinganController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function indexdosen()
+    public function indexdosen(AuthService $authService)
     {
-        $bimbingans = Bimbingan::with('mahasiswa');
+        $user = $authService->currentUserGuardInstance()->user();
+        $dosen = Dosen::where('id_user', $user->id_user)->first();
+        $bimbingans = Bimbingan::whereHas(
+            'mahasiswa', fn ($query) => $query->whereHas(
+                'kelas', fn ($query) => $query->where('id_dosen', $dosen->id_dosen)
+            )
+        )->get();
 
-        return view('admins.bimbingan.dosenbimbingan',[
-            'bimbingans' => $bimbingans->paginate(5)
-        ]);
+        return view('admins.bimbingan.dosenbimbingan', compact('bimbingans'));
     }
 
     public function indexmahasiswa()
     {
-        return view('admins.bimbingan.mahasiswabimbingan',[
-            'bimbingans' => Bimbingan::all()
-        ]);
+        return view('admins.bimbingan.mahasiswabimbingan');
     }
 
-    public function indexhistory()
+    public function indexhistory(AuthService $authService)
     {
-        $mahasiswas = Mahasiswa::all();
-        $kelass = Kelas::all();
-        $prodis = Prodi::all();
+        $user = $authService->currentUserGuardInstance()->user();
+        $dosen = Dosen::where('id_user', $user->id_user)->first();
 
-        return view('admins.bimbingan.history',compact('mahasiswas', 'kelass', 'prodis'));
+        $mahasiswas = Mahasiswa::whereHas(
+            'kelas', fn ($query) => $query->where('id_dosen', $dosen->id_dosen)
+        )->get();
+
+        return view('admins.bimbingan.history', compact('mahasiswas'));
     }
 
-    public function indexdetail()
+    public function indexdetail(BimbinganService $bimbinganService, AuthService $authService)
     {
-        return view('admins.bimbingan.detail',[
-            'bimbingans' => Bimbingan::all()
-        ]);
+        $mhs_id = $authService->currentUserGuardInstance()->user()->id_mhs;
+        $bimbingans = $bimbinganService->getBimbinganMahasiswa($mhs_id);
+        $mahasiswa = Mahasiswa::where('id_mhs', $mhs_id)->first();
+
+        return view('admins.bimbingan.detail', compact('bimbingans', 'mahasiswa'));
     }
 
     /**
@@ -63,14 +70,16 @@ class BimbinganController extends Controller
         return view('admins.bimbingan.mahasiswabimbingan', compact('mahasiswas', 'dosens', 'title'));
     }
 
-    public function cetak()
+    public function cetak(BimbinganService $bimbinganService, AuthService $authService)
     {
-        $bimbingans = Bimbingan::all();
+        $mhs_id = $authService->currentUserGuardInstance()->user()->id_mhs;
+        $bimbingans = $bimbinganService->getBimbinganMahasiswa($mhs_id);
+        $mahasiswa = Mahasiswa::where('id_mhs', $mhs_id)->first();
 
-        View()->share('bimbingans', $bimbingans);
-        $pdf = PDF::loadView('admins.bimbingan.cetak');
-        return $pdf->download('Laporan bimbingan.pdf');
+        $pdf = Pdf::loadView('pdf.bimbingan', compact('bimbingans', 'mahasiswa'));
+        $pdf = $pdf->setPaper('a4', 'landscape');
 
+        return $pdf->stream();
     }
 
     /**
@@ -81,7 +90,7 @@ class BimbinganController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());    
+        // dd($request->all());
         $request->validate([
             'id_mhs' => 'required',
             'tanggal_bimbingan' => 'required',
@@ -100,8 +109,8 @@ class BimbinganController extends Controller
             'id_mhs' => $request->id_mhs,
             'tanggal_bimbingan' => $request->tanggal_bimbingan,
             'bimbingan' => $request->bimbingan,
-            'pesan_mhs' => $request->pesan_mhs, 
-            // 'pesan_dosen' => $request->pesan_dosen, 
+            'pesan_mhs' => $request->pesan_mhs,
+            // 'pesan_dosen' => $request->pesan_dosen,
         ];
 
         // dd($data);
@@ -164,8 +173,8 @@ class BimbinganController extends Controller
             'id_mhs' => $request->id_mhs,
             'tanggal_bimbingan' => $request->tanggal_bimbingan,
             'bimbingan' => $request->bimbingan,
-            'pesan_mhs' => $request->pesan_mhs, 
-            'pesan_dosen' => $request->pesan_dosen, 
+            'pesan_mhs' => $request->pesan_mhs,
+            'pesan_dosen' => $request->pesan_dosen,
         ];
 
         dd($data);

@@ -58,8 +58,10 @@ Route::middleware([RedirectIfNotAuthenticated::class])->group(
         Route::resource('/admin/data/kelas', KelasController::class);
         Route::resource('/admin/data/prodi', ProdiController::class);
         Route::resource('/admin/data/agama', AgamaController::class);
-        Route::resource('sp', SpController::class);
-        Route::resource('pelanggaran', PelanggaranController::class);
+
+        // Shared
+        Route::resource('/sp', SpController::class);
+        Route::resource('/pelanggaran', PelanggaranController::class);
         // Route::resource('profile', ProfileController::class);
         // Route::resource('bimbingan', BimbinganController::class);
         // Route::get('kelas/detail/{id}','App\Http\Controllers\KelasController@kelasdetail');
@@ -67,24 +69,22 @@ Route::middleware([RedirectIfNotAuthenticated::class])->group(
         // Route::delete('kelas/detail/delete/{id}','App\Http\Controllers\KelasController@delete');
 
         //route dosen
-        Route::get('dashboard','App\Http\Controllers\DosenController@biodatadosen');
-        Route::get('dosenbimbingan','App\Http\Controllers\BimbinganController@indexdosen');
-        Route::post('dosenbimbingan','App\Http\Controllers\BimbinganController@store');
-        Route::put('dosenbimbingan/{id}','App\Http\Controllers\BimbinganController@update');
-        Route::get('history','App\Http\Controllers\BimbinganController@indexhistory');
-        Route::get('datamahasiswa','App\Http\Controllers\MahasiswaController@indexmahasiswa');
+        Route::get('/dosen','App\Http\Controllers\DosenController@biodatadosen');
+        Route::get('/dosen/mahasiswa','App\Http\Controllers\MahasiswaController@indexmahasiswa');
+        Route::get('/dosen/mahasiswa/biodata','App\Http\Controllers\MahasiswaController@indexbiodata');
+        Route::get('/dosen/bimbingan','App\Http\Controllers\BimbinganController@indexdosen');
+        Route::post('/dosen/bimbingan','App\Http\Controllers\BimbinganController@store');
+        Route::put('/dosen/bimbingan/{id}','App\Http\Controllers\BimbinganController@update');
+        Route::delete('/dosen/bimbingan/{id}','App\Http\Controllers\BimbinganController@destroy');
+        Route::get('/dosen/bimbingan/history','App\Http\Controllers\BimbinganController@indexhistory');
 
-        // Route::get('detailbiodata','App\Http\Controllers\MahasiswaController@showbiodata');
-        Route::delete('bimbingan/{id}','App\Http\Controllers\BimbinganController@destroy');
 
         // route mahasiswa
-        Route::get('index','App\Http\Controllers\MahasiswaController@profile');
-        Route::get('mahasiswa','App\Http\Controllers\MahasiswaController@indexbiodata');
-        Route::get('detail','App\Http\Controllers\BimbinganController@indexdetail');
-        Route::get('cetak','App\Http\Controllers\BimbinganController@cetak');
-        Route::get('mahasiswabimbingan','App\Http\Controllers\BimbinganController@indexmahasiswa');
-
-        Route::get('index','App\Http\Controllers\MahasiswaController@profile');
+        Route::get('/mahasiswa','App\Http\Controllers\MahasiswaController@profile');
+        Route::get('/mahasiswa/index','App\Http\Controllers\MahasiswaController@indexbiodata');
+        Route::get('/mahasiswa/bimbingan','App\Http\Controllers\BimbinganController@indexmahasiswa');
+        Route::get('/mahasiswa/bimbingan/detail','App\Http\Controllers\BimbinganController@indexdetail');
+        Route::get('/mahasiswa/bimbingan/cetak','App\Http\Controllers\BimbinganController@cetak');
     }
 );
 

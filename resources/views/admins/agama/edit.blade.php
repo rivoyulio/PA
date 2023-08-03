@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8 mt-5">
-                <form action="/agama/{{ $data->id_agama }}" method="post" enctype="multipart/form-data">
+                <form action="/admin/data/agama/{{ $data->id_agama }}" method="post" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     <div class="card">
@@ -25,7 +25,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                 </form>
             </div>
     </div>

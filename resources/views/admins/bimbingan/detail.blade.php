@@ -25,12 +25,17 @@
 
                             <div class="card-body">
                                 <h5 class="card-title">Detail Bimbingan Mahasiswa</h5>
+                                <a target="_blank" href="/mahasiswa/bimbingan/cetak" class="btn btn-success">
+                                    <i class="bi bi-file-earmark-break-fill"></i> Cetak Detail Bimbingan
+                                </a>
 
-                                <a href="/cetak" class="btn btn-success"><i class="bi bi-file-earmark-break-fill"></i> Cetak Detail Bimbingan</a><br><br>
+                                <br>
+                                <br>
 
-                                <h6>Nama Dosen</h6><br>
-                                
-                                <h6>Nama Mahasiswa : {{ Auth::guard('mahasiswa')->user()->nama_mhs }}</h6><br>
+                                <h6>Nama Dosen: {{ $mahasiswa->kelas->dosen->nama_dosen }}</h6><br>
+                                <h6>Nama Mahasiswa : {{ $mahasiswa->nama_mhs }}</h6><br>
+                                <h6>NIM : {{ $mahasiswa->nim }}</h6><br>
+                                <h6>Kelas : {{ $mahasiswa->kelas->nama_kelas }}</h6><br>
 
                                 <table class="table table-borderless">
                                     <thead>

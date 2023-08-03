@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8 mt-5">
-                <form action="/dosen/{{ $data->id_dosen }}" method="post" enctype="multipart/form-data">
+                <form action="/admin/data/dosen/{{ $data->id_dosen }}" method="post" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     <div class="card">
@@ -86,10 +86,10 @@
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <button class="btn btn-primary" type="submit">Simpan</button>
                             </div>
-    
+
                         </div>
                     </div>
-    
+
                 </form>
             </div>
     </div>

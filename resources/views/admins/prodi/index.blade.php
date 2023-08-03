@@ -37,11 +37,7 @@
 
                     <!-- Recent Sales -->
                     <div class="col-12">
-
-                        {{-- <button type="button" class="btn btn-primary btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#basicModal">
-                            +Tambah Barang
-                          </button> --}}
-                        <a href="/prodi/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Prodi</a>
+                        <a href="/admin/data/prodi/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Prodi</a>
                         <div class="card recent-sales overflow-auto">
 
                             <div class="card-body">
@@ -67,16 +63,16 @@
                                                 <td>{{ $prodi->jenjang }}</td>
                                                 <td>{{ $prodi->ketua->nama_user }}</td>
                                                 <td>
-                                                    {{-- <a href="{{ url('/prodi/' . $prodi->id_prodi) }}" class="btn btn-link"><span
+                                                    {{-- <a href="{{ url('/admin/data/prodi/' . $prodi->id_prodi) }}" class="btn btn-link"><span
                                                         class="badge bg-info text-dark"><i
                                                         class="bi bi-info-circle"></i> Detail</span></a> --}}
 
-                                                        <a href="{{ url('/prodi/' . $prodi->id_prodi . '/edit/') }}" class="btn btn-link"><span
+                                                        <a href="{{ url('/admin/data/prodi/' . $prodi->id_prodi . '/edit/') }}" class="btn btn-link"><span
                                                             class="badge bg-warning text-dark"><i
                                                             class="bi bi-info-circle"></i> Edit</span></a>
 
                                                         <a
-                                                            action="{{ '/prodi/' . $prodi->id_prodi }}"
+                                                            action="{{ '/admin/data/prodi/' . $prodi->id_prodi }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')

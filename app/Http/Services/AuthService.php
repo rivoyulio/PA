@@ -2,14 +2,17 @@
 
 namespace App\Http\Services;
 
-class AuthService {
-    public function currentUserGuard() {
+class AuthService
+{
+    public function currentUserGuard()
+    {
         if (auth()->guard('web')->check()) return 'web';
         if (auth()->guard('mahasiswa')->check()) return 'mahasiswa';
         return null;
     }
 
-    public function currentUserGuardInstance() {
+    public function currentUserGuardInstance()
+    {
         if ($guard = $this->currentUserGuard()) {
             return auth()->guard($guard);
         }
@@ -17,19 +20,23 @@ class AuthService {
         return null;
     }
 
-    public function currentUserIsAdmin() {
+    public function currentUserIsAdmin()
+    {
         return $this->currentUserGuard() == 'web' && auth()->user()->level === 'admin';
     }
 
-    public function currentUserIsDosen() {
+    public function currentUserIsDosen()
+    {
         return $this->currentUserGuard() == 'web' && auth()->user()->level === 'dosen';
     }
 
-    public function currentUserIsKaprodi() {
+    public function currentUserIsKaprodi()
+    {
         return $this->currentUserGuard() == 'web' && auth()->user()->level === 'kaprodi';
     }
 
-    public function currentUserIsMahasiswa() {
+    public function currentUserIsMahasiswa()
+    {
         return $this->currentUserGuard() == 'mahasiswa';
     }
 }

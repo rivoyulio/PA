@@ -13,6 +13,24 @@
                         <div class="card-body">
 
                             <div class="mb-3">
+                                <label  class="form-label" style="text-align: center;">Pelanggaran</label>
+                                <input
+                                    type="text"
+                                    name="pelanggaran"
+                                    class="form-control @error('pelanggaran') is-invalid @enderror"
+                                    id="pelanggaran"
+                                    value="{{ old('pelanggaran', $pelanggaran->pelanggaran) }}"
+                                    autofocus
+                                    placeholder="Pelanggaran"
+                                >
+                                @error('pelanggaran')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="prodi" class="form-label">SP</label>
                                 <select class="form-select @error('id_sp') is-invalid @enderror" name="id_sp">
                                     <option selected value="">Pilih SP</option>

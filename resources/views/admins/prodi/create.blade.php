@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8 mt-5">
-                <form action="/prodi" method="post" enctype="multipart/form-data">
+                <form action="/admin/data/prodi" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card">
                         <h5 class="card-header text-center font-weight-bold">Tambah Prodi</h5><br>

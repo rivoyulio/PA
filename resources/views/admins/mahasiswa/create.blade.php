@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8 mt-5">
-                <form action="/mahasiswa" method="post" enctype="multipart/form-data">
+                <form action="/admin/data/mahasiswa" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card">
                         <h5 class="card-header text-center font-weight-bold">Tambah Mahasiswa</h5><br>
@@ -45,7 +45,7 @@
                                         <select class="form-select" name="id_prodi" aria-label="Default select example">
                                             <option selected></option>
                                             @foreach($prodis as $prodi)
-                                           
+
                                                 @if (old('id_prodi') == $prodi->id_prodi)
                                                     <option value="{{ $prodi->id_prodi }}" selected>{{ $prodi->nama_prodi.'-'. $prodi->jenjang }}</option>
                                                 @else
@@ -63,7 +63,7 @@
                                         <select class="form-select" name="id_kelas" aria-label="Default select example">
                                             <option selected></option>
                                             @foreach($kelass as $kelas)
-                                           
+
                                                 @if (old('id_kelas') == $kelas->id_kelas)
                                                     <option value="{{ $kelas->id_kelas }}" selected>{{ $kelas->nama_kelas }}</option>
                                                 @else
@@ -73,7 +73,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>        
+                            </div>
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label" style="text-align: center;">Password</label>
                                 <input type="text" name="password" class="form-control @error('password') is-invalid @enderror" id="password" value="{{ old('password') }}" autofocus placeholder="Password">
@@ -86,10 +86,10 @@
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <button class="btn btn-primary" type="submit">Simpan</button>
                             </div>
-    
+
                         </div>
                     </div>
-    
+
                 </form>
             </div>
     </div>

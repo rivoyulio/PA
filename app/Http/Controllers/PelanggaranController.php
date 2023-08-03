@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\AuthService;
-use App\Models\Dosen;
 use App\Models\Mahasiswa;
 use App\Models\Pelanggaran;
 use App\Models\Sp;
@@ -13,27 +12,30 @@ class PelanggaranController extends Controller
 {
     public function index(AuthService $authService)
     {
-        $user_or_msh = false;
-        if ($user = auth()->guard('web')->user()) $user_or_msh = 'user';
-        else if ($user = auth()->guard('mahasiswa')->user()) $user_or_msh = 'msh';
+        $current_guard = $authService->currentUserGuard();
+        $current_user = $authService->currentUserGuardInstance()->user();
 
-        if ($user_or_msh == 'user') {
-            if ($user->level == 'admin') $pelanggaran = Pelanggaran::query();
+        if ($authService->currentUserGuard() == 'web') {
+            if ($authService->currentUserIsAdmin()) $pelanggaran = Pelanggaran::get();
 
-            if ($user->level == 'dosen') {
-                $pelanggaran = Pelanggaran::whereHas('mahasiswa.kelas.dosen', fn ($query) => $query->where('id_user', $user->id_user));
+            if ($authService->currentUserIsDosen()) {
+                $pelanggaran = Pelanggaran::whereHas(
+                    'mahasiswa.kelas.dosen', fn ($query) => $query->where('id_user', $current_user->id_user)
+                )->get();
             }
 
-            if ($user->level == 'kaprodi') {
-                $pelanggaran = Pelanggaran::whereHas('mahasiswa.kelas.prodi', fn ($query) => $query->where('id_user', $user->id_user));
+            if ($authService->currentUserIsKaprodi()) {
+                $pelanggaran = Pelanggaran::whereHas(
+                    'mahasiswa.kelas.prodi', fn ($query) => $query->where('id_user', $current_user->id_user)
+                )->get();
             }
         }
 
-        if ($user_or_msh === 'msh') {
-            $pelanggaran = Pelanggaran::where('id_mhs', $user->id_mhs);
+        if ($authService->currentUserGuard() == 'mahasiswa') {
+            $pelanggaran = Pelanggaran::where('id_mhs', $current_user->id_mhs)->get();
         }
 
-        return view('admins.pelanggaran.index', ['pelanggaran' => $pelanggaran->paginate(10)]);
+        return view('admins.pelanggaran.index', compact('pelanggaran'));
     }
 
     public function create()
@@ -44,12 +46,7 @@ class PelanggaranController extends Controller
     public function store(Request $request)
     {
         $this->validate_pelanggaran($request);
-        Pelanggaran::create(
-            [
-                'id_sp' => $request->id_sp,
-                'id_mhs' => $request->id_mhs,
-            ]
-        );
+        $this->save_pelanggaran($request, new Pelanggaran());
 
         return redirect('/pelanggaran')->with('success', 'Data berhasil ditambahkan!');
     }
@@ -65,12 +62,7 @@ class PelanggaranController extends Controller
     public function update(Request $request, Pelanggaran $pelanggaran)
     {
         $this->validate_pelanggaran($request);
-        $pelanggaran->update(
-            [
-                'id_sp' => $request->id_sp,
-                'id_mhs' => $request->id_mhs,
-            ]
-        );
+        $this->save_pelanggaran($request, $pelanggaran);
 
         return redirect('/pelanggaran')->with('success', 'Data berhasil diubah!');
     }
@@ -79,6 +71,15 @@ class PelanggaranController extends Controller
     {
         $pelanggaran->delete();
         return redirect('/pelanggaran')->with('success', 'Data berhasil dihapus!');
+    }
+
+
+    protected function save_pelanggaran(Request $request, Pelanggaran $pelanggaran)
+    {
+        $pelanggaran->id_sp = $request->id_sp;
+        $pelanggaran->pelanggaran = $request->pelanggaran;
+        $pelanggaran->id_mhs = $request->id_mhs;
+        $pelanggaran->save();
     }
 
     protected function load_relation()

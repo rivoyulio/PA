@@ -64,8 +64,6 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{ $sps->links() }}
-
                             </div>
 
                         </div>
