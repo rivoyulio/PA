@@ -37,7 +37,7 @@
 
                     <!-- Recent Sales -->
                     <div class="col-12">
-                        <a href="/dosen/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Dosen</a>
+                        <a href="/admin/data/dosen/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Dosen</a>
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Dosen</h5>
@@ -70,16 +70,16 @@
                                                 <td>{{ $dosen->alamat }}</td>
                                                 <td>{{ $dosen->notelp }}</td>
                                                 <td>
-                                                    <a href="{{ url('/dosen/' . $dosen->id_dosen) }}" class="btn btn-link"><span
+                                                    <a href="{{ url('/admin/data/dosen/' . $dosen->id_dosen) }}" class="btn btn-link"><span
                                                         class="badge bg-info text-dark"><i
                                                         class="bi bi-info-circle"></i> Detail</span></a>
 
-                                                        <a href="{{ url('/dosen/' . $dosen->id_dosen . '/edit/') }}" class="btn btn-link"><span
+                                                        <a href="{{ url('/admin/data/dosen/' . $dosen->id_dosen . '/edit/') }}" class="btn btn-link"><span
                                                             class="badge bg-warning text-dark"><i
                                                             class="bi bi-info-circle"></i> Edit </span></a>
 
                                                     <form
-                                                        action="{{ '/dosen/' . $dosen->id_dosen }}"
+                                                        action="{{ '/admin/data/dosen/' . $dosen->id_dosen }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')

@@ -25,7 +25,7 @@ class KelasController extends Controller
         }
 
         $kelass = Kelas::with('prodi','dosen');
-        
+
         return view('admins.kelas.index',[
             'kelass' => $kelass->paginate(5)
         ]);
@@ -89,14 +89,14 @@ class KelasController extends Controller
             'nama_kelas' => $request->nama_kelas,
             'id_prodi' => $request->id_prodi,
             'id_dosen' => $request->id_dosen,
-            'tahun_angkatan' => $request->tahun_angkatan, 
-            'jumlah' => $request->jumlah, 
+            'tahun_angkatan' => $request->tahun_angkatan,
+            'jumlah' => $request->jumlah,
         ];
 
         $title = 'Tambah Kelas';
 
         Kelas::create($data);
-        return redirect()->route('kelas.index')->withSuccessMessage('Data Kelas Berhasil Ditambahkan', compact('title'));
+        return redirect()->route('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Ditambahkan', compact('title'));
     }
 
     /**
@@ -136,7 +136,7 @@ class KelasController extends Controller
      */
     public function update(Request $request, Kelas $kelas, $id)
     {
-  
+
         $request->validate([
             'nama_kelas' => 'required',
             'id_prodi' => 'required',
@@ -155,15 +155,15 @@ class KelasController extends Controller
             'nama_kelas' => $request->nama_kelas,
             'id_prodi' => $request->id_prodi,
             'id_dosen' => $request->id_dosen,
-            'tahun_angkatan' => $request->tahun_angkatan, 
-            'jumlah' => $request->jumlah, 
+            'tahun_angkatan' => $request->tahun_angkatan,
+            'jumlah' => $request->jumlah,
         ];
 
         // dd($data);
         $title = 'Edit Kelas';
 
         Kelas::find($id)->update($data);
-        return redirect()->route('kelas.index')->withSuccessMessage('Data Kelas Berhasil Diubah', compact('title'));
+        return redirect()->route('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Diubah', compact('title'));
     }
 
     /**
@@ -176,7 +176,7 @@ class KelasController extends Controller
     {
         $data = Kelas::where('id_kelas', $kelas->id_kelas)->first();
         Kelas::where('id_kelas', $kelas->id_kelas)->delete();
-        return redirect()->route('kelas.index')->withSuccessMessage('Data Kelas Berhasil Dihapus');
+        return redirect()->route('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Dihapus');
     }
 
     public function delete(Mahasiswa $mahasiswa)

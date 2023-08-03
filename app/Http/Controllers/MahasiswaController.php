@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\AuthService;
+use App\Http\Services\PelanggaranService;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use App\Models\Kelas;
 use App\Models\Dosen;
 use App\Models\Agama;
+use App\Models\Pelanggaran;
+use App\Models\Sp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -29,46 +33,63 @@ class MahasiswaController extends Controller
             'mahasiswas' => Mahasiswa::all()
         ]);
     }
-    
-   public function indexmahasiswa()
-   {
-        // $kelas = Kelas::select('id_kelas');
-        // $dosens = Dosen::find($id);
-        $mahasiswas = Mahasiswa::get()->where('id_dosen');
 
-        // dd($mahasiswas);
-        return view('admins.mahasiswa.datamahasiswa',[
-            'mahasiswas' => $mahasiswas,
-            // 'dosens' => $dosens,
-            // 'kelas' => $kelas
-        ]);
+   public function indexmahasiswa(AuthService $authService)
+   {
+        $user = $authService->currentUserGuardInstance()->user();
+        $dosen = Dosen::where('id_user', $user->id_user)->first();
+
+        $mahasiswas = Mahasiswa::whereHas(
+            'kelas', fn ($query) => $query->where('id_dosen', $dosen->id_dosen)
+        )->get();
+
+        return view('admins.mahasiswa.datamahasiswa', compact('mahasiswas'));
    }
 
-   public function indexbiodata()
+   public function indexbiodata(AuthService $authService)
    {
+        $user = $authService->currentUserGuardInstance()->user();
+        $dosen = Dosen::where('id_user', $user->id_user)->first();
 
-    return view('admins.mahasiswa.biodata', [
-        'mahasiswas' => Mahasiswa::all()
-    ]);
-    
+        $mahasiswas = Mahasiswa::whereHas(
+            'kelas', fn ($query) => $query->where('id_dosen', $dosen->id_dosen)
+        )->get();
+
+        return view('admins.mahasiswa.biodata', compact('mahasiswas'));
    }
 
-   public function profile()
+   public function profile(AuthService $authService)
     {
-        $mahasiswa = Auth::guard('mahasiswa')->user();
-
         return view('admins.profilemahasiswa.index', [
-            'mahasiswa' => $mahasiswa
+            'mahasiswa' => $authService->currentUserGuardInstance()->user()
+        ]);
+    }
+
+    public function sp(AuthService $authService, PelanggaranService $pelanggaranService)
+    {
+        $mahasiswa = $authService->currentUserGuardInstance()->user();
+
+        return view('admins.mahasiswa.sp', [
+            'pelanggaran' => $pelanggaranService->getPelanggaranByMhs($mahasiswa->id_mhs)
+        ]);
+    }
+
+    public function pelanggaran(AuthService $authService, PelanggaranService $pelanggaranService)
+    {
+        $mahasiswa = $authService->currentUserGuardInstance()->user();
+
+        return view('admins.mahasiswa.pelanggaran', [
+            'pelanggaran' => $pelanggaranService->getPelanggaranByMhs($mahasiswa->id_mhs)
         ]);
     }
 
 
     public function create()
-    {   
+    {
         $prodis = Prodi::all();
         $kelass = Kelas::all();
         $title = 'Mahasiswa';
-        
+
         return view('admins.mahasiswa.create', compact('kelass', 'prodis', 'title'));
     }
 
@@ -187,7 +208,7 @@ class MahasiswaController extends Controller
             // 'pekerjaan_wali' => $request->pekerjaan_wali,
             // 'nohp_wali' => $request->nohp_wali,
             // 'status_biodata' => $request->status_biodata,
-            'fotomhs' => $nama_foto    
+            'fotomhs' => $nama_foto
         ];
 
         $title = 'Tambah Mahasiswa';
@@ -217,7 +238,7 @@ class MahasiswaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Mahasiswa $mahasiswa)
-    {   
+    {
         $prodis = Prodi::all();
         $kelass = Kelas::all();
         $data = Mahasiswa::where('id_mhs', $mahasiswa->id_mhs)->first();
@@ -332,7 +353,7 @@ class MahasiswaController extends Controller
             // 'alamat_wali' => $request->alamat_wali,
             // 'pekerjaan_wali' => $request->pekerjaan_wali,
             // 'nohp_wali' => $request->nohp_wali,
-            // 'status_biodata' => $request->status_biodata,  
+            // 'status_biodata' => $request->status_biodata,
 
         ];
 

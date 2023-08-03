@@ -2,10 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
+use App\Http\Services\AuthService;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
@@ -17,7 +16,7 @@ class RedirectIfAuthenticated
      * @param  string|null  ...$guards
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, ...$guards)
+    public function handle(Request $request, Closure $next)
     {
         $has_session = null;
         foreach (['web', 'mahasiswa'] as $guard) {
@@ -27,7 +26,7 @@ class RedirectIfAuthenticated
         }
 
         if ($has_session) {
-            return redirect($has_session == 'web' ? '/dashboard' : '/index')->with('messageLogin', 'Kamu Dalam Keadaan Login');
+            return redirect($has_session == 'web' ? '/dashboard' : '/mahasiswa')->with('messageLogin', 'Kamu Dalam Keadaan Login');
         }
 
         return $next($request);

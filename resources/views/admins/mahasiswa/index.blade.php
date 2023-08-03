@@ -38,7 +38,7 @@
                     <!-- Recent Sales -->
                     <div class="col-12">
 
-                        <a href="/mahasiswa/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Mahasiswa</a>
+                        <a href="/admin/data/mahasiswa/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Mahasiswa</a>
                         <div class="card recent-sales overflow-auto">
 
                             <div class="card-body">

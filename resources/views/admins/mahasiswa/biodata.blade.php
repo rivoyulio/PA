@@ -68,11 +68,10 @@
                                                                     class="bi bi-trash"></i> Hapus</span></button>
                                                     </a> --}}
                                                 </td>
-                                            </tr> 
+                                            </tr>
                                          @endforeach
                                     </tbody>
                                 </table>
-                                {{-- {{ $mahasiswas->links() }} --}}
 
                             </div>
 

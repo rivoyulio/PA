@@ -37,11 +37,7 @@
 
                     <!-- Recent Sales -->
                     <div class="col-12">
-
-                        {{-- <button type="button" class="btn btn-primary btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#basicModal">
-                            +Tambah Barang
-                          </button> --}}
-                        <a href="/kelas/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Kelas</a>
+                        <a href="/admin/data/kelas/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Kelas</a>
                         <div class="card recent-sales overflow-auto">
                             {{-- <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i
@@ -76,23 +72,23 @@
                                         @foreach ($kelass as $kelas)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td><a href="{{ url('/kelas/detail/'.$kelas->id_kelas) }}" style="text-decoration: none;">{{ $kelas->nama_kelas }}</a></td>
+                                                <td><a href="{{ url('/admin/data/kelas/detail/'.$kelas->id_kelas) }}" style="text-decoration: none;">{{ $kelas->nama_kelas }}</a></td>
                                                 {{-- <td>{{ $kelas->nama_kelas }}</td> --}}
                                                 <td>{{ $kelas->prodi->nama_prodi }}</td>
                                                 <td>{{ $kelas->dosen->nama_dosen }}</td>
                                                 <td>{{ $kelas->tahun_angkatan }}</td>
                                                 <td>{{ $kelas->jumlah }}</td>
                                                 <td>
-                                                    {{-- <a href="{{ url('/kelas/' . $kelas->id_kelas) }}" class="btn btn-link"><span
+                                                    {{-- <a href="{{ url('/admin/data/kelas/' . $kelas->id_kelas) }}" class="btn btn-link"><span
                                                         class="badge bg-info text-dark"><i
                                                         class="bi bi-info-circle"></i> Detail</span></a> --}}
 
-                                                        <a href="{{ url('/kelas/' . $kelas->id_kelas . '/edit/') }}" class="btn btn-link"><span
+                                                        <a href="{{ url('/admin/data/kelas/' . $kelas->id_kelas . '/edit/') }}" class="btn btn-link"><span
                                                             class="badge bg-warning text-dark"><i
                                                             class="bi bi-info-circle"></i> Edit</span></a>
 
                                                     <form
-                                                        action="{{ '/kelas/' . $kelas->id_kelas }}"
+                                                        action="{{ '/admin/data/kelas/' . $kelas->id_kelas }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
