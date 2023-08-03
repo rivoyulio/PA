@@ -48,10 +48,7 @@ class AuthenticationController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
         if (Auth::guard('web')->attempt($credentials)) {
-            // Logika jika pengguna berhasil login sebagai web guard
-
             $request->session()->regenerate();
             $user = Auth::user();
 
@@ -65,19 +62,14 @@ class AuthenticationController extends Controller
             session(['foto_user' => $user->foto_user]);
 
             if ($user->level === 'admin') {
-                // Logika untuk admin
                 return redirect('/dashboard')->with('success', 'Anda Berhasil Login');
             } elseif ($user->level === 'kaprodi') {
-                // Logika untuk kaprodi
-                return redirect('/dashboard')->with('success', 'Anda Berhasil Login');
+                return redirect('/kaprodi')->with('success', 'Anda Berhasil Login');
             } elseif ($user->level === 'dosen') {
-                // Logika untuk dosen
-                return redirect('/dashboard')->with('success', 'Anda Berhasil Login');
+                return redirect('/dosen')->with('success', 'Anda Berhasil Login');
             }
         }
     }
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -117,7 +109,9 @@ class AuthenticationController extends Controller
     }
 
     public function logout(){
-        Auth::logout();
+        Auth::guard('web')->logout();
+        Auth::guard('mahasiswa')->logout();
+
         return redirect('/');
     }
 

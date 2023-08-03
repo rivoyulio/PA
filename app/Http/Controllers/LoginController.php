@@ -56,7 +56,7 @@ class LoginController extends Controller
                 'fotomhs' => $mahasiswa->foto_mhs
             ]);
 
-            return redirect('/index')->with('success', 'Anda Berhasil Login');
+            return redirect('/mahasiswa')->with('success', 'Anda Berhasil Login');
         }
 
         return back()->withErrors([ 'nim' => 'Nim atau password yang diberikan tidak cocok dengan data kami.']);

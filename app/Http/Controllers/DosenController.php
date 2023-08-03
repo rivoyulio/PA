@@ -20,7 +20,7 @@ class DosenController extends Controller
         if(session('success_message')){
             Alert::toast( session('success_message'),'success');
         }
-        
+
         return view('admins.dosen.index',[
             'dosens' => Dosen::paginate(5)
         ]);
@@ -78,24 +78,24 @@ class DosenController extends Controller
             'tgl_lahir.date' => 'Tanggal Lahir Dosen Harus Diisi',
             'alamat.required' => 'Alamat Dosen Harus Diisi',
             'notelp.numeric' => 'No Telepon Dosen Harus Diisi',
-    
+
         ]);
 
         $data = [
             'id_user' => $request->id_user,
             'nip' => $request->nip,
             'nama_dosen' => $request->nama_dosen,
-            'jabatan' => $request->jabatan, 
-            'tempat_lahir' => $request->tempat_lahir, 
-            'tgl_lahir' => $request->tgl_lahir, 
-            'alamat' => $request->alamat, 
-            'notelp' => $request->notelp, 
+            'jabatan' => $request->jabatan,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tgl_lahir' => $request->tgl_lahir,
+            'alamat' => $request->alamat,
+            'notelp' => $request->notelp,
         ];
 
         $title = 'Tambah Dosen';
 
         Dosen::create($data);
-        return redirect()->route('dosen.index')->withSuccessMessage('Data Dosen Berhasil Ditambahkan', compact('title'));
+        return redirect()->route('/admin/data/dosen')->withSuccessMessage('Data Dosen Berhasil Ditambahkan', compact('title'));
     }
 
     /**
@@ -150,24 +150,24 @@ class DosenController extends Controller
             'tgl_lahir.date' => 'Tanggal Lahir Dosen Harus Diisi',
             'alamat.required' => 'Alamat Dosen Harus Diisi',
             'notelp.numeric' => 'No Telepom Dosen Harus Diisi',
-    
+
         ]);
 
         $data = [
             'id_user' => $request->id_user,
             'nip' => $request->nip,
             'nama_dosen' => $request->nama_dosen,
-            'jabatan' => $request->jabatan, 
-            'tempat_lahir' => $request->tempat_lahir, 
-            'tgl_lahir' => $request->tgl_lahir, 
-            'alamat' => $request->alamat, 
-            'notelp' => $request->notelp, 
+            'jabatan' => $request->jabatan,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tgl_lahir' => $request->tgl_lahir,
+            'alamat' => $request->alamat,
+            'notelp' => $request->notelp,
         ];
 
         $title = 'Edit Dosen';
 
         Dosen::where('id_dosen', $dosen->id_dosen)->update($data);
-        return redirect()->route('dosen.index')->withSuccessMessage('Data dosen Berhasil Diubah', compact('title'));
+        return redirect()->route('/admin/data/dosen')->withSuccessMessage('Data dosen Berhasil Diubah', compact('title'));
     }
 
     /**
@@ -181,6 +181,6 @@ class DosenController extends Controller
         $data = Dosen::where('id_dosen', $dosen->id_dosen)->first();
         // File::delete(public_path('images/' . $data->foto_brg));
         Dosen::where('id_dosen', $dosen->id_dosen)->delete();
-        return redirect()->route('dosen.index')->withSuccessMessage('Data Dosen Berhasil Dihapus');
+        return redirect()->route('/admin/data/dosen')->withSuccessMessage('Data Dosen Berhasil Dihapus');
     }
 }

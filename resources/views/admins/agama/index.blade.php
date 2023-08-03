@@ -37,11 +37,9 @@
 
                     <!-- Recent Sales -->
                     <div class="col-12">
-
-                        {{-- <button type="button" class="btn btn-primary btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#basicModal">
-                            +Tambah Barang
-                          </button> --}}
-                        <a href="/agama/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Agama</a>
+                        <a href="/admin/data/agama/create" type="button" class="btn btn-primary btn-sm mb-4">
+                            + Tambah Agama
+                        </a>
                         <div class="card recent-sales overflow-auto">
 
                             <div class="card-body">
@@ -61,12 +59,12 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $agama->agama }}</td>
                                                 <td>
-                                                    <a href="{{ url('/agama/' . $agama->id_agama . '/edit/') }}" class="btn btn-link"><span
+                                                    <a href="{{ url('/admin/data/agama/' . $agama->id_agama . '/edit/') }}" class="btn btn-link"><span
                                                         class="badge bg-warning text-dark"><i
                                                         class="bi bi-info-circle"></i> Edit </span>
                                                     </a>
                                                     <a
-                                                        action="{{ '/agama/' . $agama->id_agama }}"
+                                                        action="{{ '/admin/data/agama/' . $agama->id_agama }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')

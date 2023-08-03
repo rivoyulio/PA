@@ -1,5 +1,6 @@
-@extends('admins.layouts.main')
+@inject('authService', 'App\Http\Services\AuthService')
 
+@extends('admins.layouts.main')
 @section('container')
     @if (session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show mt-2" role="alert"">
@@ -26,7 +27,9 @@
 
                     <!-- Recent Sales -->
                     <div class="col-12">
-                        <a href="/pelanggaran/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Pelanggaran</a>
+                        @if($authService->currentUserIsAdmin())
+                            <a href="/pelanggaran/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Pelanggaran</a>
+                        @endif
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Pelanggaran</h5>
@@ -36,10 +39,13 @@
                                         <tr>
                                             <th scope="col">No</th>
                                             <th scope="col">SP</th>
+                                            <th scope="col">Pelanggaran</th>
                                             <th scope="col">Nama Mahasiswa</th>
                                             <th scope="col">Prodi</th>
                                             <th scope="col">Kelas</th>
-                                            <th scope="col">Aksi</th>
+                                            @if($authService->currentUserIsAdmin())
+                                                <th scope="col">Aksi</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -47,30 +53,32 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $p->sp->nama_sp }}</td>
+                                                <td>{{ $p->pelanggaran }}</td>
                                                 <td>{{ $p->mahasiswa->nama_mhs }}</td>
                                                 <td>{{ $p->mahasiswa->prodi->nama_prodi }}</td>
                                                 <td>{{ $p->mahasiswa->kelas->nama_kelas }}</td>
-                                                <td>
-                                                    <a href="{{ url('/pelanggaran/' . $p->id_pelanggaran . '/edit/') }}" class="btn btn-link">
-                                                        <span class="badge bg-warning text-dark">
-                                                            <i class="bi bi-info-circle"></i> Edit
-                                                        </span>
-                                                    </a>
-                                                    <form action="{{ '/pelanggaran/' . $p->id_pelanggaran }}" method="POST" style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" id="#delete" class="btn btn-link">
-                                                            <span class="badge bg-danger text-dark">
-                                                                <i class="bi bi-trash"></i> Hapus
+                                                @if($authService->currentUserIsAdmin())
+                                                    <td>
+                                                        <a href="{{ url('/pelanggaran/' . $p->id_pelanggaran . '/edit/') }}" class="btn btn-link">
+                                                            <span class="badge bg-warning text-dark">
+                                                                <i class="bi bi-info-circle"></i> Edit
                                                             </span>
-                                                        </button>
-                                                    </form>
-                                                </td>
+                                                        </a>
+                                                        <form action="{{ '/pelanggaran/' . $p->id_pelanggaran }}" method="POST" style="display: inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" id="#delete" class="btn btn-link">
+                                                                <span class="badge bg-danger text-dark">
+                                                                    <i class="bi bi-trash"></i> Hapus
+                                                                </span>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <!-- {{ $pelanggaran->links() }} -->
 
                             </div>
 
@@ -83,4 +91,4 @@
 
         </div>
     </section>
-@endsection
+    @endsection

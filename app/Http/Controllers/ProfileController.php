@@ -14,11 +14,10 @@ class ProfileController extends Controller
     public function index()
     {
         $user = auth()->user();
-// dd($user);
         if(session('success_message')){
             Alert::toast( session('success_message'),'success');
         }
-        
+
         return view('admins.profile.index',[
             'users' => User::all()
         ]);
@@ -60,7 +59,7 @@ class ProfileController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'level' => $request->level,
-            'foto_user' => $nama_foto    
+            'foto_user' => $nama_foto
         ];
 
         $title = 'Tambah User';
@@ -73,7 +72,7 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $user = auth()->user();
-        
+
         $request->validate([
             'nama_user' => 'required',
             'email' => 'required',
@@ -96,7 +95,7 @@ class ProfileController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'level' => $request->level,
-            // 'foto_user' => $nama_foto   
+            // 'foto_user' => $nama_foto
         ];
 
         if ($request->hasFile('foto_user')) {
