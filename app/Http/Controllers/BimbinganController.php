@@ -47,6 +47,11 @@ class BimbinganController extends Controller
         return view('admins.bimbingan.history', compact('mahasiswas'));
     }
 
+    public function indexhistorydetail(AuthService $authService)
+    {
+        
+    }
+
     public function indexdetail(BimbinganService $bimbinganService, AuthService $authService)
     {
         $mhs_id = $authService->currentUserGuardInstance()->user()->id_mhs;
@@ -181,7 +186,7 @@ class BimbinganController extends Controller
         $title = 'Edit Bimbingan';
 
         Bimbingan::where('id_bimbingan', $bimbingan->id_bimbingan)->update($data);
-        return redirect('dosenbimbingan')->withSuccessMessage('Data Bimbingan Berhasil Diubah', compact('title'));
+        return redirect('/dosen/bimbingan/{id}')->withSuccessMessage('Data Bimbingan Berhasil Diubah', compact('title'));
     }
 
     /**

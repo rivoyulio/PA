@@ -95,7 +95,7 @@ class DosenController extends Controller
         $title = 'Tambah Dosen';
 
         Dosen::create($data);
-        return redirect()->route('/admin/data/dosen')->withSuccessMessage('Data Dosen Berhasil Ditambahkan', compact('title'));
+        return redirect()->route('dosen.index')->withSuccessMessage('Data Dosen Berhasil Ditambahkan', compact('title'));
     }
 
     /**
@@ -167,7 +167,7 @@ class DosenController extends Controller
         $title = 'Edit Dosen';
 
         Dosen::where('id_dosen', $dosen->id_dosen)->update($data);
-        return redirect()->route('/admin/data/dosen')->withSuccessMessage('Data dosen Berhasil Diubah', compact('title'));
+        return redirect()->route('dosen.index')->withSuccessMessage('Data dosen Berhasil Diubah', compact('title'));
     }
 
     /**
@@ -181,6 +181,6 @@ class DosenController extends Controller
         $data = Dosen::where('id_dosen', $dosen->id_dosen)->first();
         // File::delete(public_path('images/' . $data->foto_brg));
         Dosen::where('id_dosen', $dosen->id_dosen)->delete();
-        return redirect()->route('/admin/data/dosen')->withSuccessMessage('Data Dosen Berhasil Dihapus');
+        return redirect()->route('dosen.index')->withSuccessMessage('Data Dosen Berhasil Dihapus');
     }
 }
