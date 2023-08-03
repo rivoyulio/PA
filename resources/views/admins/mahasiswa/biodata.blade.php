@@ -49,6 +49,7 @@
                                                             alt="{{ $mahasiswa->nama_foto }}" style="max-width:80px">
                                                     @endif
                                                 </td>
+                                                
                                                 <td>{{ $mahasiswa->nim }}</td>
                                                 <td>{{ $mahasiswa->nama_mhs }}</td>
                                                 <td>{{ $mahasiswa->kelas->nama_kelas }}</td>

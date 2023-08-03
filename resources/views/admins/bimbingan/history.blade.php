@@ -38,6 +38,7 @@
                                         @foreach ($mahasiswas as $mahasiswa)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
+                                                <td><a href="{{ url('/admin/data/bimbingan/detailbimbingan/'.$mahasiswa->id_mhs) }}" style="text-decoration: none;">{{ $mahasiswa->nama_mhs }}</a></td>
                                                 <td>{{ $mahasiswa->nama_mhs }}</td>
                                                 <td>{{ $mahasiswa->nim }}</td>
                                                 <td>{{ $mahasiswa->kelas->nama_kelas }}</td>

@@ -59,12 +59,14 @@ Route::middleware([RedirectIfNotAuthenticated::class])->group(
         Route::resource('/admin/data/prodi', ProdiController::class);
         Route::resource('/admin/data/agama', AgamaController::class);
 
+        // Route::get('/admin/data/kelas/{kelas}/edit/{id}', [KelasController::class, 'edit'])->name('kelas.edit');
+        // Route::put('/admin/data/kelas/{id}', [KelasController::class, 'update'])->name('kelas.update');
         // Shared
         Route::resource('/sp', SpController::class);
         Route::resource('/pelanggaran', PelanggaranController::class);
         // Route::resource('profile', ProfileController::class);
         // Route::resource('bimbingan', BimbinganController::class);
-        // Route::get('kelas/detail/{id}','App\Http\Controllers\KelasController@kelasdetail');
+        Route::get('kelas/detail/{id}','App\Http\Controllers\KelasController@kelasdetail');
         // Route::get('kelas/create/{id}','App\Http\Controllers\KelasController@kelascreate');
         // Route::delete('kelas/detail/delete/{id}','App\Http\Controllers\KelasController@delete');
 
@@ -73,10 +75,11 @@ Route::middleware([RedirectIfNotAuthenticated::class])->group(
         Route::get('/dosen/mahasiswa','App\Http\Controllers\MahasiswaController@indexmahasiswa');
         Route::get('/dosen/mahasiswa/biodata','App\Http\Controllers\MahasiswaController@indexbiodata');
         Route::get('/dosen/bimbingan','App\Http\Controllers\BimbinganController@indexdosen');
-        Route::post('/dosen/bimbingan','App\Http\Controllers\BimbinganController@store');
+        Route::post('/mahasiswa/bimbingan','App\Http\Controllers\BimbinganController@store'); //mahasiswa
         Route::put('/dosen/bimbingan/{id}','App\Http\Controllers\BimbinganController@update');
         Route::delete('/dosen/bimbingan/{id}','App\Http\Controllers\BimbinganController@destroy');
         Route::get('/dosen/bimbingan/history','App\Http\Controllers\BimbinganController@indexhistory');
+        Route::get('/dosen/bimbingan/detailbimbingan','App\Http\Controllers\BimbinganController@indexhistorydetail'); //baru bikin
 
 
         // route mahasiswa
