@@ -42,12 +42,12 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link {{ Request::is('/admin/data/sp') ? 'active' : '' }}" href="{{ url('/admin/data/sp') }}">
+                        <a class="nav-link {{ Request::is('/sp') ? 'active' : '' }}" href="{{ url('/sp') }}">
                             <i class="bi bi-circle"></i><span>Data SP</span>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link {{ Request::is('/admin/data/pelanggaran') ? 'active' : '' }}" href="{{ url('admin/data/pelanggaran') }}">
+                        <a class="nav-link {{ Request::is('/pelanggaran') ? 'active' : '' }}" href="{{ url('/pelanggaran') }}">
                             <i class="bi bi-circle"></i><span>Data Pelanggaran</span>
                         </a>
                     </li>
