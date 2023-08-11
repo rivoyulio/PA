@@ -75,7 +75,7 @@
                                                                 <label for="tahun_angkatan" class="form-label">
                                                                     Tahun Angkatan
                                                                 </label>
-                                                                <input type="text" class="form-control" id="tahun_angkatan">
+                                                                <input type="text" class="form-control" id="tahun_angkatan" value="{{ $mahasiswa->tahun_angkatan }}" >
                                                             </div>
                                                             <!-- <div class="col-md-6">
                                                                 <label for="password" class="form-label">
@@ -105,7 +105,7 @@
                                                                 <label for="tanggal_lahir" class="form-label">
                                                                     Tanggal Lahir
                                                                 </label>
-                                                                <input type="date" class="form-control" id="tanggal_lahir" value="{{ $mahasiswa->tanggal_lahir }}">
+                                                                <input type="date" class="form-control" id="tanggal_lahir" value="{{ $mahasiswa->tgl_lahir }}">
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <label for="jenis_kelamin" class="form-label">
@@ -125,7 +125,7 @@
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <label for="jmlh_saudara" class="form-label">Jumlah Saudara</label>
-                                                                <input type="text" class="form-control" id="jmlh_saudara" value="{{ $mahasiswa->jmlh_keluarga }}">
+                                                                <input type="text" class="form-control" id="jmlh_saudara" value="{{ $mahasiswa->jmlh_saudara }}">
                                                             </div>
                                                         </form>
                                                         @endif

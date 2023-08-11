@@ -72,7 +72,7 @@
                                         @foreach ($kelass as $kelas)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td><a href="{{ url('/admin/data/kelas/detail/'.$kelas->id_kelas) }}" style="text-decoration: none;">{{ $kelas->nama_kelas }}</a></td>
+                                                <td><a href="{{ url('/admin/data/kelas/'.$kelas->id_kelas) }}" style="text-decoration: none;">{{ $kelas->nama_kelas }}</a></td>
                                                 {{-- <td>{{ $kelas->nama_kelas }}</td> --}}
                                                 <td>{{ $kelas->prodi->nama_prodi }}</td>
                                                 <td>{{ $kelas->dosen->nama_dosen }}</td>

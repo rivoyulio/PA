@@ -8,11 +8,11 @@
     @endif
 
     <div class="pagetitle">
-        <h1>SP</h1>
+        <h1>History Bimbingan</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">History Bimbinga</li>
+                <li class="breadcrumb-item active">History Bimbingan</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -37,6 +37,7 @@
                                             <th scope="col">Nama Mahasiswa</th>
                                             <th scope="col">NIM</th>
                                             <th scope="col">Tanggal Bimbingan</th>
+                                            <th scope="col">Bimbingan</th>
                                             <th scope="col">Permasalahan Mahasiswa</th>
                                             <th scope="col">Solusi Dosen</th>
                                         </tr>
@@ -50,7 +51,7 @@
                                                 <td>{{ $bimbingan->tanggal_bimbingan }}</td>
                                                 <td>{{ $bimbingan->bimbingan }}</td>
                                                 <td>{{ $bimbingan->pesan_mhs }}</td>
-                                                <td>{{ $bimbingan->pesan_dosen }}</td>  
+                                                <td>{{ $bimbingan->pesan_dosen }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

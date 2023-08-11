@@ -50,19 +50,13 @@ class AuthenticationController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::guard('web')->attempt($credentials)) {
             $request->session()->regenerate();
-            $user = Auth::user();
-
-            if ($user->level === 'mahasiswa') {
-                return back()->withErrors([
-                    'email' => 'Email atau password yang diberikan tidak cocok dengan data kami.',
-                ]);
-            }
+            $user = Auth::guard('web')->user();
 
             session(['nama_user' => $user->nama_user]);
             session(['foto_user' => $user->foto_user]);
 
             if ($user->level === 'admin') {
-                return redirect('/dashboard')->with('success', 'Anda Berhasil Login');
+                return redirect('/')->with('success', 'Anda Berhasil Login');
             } elseif ($user->level === 'kaprodi') {
                 return redirect('/kaprodi')->with('success', 'Anda Berhasil Login');
             } elseif ($user->level === 'dosen') {

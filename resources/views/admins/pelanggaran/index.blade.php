@@ -33,8 +33,11 @@
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Pelanggaran</h5>
+                                @if($authService->currentUserIsKaprodi())
+                                    <a href="/pelanggaran/print" target="_blank" type="button" class="btn btn-primary btn-sm mb-4">Print</a>
+                                @endif
 
-                                <table class="table table-borderless datatable">
+                                <table class="table table-borderless">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
@@ -83,10 +86,10 @@
                             </div>
 
                         </div>
-                    </div><!-- End Recent Sales -->
+                    </div>
 
                 </div>
-            </div><!-- End Left side columns -->
+            </div>
 
 
         </div>

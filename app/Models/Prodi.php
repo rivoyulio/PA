@@ -22,4 +22,14 @@ class Prodi extends Model
     {
         return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
+
+    public function mahasiswa()
+    {
+        return $this->hasMany(Mahasiswa::class, 'id_prodi', 'id_prodi');
+    }
+
+    public function kelas()
+    {
+        return $this->hasMany(Kelas::class, 'id_prodi', 'id_prodi');
+    }
 }

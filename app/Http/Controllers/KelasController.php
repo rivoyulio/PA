@@ -105,11 +105,9 @@ class KelasController extends Controller
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function show(Kelas $kelas)
+    public function show($id)
     {
-        $kelas = $kelas;
-        $breadcrum = 'Details kelas';
-        return view('admins.kelas.details')->with('kelas', $kelas,compact('breadcrum'));
+        return view('admins.kelas.kelasdetail', ['kelas' => Kelas::find($id)]);
     }
 
     /**
