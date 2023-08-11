@@ -10,7 +10,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="../img/pnp.png" rel="icon">
+  <link href="/img/pnp.png" rel="icon">
   {{-- <link href="/NiceAdmin/assets/img/favicon.png" rel="icon"> --}}
   <link href="/NiceAdmin/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
@@ -69,7 +69,7 @@
 
           {{-- @if (Auth::check()) --}}
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            @if (Auth::guard('mahasiswa')->check()) 
+            @if (Auth::guard('mahasiswa')->check())
               <img src="{{ asset('images/'. session('fotomhs')) }}" alt="Profile" class="rounded-circle">
               <span class="d-none d-md-block dropdown-toggle ps-2">{{ session('nama_mhs') }}</span>
             @else
@@ -79,7 +79,7 @@
           </a>
           <!-- End Profile Image Icon -->
       {{-- @endif --}}
-    
+
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
             @if (Auth::guard('mahasiswa')->check())
@@ -95,7 +95,7 @@
 
             <li>
               <a class="dropdown-item d-flex align-items-center" {{ Request::is('user') ? 'active' : '' }}" href="{{ url('profile') }}">
-                
+
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>

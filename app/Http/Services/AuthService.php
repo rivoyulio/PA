@@ -39,4 +39,12 @@ class AuthService
     {
         return $this->currentUserGuard() == 'mahasiswa';
     }
+
+    public function dashboardUrl()
+    {
+        if ($this->currentUserIsAdmin()) return url('/');
+        if ($this->currentUserIsDosen()) return url('/dosen');
+        if ($this->currentUserIsKaprodi()) return url('/kaprodi');
+        if ($this->currentUserIsMahasiswa()) return url('/mahasiswa');
+    }
 }

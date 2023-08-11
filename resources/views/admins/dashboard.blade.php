@@ -2,130 +2,120 @@
 
 @section('container')
     @if (session()->has('messageLogin'))
-    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert"">
-        {{ session('messageLogin') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert"">
+            {{ session('messageLogin') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
-        <div class="pagetitle">
-            <h1>Dashboard</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active">Dashboard</li>
-                </ol>
-            </nav>
-        </div><!-- End Page Title -->
 
-        <section class="section dashboard">
-            <div class="row">
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+    </div>
 
-                <!-- Left side columns -->
-                <div class="col-lg-12">
-                    <div class="row">
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
 
-                        <!-- Sales Card -->
-                        <div class="col-xxl-4 col-md-4">
-                            <div class="card info-card sales-card">
-
-                                <div class="card-body">
-                                    <h5 class="card-title">Data Mahasiswa <span>| Today</span></h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-cart"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>145</h6>
-                                            <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                                class="text-muted small pt-2 ps-1">increase</span>
-
-                                        </div>
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card sales-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Data Mahasiswa</h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ App\Models\User::count() }}</h6>
+                                        <span class="text-muted small pt-2 ps-1">
+                                            Total Mahasiswa
+                                        </span>
                                     </div>
                                 </div>
-
                             </div>
-                        </div><!-- End Sales Card -->
 
-                        <!-- Revenue Card -->
-                        <div class="col-xxl-4 col-md-4">
-                            <div class="card info-card revenue-card">
+                        </div>
+                    </div>
 
-                                <div class="card-body">
-                                    <h5 class="card-title">Data Dosen <span>| Today</span></h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-currency-dollar"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>$3,264</h6>
-                                            <span class="text-success small pt-1 fw-bold">8%</span> <span
-                                                class="text-muted small pt-2 ps-1">increase</span>
-
-                                        </div>
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card revenue-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Data Dosen</h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-person-lines-fill"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ App\Models\Dosen::count() }}</h6>
+                                        <span class="text-muted small pt-2 ps-1">
+                                            Total Dosen
+                                        </span>
                                     </div>
                                 </div>
-
                             </div>
-                        </div><!-- End Revenue Card -->
 
-                        <div class="col-xxl-4 col-md-4">
-                            <div class="card info-card sales-card">
+                        </div>
+                    </div>
 
-                                <div class="card-body">
-                                    <h5 class="card-title">Data Kelas <span>| Today</span></h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-cart"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>145</h6>
-                                            <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                                class="text-muted small pt-2 ps-1">increase</span>
-
-                                        </div>
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card sales-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Data Kelas</h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-book"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ App\Models\Kelas::count() }}</h6>
+                                        <span class="text-muted small pt-2 ps-1">
+                                            Total Kelas
+                                        </span>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Customers Card -->
-                        <div class="col-xxl-4 col-xl-12">
-
-                            <div class="card info-card customers-card">
-
-
-                                <div class="card-body">
-                                    <h5 class="card-title">Customers <span>| This Year</span></h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-people"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>1244</h6>
-                                            <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                                                class="text-muted small pt-2 ps-1">decrease</span>
-
-                                        </div>
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card sales-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Data SP</h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-asterisk"></i>
                                     </div>
-
+                                    <div class="ps-3">
+                                        <h6>{{ App\Models\Sp::count() }}</h6>
+                                        <span class="text-muted small pt-2 ps-1">
+                                            Total SP
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-
-                        </div><!-- End Customers Card -->
-
+                        </div>
                     </div>
-                </div><!-- End Left side columns -->
 
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card sales-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Data Pelanggaran</h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-exclamation-circle"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ App\Models\Pelanggaran::count() }}</h6>
+                                        <span class="text-muted small pt-2 ps-1">
+                                            Total Pelanggaran
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 @endsection

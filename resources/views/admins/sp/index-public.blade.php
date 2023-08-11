@@ -1,5 +1,6 @@
-@extends('admins.layouts.main')
+@inject('authService', 'App\Http\Services\AuthService')
 
+@extends('admins.layouts.main')
 @section('container')
     @if (session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show mt-2" role="alert"">
@@ -29,8 +30,11 @@
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">SP</h5>
+                                @if($authService->currentUserIsKaprodi())
+                                    <a href="/sp/print" target="_blank" type="button" class="btn btn-primary btn-sm mb-4">Print</a>
+                                @endif
 
-                                <table class="table table-borderless datatable">
+                                <table class="table table-borderless">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>

@@ -88,26 +88,30 @@ class Mahasiswa extends Model implements Authenticatable
     public function agama()
     {
         return $this->belongsTo(Agama::class, 'id_agama', 'id_agama');
-      
+
     }
 
     public function prodi()
     {
         return $this->belongsTo(Prodi::class, 'id_prodi', 'id_prodi');
-      
+
     }
 
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
-      
     }
 
     public function dosen()
     {
         return $this->belongsTo(Dosen::class, 'id_dosen', 'id_dosen');
     }
-    
+
+    public function bimbingan()
+    {
+        return $this->hasMany(Bimbingan::class, 'id_mhs', 'id_mhs');
+    }
+
       /**
      * The attributes that should be hidden for serialization.
      *
@@ -126,7 +130,7 @@ class Mahasiswa extends Model implements Authenticatable
     protected $casts = [
         'nim_verified_at' => 'datetime',
     ];
-    
-    
+
+
 }
 

@@ -9,24 +9,18 @@
                 <li class="breadcrumb-item active">Biodata Mahasiswa</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section dashboard">
         <div class="row">
 
-            <!-- Left side columns -->
             <div class="col-lg">
                 <div class="row">
-
-                    <!-- Recent Sales -->
                     <div class="col-12">
-
                         <div class="card recent-sales overflow-auto">
-
                             <div class="card-body">
                                 <h5 class="card-title">Biodata Mahasiswa Bimbingan</h5>
-
-                                <table class="table table-borderless datatable">
+                                <table class="table table-borderless">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
@@ -44,30 +38,24 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>
                                                     @if ($mahasiswa->fotomhs)
-                                                        <img id="myImg"
+                                                        <img
+                                                            id="myImg"
                                                             src="{{ url('images') . '/' . $mahasiswa->fotomhs }}"
-                                                            alt="{{ $mahasiswa->nama_foto }}" style="max-width:80px">
+                                                            alt="{{ $mahasiswa->nama_foto }}"
+                                                            style="max-width:80px"
+                                                        >
                                                     @endif
                                                 </td>
-                                                
                                                 <td>{{ $mahasiswa->nim }}</td>
                                                 <td>{{ $mahasiswa->nama_mhs }}</td>
                                                 <td>{{ $mahasiswa->kelas->nama_kelas }}</td>
                                                 <td>{{ $mahasiswa->prodi->nama_prodi }}</td>
                                                 <td>
-                                                    <a href="{{ url('/mahasiswa/' . $mahasiswa->id_mhs) }}" class="btn btn-link"><span
-                                                        class="badge bg-info text-dark"><i
-                                                        class="bi bi-info-circle"></i> Detail</span>
+                                                    <a href="{{ url('/mahasiswa/' . $mahasiswa->id_mhs) }}" class="btn btn-link">
+                                                        <span class="badge bg-info text-dark">
+                                                            <i class="bi bi-info-circle"></i> Detail
+                                                    </span>
                                                     </a>
-                                                    {{-- <a
-                                                        action="{{ '/mahasiswa/' . $mahasiswa->id_mhs }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" id="#delete" class="btn btn-link"><span
-                                                                class="badge bg-danger text-dark"><i
-                                                                    class="bi bi-trash"></i> Hapus</span></button>
-                                                    </a> --}}
                                                 </td>
                                             </tr>
                                          @endforeach

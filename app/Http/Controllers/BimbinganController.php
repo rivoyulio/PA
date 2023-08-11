@@ -12,12 +12,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class BimbinganController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function indexdosen(AuthService $authService)
+    public function indexdosen(Request $request, AuthService $authService)
     {
         $user = $authService->currentUserGuardInstance()->user();
         $dosen = Dosen::where('id_user', $user->id_user)->first();
@@ -25,14 +20,21 @@ class BimbinganController extends Controller
             'mahasiswa', fn ($query) => $query->whereHas(
                 'kelas', fn ($query) => $query->where('id_dosen', $dosen->id_dosen)
             )
-        )->get();
+        );
 
-        return view('admins.bimbingan.dosenbimbingan', compact('bimbingans'));
+        if ($request->has('mhs_id')) {
+            $bimbingans = $bimbingans->where('id_mhs', $request->mhs_id);
+        }
+
+        return view('admins.bimbingan.dosenbimbingan', ['bimbingans' => $bimbingans->get()]);
     }
 
-    public function indexmahasiswa()
+    public function indexmahasiswa(AuthService $authService)
     {
-        return view('admins.bimbingan.mahasiswabimbingan');
+        $mhs = $authService->currentUserGuardInstance()->user();
+        $dosen = $mhs->kelas->dosen;
+
+        return view('admins.bimbingan.mahasiswabimbingan', compact('mhs', 'dosen'));
     }
 
     public function indexhistory(AuthService $authService)
@@ -49,7 +51,7 @@ class BimbinganController extends Controller
 
     public function indexhistorydetail(AuthService $authService)
     {
-        
+
     }
 
     public function indexdetail(BimbinganService $bimbinganService, AuthService $authService)
@@ -58,21 +60,7 @@ class BimbinganController extends Controller
         $bimbingans = $bimbinganService->getBimbinganMahasiswa($mhs_id);
         $mahasiswa = Mahasiswa::where('id_mhs', $mhs_id)->first();
 
-        return view('admins.bimbingan.detail', compact('bimbingans', 'mahasiswa'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $mahasiswas = Mahasiswa::all();
-        $dosens = Dosen::all();
-
-        $title = 'Bimbingan';
-        return view('admins.bimbingan.mahasiswabimbingan', compact('mahasiswas', 'dosens', 'title'));
+        return view('admins.bimbingan.detailbimbingan', compact('bimbingans', 'mahasiswa'));
     }
 
     public function cetak(BimbinganService $bimbinganService, AuthService $authService)
@@ -87,120 +75,69 @@ class BimbinganController extends Controller
         return $pdf->stream();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function create(AuthService $authService)
     {
-        // dd($request->all());
-        $request->validate([
-            'id_mhs' => 'required',
-            'tanggal_bimbingan' => 'required',
-            'bimbingan' => 'required',
-            'pesan_mhs' => 'required',
-            // 'pesan_dosen' => 'required',
-        ], [
-            'id_mhs.required' => '',
-            'tanggal_bimbingan.required' => '',
-            'bimbingan.required' => '',
-            'pesan_mhs.required' => '',
-            // 'pesan_dosen.required' => '',
-        ]);
-
-        $data = [
-            'id_mhs' => $request->id_mhs,
-            'tanggal_bimbingan' => $request->tanggal_bimbingan,
-            'bimbingan' => $request->bimbingan,
-            'pesan_mhs' => $request->pesan_mhs,
-            // 'pesan_dosen' => $request->pesan_dosen,
-        ];
-
-        // dd($data);
-        $title = 'Tambah Bimbingan';
-
-        Bimbingan::create($data);
-        return redirect('mahasiswabimbingan')->withSuccessMessage('Data Bimbingan Berhasil Ditambahkan', compact('title'));
+        return view('admins.bimbingan.create', ['mahasiswa' => $authService->currentUserGuardInstance()->user()]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Bimbingan  $bimbingan
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Bimbingan $bimbingan)
+    public function store(Request $request, AuthService $authService)
     {
-        //
+        $this->validate_bimbingan($request);
+        $this->save_bimbingan($request, new Bimbingan());
+
+        return $this->redirect_to_index($authService, 'Data Bimbingan Berhasil Dibuat');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Bimbingan  $bimbingan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Bimbingan $bimbingan)
+    public function show(Bimbingan $bimbingan, AuthService $authService)
     {
-        $mahasiswas = Mahasiswa::all();
-
-        $data = Bimbingan::where('id_bimbingan', $bimbingan->id_bimbingan)->first();
-        return view('admins.bimbingan.edit', compact('mahasiswas', 'data'));
+        return view(
+            'admins.bimbingan.edit', ['bimbingan' => $bimbingan, 'mahasiswa' => $authService->currentUserGuardInstance()->user()]
+        );
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Bimbingan  $bimbingan
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Bimbingan $bimbingan)
+    public function update(Request $request, Bimbingan $bimbingan, AuthService $authService)
     {
-        // dd($request->all());
-        $request->validate([
-            'id_mhs' => 'required',
-            'tanggal_bimbingan' => 'required',
-            'bimbingan' => 'required',
-            'pesan_mhs' => 'required',
-            'pesan_dosen' => 'required',
-        ], [
-            'id_mhs.required' => '',
-            'tanggal_bimbingan.required' => '',
-            'bimbingan.required' => '',
-            'pesan_mhs.required' => '',
-            'pesan_dosen.required' => '',
-        ]);
+        $this->validate_bimbingan($request);
+        $this->save_bimbingan($request, $bimbingan);
 
-        $data = [
-            'id_mhs' => $request->id_mhs,
-            'tanggal_bimbingan' => $request->tanggal_bimbingan,
-            'bimbingan' => $request->bimbingan,
-            'pesan_mhs' => $request->pesan_mhs,
-            'pesan_dosen' => $request->pesan_dosen,
-        ];
-
-        dd($data);
-        $title = 'Edit Bimbingan';
-
-        Bimbingan::where('id_bimbingan', $bimbingan->id_bimbingan)->update($data);
-        return redirect('/dosen/bimbingan/{id}')->withSuccessMessage('Data Bimbingan Berhasil Diubah', compact('title'));
+        return $this->redirect_to_index($authService, 'Data Bimbingan Berhasil Diubah');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Bimbingan  $bimbingan
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Bimbingan $bimbingan)
+    public function destroy(Bimbingan $bimbingan, AuthService $authService)
     {
-        {
-            $data = Bimbingan::where('id_bimbingan', $bimbingan->id_bimbingan)->first();
-            Bimbingan::where('id_bimbingan', $bimbingan->id_bimbingan)->delete();
-            return redirect('dosenbimbingan')->withSuccessMessage('Data Bimbingan Berhasil Dihapus');
+        $bimbingan->delete();
+
+        return $this->redirect_to_index($authService, 'Data Bimbingan Berhasil Dihapus');
+    }
+
+    private function validate_bimbingan(Request $request)
+    {
+        $request->validate(
+            [
+                'id_mhs' => 'required',
+                'tanggal_bimbingan' => 'required',
+                'bimbingan' => 'required',
+                'pesan_mhs' => 'required',
+            ]
+        );
+    }
+
+    private function save_bimbingan(Request $request,  Bimbingan $bimbingan)
+    {
+        $bimbingan->id_mhs = $request->id_mhs;
+        $bimbingan->tanggal_bimbingan = $request->tanggal_bimbingan;
+        $bimbingan->bimbingan = $request->bimbingan;
+        $bimbingan->pesan_mhs = $request->pesan_mhs;
+        $bimbingan->pesan_dosen = $request->pesan_dosen;
+        $bimbingan->save();
+    }
+
+    private function redirect_to_index(AuthService $authService, $message)
+    {
+        if ($authService->currentUserIsDosen()) {
+            return redirect('/dosen/bimbingan/')->withSuccess($message);
         }
+
+        return redirect('/mahasiswa/bimbingan/')->withSuccess($message);
     }
 }

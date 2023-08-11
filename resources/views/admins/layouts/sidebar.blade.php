@@ -6,13 +6,13 @@
         @if($authService->currentUserIsAdmin())
             <li class="nav-heading">MENU ADMIN</li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('/admin') ? 'active' : '' }}" href="{{ url('/admin') }}">
+                <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ url('/') }}">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-journal-text"></i><span>Master Data</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -60,26 +60,22 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-file-earmark"></i></i><span>Laporan</span><i class="bi bi-chevron-down ms-auto"></i>
+                <a class="nav-link" href="{{ url('/laporan/kelas') }}">
+                    <i class="bi bi-file-earmark"></i>
+                    <span>Laporan Per Kelas</span>
                 </a>
-                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="forms-layouts.html">
-                            <i class="bi bi-circle"></i><span>Laporan Per Kelas</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="forms-editors.html">
-                            <i class="bi bi-circle"></i><span>Laporan Bimbingan Mahasiswa</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="forms-validation.html">
-                            <i class="bi bi-circle"></i><span>Laporan Yang Tidak Bimingan</span>
-                        </a>
-                    </li>
-                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/laporan/mahasiswa-bimbingan') }}">
+                    <i class="bi bi-file-earmark"></i>
+                    <span>Laporan Bimbingan Mahasiswa</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/laporan/mahasiswa-tidak-bimbingan') }}">
+                    <i class="bi bi-file-earmark"></i>
+                    <span>Laporan Yang Tidak Bimbingan</span>
+                </a>
             </li>
         @endif
 
@@ -137,12 +133,12 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('/mahasiswa/bimbingan') ? 'active' : '' }}" href="{{ url('/mahasiswa/bimbingan') }}">
+                <a class="nav-link {{ Request::is('/bimbingan/create') ? 'active' : '' }}" href="{{ url('/bimbingan/create') }}">
                     <i class="bi bi-plus-circle"></i> <span>Tambah Bimbingan</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('/mahasiswa/bimbingan/detail') ? 'active' : '' }}" href="{{ url('/mahasiswa/bimbingan/detail') }}">
+                <a class="nav-link {{ Request::is('/mahasiswa/bimbingan') ? 'active' : '' }}" href="{{ url('/mahasiswa/bimbingan') }}">
                     <i class="bi bi-journal-text"></i> <span>Detail Bimbingan</span>
                 </a>
             </li>
@@ -161,33 +157,39 @@
         @if($authService->currentUserIsKaprodi())
             <li class="nav-heading">Menu Kaprodi</li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="pages-contact.html">
+                <a class="nav-link" href="{{ url('/kaprodi') }}">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="pages-contact.html">
+                <a class="nav-link" href="{{ url('/laporan/kelas') }}">
                     <i class="bi bi-file-earmark"></i>
                     <span>Laporan Per Kelas</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="pages-register.html">
+                <a class="nav-link" href="{{ url('/laporan/mahasiswa-bimbingan') }}">
                     <i class="bi bi-file-earmark"></i>
                     <span>Laporan Bimbingan Mahasiswa</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="pages-login.html">
+                <a class="nav-link" href="{{ url('/laporan/mahasiswa-tidak-bimbingan') }}">
                     <i class="bi bi-file-earmark"></i>
                     <span>Laporan Yang Tidak Bimbingan</span>
                 </a>
             </li>
-            <li>
-                <a class="dropdown-item d-flex align-items-center" href="/logout">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Sign Out</span>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/sp') }}">
+                    <i class="bi bi-file-earmark"></i>
+                    <span>SP</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/pelanggaran') }}">
+                    <i class="bi bi-file-earmark"></i>
+                    <span>Pelanggaran</span>
                 </a>
             </li>
         @endif

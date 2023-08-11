@@ -7,35 +7,23 @@ use App\Models\Mahasiswa;
 use App\Models\Pelanggaran;
 use App\Models\Sp;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PelanggaranController extends Controller
 {
     public function index(AuthService $authService)
     {
-        $current_guard = $authService->currentUserGuard();
-        $current_user = $authService->currentUserGuardInstance()->user();
+        return view('admins.pelanggaran.index', ['pelanggaran' => $this->get_pelanggaran($authService)]);
+    }
 
-        if ($authService->currentUserGuard() == 'web') {
-            if ($authService->currentUserIsAdmin()) $pelanggaran = Pelanggaran::get();
+    public function print(AuthService $authService)
+    {
+        $pelanggaran = $this->get_pelanggaran($authService);
 
-            if ($authService->currentUserIsDosen()) {
-                $pelanggaran = Pelanggaran::whereHas(
-                    'mahasiswa.kelas.dosen', fn ($query) => $query->where('id_user', $current_user->id_user)
-                )->get();
-            }
+        $pdf = Pdf::loadView('pdf.pelanggaran', compact('pelanggaran'));
+        $pdf = $pdf->setPaper('a4', 'landscape');
 
-            if ($authService->currentUserIsKaprodi()) {
-                $pelanggaran = Pelanggaran::whereHas(
-                    'mahasiswa.kelas.prodi', fn ($query) => $query->where('id_user', $current_user->id_user)
-                )->get();
-            }
-        }
-
-        if ($authService->currentUserGuard() == 'mahasiswa') {
-            $pelanggaran = Pelanggaran::where('id_mhs', $current_user->id_mhs)->get();
-        }
-
-        return view('admins.pelanggaran.index', compact('pelanggaran'));
+        return $pdf->stream();
     }
 
     public function create()
@@ -73,8 +61,35 @@ class PelanggaranController extends Controller
         return redirect('/pelanggaran')->with('success', 'Data berhasil dihapus!');
     }
 
+    private function get_pelanggaran(AuthService $authService)
+    {
+        $current_guard = $authService->currentUserGuard();
+        $current_user = $authService->currentUserGuardInstance()->user();
 
-    protected function save_pelanggaran(Request $request, Pelanggaran $pelanggaran)
+        if ($authService->currentUserGuard() == 'web') {
+            if ($authService->currentUserIsAdmin()) $pelanggaran = Pelanggaran::get();
+
+            if ($authService->currentUserIsDosen()) {
+                $pelanggaran = Pelanggaran::whereHas(
+                    'mahasiswa.kelas.dosen', fn ($query) => $query->where('id_user', $current_user->id_user)
+                )->get();
+            }
+
+            if ($authService->currentUserIsKaprodi()) {
+                $pelanggaran = Pelanggaran::whereHas(
+                    'mahasiswa.kelas.prodi', fn ($query) => $query->where('id_user', $current_user->id_user)
+                )->get();
+            }
+        }
+
+        if ($authService->currentUserGuard() == 'mahasiswa') {
+            $pelanggaran = Pelanggaran::where('id_mhs', $current_user->id_mhs)->get();
+        }
+
+        return $pelanggaran;
+    }
+
+    private function save_pelanggaran(Request $request, Pelanggaran $pelanggaran)
     {
         $pelanggaran->id_sp = $request->id_sp;
         $pelanggaran->pelanggaran = $request->pelanggaran;
@@ -82,7 +97,7 @@ class PelanggaranController extends Controller
         $pelanggaran->save();
     }
 
-    protected function load_relation()
+    private function load_relation()
     {
         $sps = Sp::all();
         $mahasiswas = Mahasiswa::all();
@@ -90,7 +105,7 @@ class PelanggaranController extends Controller
         return compact('sps', 'mahasiswas');
     }
 
-    protected function validate_pelanggaran(Request $request)
+    private function validate_pelanggaran(Request $request)
     {
         $rules = [
             'id_sp' => 'required',

@@ -2,53 +2,51 @@
 
 @section('container')
     <div class="pagetitle">
-        <h1>Mahasiswa</h1>
+        <h1>{{ $title }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Data Mahasiswa</li>
+                <li class="breadcrumb-item">
+                    <a href="{{ url('/kaprodi') }}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">{{ $title }}</li>
             </ol>
         </nav>
     </div>
 
     <section class="section dashboard">
         <div class="row">
-
             <div class="col-lg">
                 <div class="row">
-
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
-
                             <div class="card-body">
-                                <h5 class="card-title">Data Mahasiswa Bimbingan</h5>
+                                <h5 class="card-title">{{ $title }}</h5>
+                                <a href="{{ url()->current() }}/print" target="_blank" type="button" class="btn btn-primary btn-sm mb-4">
+                                    Print
+                                </a>
 
-                                <table class="table table-borderless datatable">
+                                <table class="table table-borderless">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
-                                            <th scope="col">NIM</th>
-                                            <th scope="col">Nama Mahasiswa</th>
-                                            <th scope="col">Kelas</th>
-                                            <th scope="col">Program Studi</th>
+                                            <th scope="col">NIP</th>
+                                            <th scope="col">Nama Dosen</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                         @foreach ($mahasiswas as $mahasiswa)
+                                        @foreach ($mahasiswa as $mhs)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $mahasiswa->nim }}</td>
-                                                <td>{{ $mahasiswa->nama_mhs }}</td>
-                                                <td>{{ $mahasiswa->kelas->nama_kelas }}</td>
-                                                <td>{{ $mahasiswa->prodi->nama_prodi }}</td>
-                                         @endforeach
+                                                <td>{{ $mhs->nama_mhs }}</td>
+                                                <td>{{ $mhs->kelas->dosen->nama_dosen }}</td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
 
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

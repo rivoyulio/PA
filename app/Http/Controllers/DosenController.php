@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\AuthService;
 use App\Models\Dosen;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,17 +27,13 @@ class DosenController extends Controller
         ]);
     }
 
-    public function biodatadosen()
+    public function biodatadosen(AuthService $authService)
     {
-        $user = Auth::user();
-        $dosen = $user->dosen;
-// dd($user);
-        return view('admins.dosen.biodatadosen', [
-            'dosen' => $dosen
-        ]);
+        $user = $authService->currentUserGuardInstance()->user();
+        $dosen = Dosen::where('id_user', $user->id_user)->first();
+
+        return view('admins.dosen.biodatadosen', compact('dosen'));
     }
-
-
 
     /**
      * Show the form for creating a new resource.

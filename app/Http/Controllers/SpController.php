@@ -6,6 +6,7 @@ use App\Http\Services\AuthService;
 use App\Models\Pelanggaran;
 use App\Models\Sp;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SpController extends Controller
 {
@@ -15,34 +16,17 @@ class SpController extends Controller
             return view('admins.sp.index', ['sps' => Sp::all()]);
         }
 
-        $current_guard = $authService->currentUserGuard();
-        $current_user = $authService->currentUserGuardInstance()->user();
-
-        if ($authService->currentUserGuard() == 'web') {
-            if ($authService->currentUserIsAdmin()) $pelanggaran = Pelanggaran::get();
-
-            if ($authService->currentUserIsDosen()) {
-                $pelanggaran = Pelanggaran::whereHas(
-                    'mahasiswa.kelas.dosen', fn ($query) => $query->where('id_user', $current_user->id_user)
-                )->get();
-            }
-
-            if ($authService->currentUserIsKaprodi()) {
-                $pelanggaran = Pelanggaran::whereHas(
-                    'mahasiswa.kelas.prodi', fn ($query) => $query->where('id_user', $current_user->id_user)
-                )->get();
-            }
-        }
-
-        if ($authService->currentUserGuard() == 'mahasiswa') {
-            $pelanggaran = Pelanggaran::where('id_mhs', $current_user->id_mhs)->get();
-        }
-
-        return view('admins.sp.index-public', compact('pelanggaran'));
+        return view('admins.sp.index-public', ['pelanggaran' => $this->get_readonly_sp($authService)]);
     }
 
-    public function index_public() {
+    public function print(AuthService $authService)
+    {
+        $pelanggaran = $this->get_readonly_sp($authService);
 
+        $pdf = Pdf::loadView('pdf.sp', compact('pelanggaran'));
+        $pdf = $pdf->setPaper('a4', 'landscape');
+
+        return $pdf->stream();
     }
 
     public function create()
@@ -77,13 +61,40 @@ class SpController extends Controller
         return redirect('/sp')->with('success', 'Data berhasil dihapus!');
     }
 
-    protected function save_sp(Request $request, Sp $sp)
+    private function get_readonly_sp(AuthService $authService)
+    {
+        $current_user = $authService->currentUserGuardInstance()->user();
+
+        if ($authService->currentUserGuard() == 'web') {
+            if ($authService->currentUserIsAdmin()) $pelanggaran = Pelanggaran::get();
+
+            if ($authService->currentUserIsDosen()) {
+                $pelanggaran = Pelanggaran::whereHas(
+                    'mahasiswa.kelas.dosen', fn ($query) => $query->where('id_user', $current_user->id_user)
+                )->get();
+            }
+
+            if ($authService->currentUserIsKaprodi()) {
+                $pelanggaran = Pelanggaran::whereHas(
+                    'mahasiswa.kelas.prodi', fn ($query) => $query->where('id_user', $current_user->id_user)
+                )->get();
+            }
+        }
+
+        if ($authService->currentUserGuard() == 'mahasiswa') {
+            $pelanggaran = Pelanggaran::where('id_mhs', $current_user->id_mhs)->get();
+        }
+
+        return $pelanggaran;
+    }
+
+    private function save_sp(Request $request, Sp $sp)
     {
         $sp->nama_sp = $request->sp_name;
         $sp->save();
     }
 
-    protected function validate_sp(Request $request)
+    private function validate_sp(Request $request)
     {
         $rules = ['sp_name' => 'required'];
         $messages = ['sp_name.required' => 'Nama SP harus diisi'];

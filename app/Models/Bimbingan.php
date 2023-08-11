@@ -21,6 +21,5 @@ class Bimbingan extends Model
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'id_mhs', 'id_mhs');
-      
     }
 }
