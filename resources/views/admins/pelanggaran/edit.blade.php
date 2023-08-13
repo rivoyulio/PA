@@ -9,7 +9,7 @@
                     @method('PUT')
                     @csrf
                     <div class="card">
-                        <h5 class="card-header text-center font-weight-bold">Edit Data Kelas</h5><br>
+                        <h5 class="card-header text-center font-weight-bold">Edit Data Pelanggaran</h5><br>
                         <div class="card-body">
 
                             <div class="mb-3">
@@ -65,6 +65,53 @@
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="surat" class="form-label">Surat SP</label>
+                                <input
+                                    type="file"
+                                    name="surat"
+                                    class="form-control @error('surat') is-invalid @enderror"
+                                    id="surat"
+                                >
+                                @error('surat')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tanggal" class="form-label">Tanggal</label>
+                                <input
+                                    type="date"
+                                    name="tanggal"
+                                    class="form-control @error('tanggal') is-invalid @enderror"
+                                    id="tanggal"
+                                    value="{{ old('tanggal', $pelanggaran->tanggal) }}"
+                                >
+                                @error('tanggal')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tanggal" class="form-label">Semester</label>
+                                <input
+                                    type="number"
+                                    name="semester"
+                                    class="form-control @error('semester') is-invalid @enderror"
+                                    id="semester"
+                                    value="{{ old('semester', $pelanggaran->semester) }}"
+                                >
+                                @error('semester')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 

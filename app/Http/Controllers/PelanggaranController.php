@@ -11,14 +11,29 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PelanggaranController extends Controller
 {
-    public function index(AuthService $authService)
+    public function index(AuthService $authService, Request $request)
     {
-        return view('admins.pelanggaran.index', ['pelanggaran' => $this->get_pelanggaran($authService)]);
+        $tahun = $request->tahun;
+        $semester = $request->semester;
+
+        $pelanggaran = $this->get_pelanggaran($authService, $tahun, $semester);
+        $semester_list = Pelanggaran::selectRaw('semester')->distinct()->whereNotNull('semester')->get();
+        $tahun_list = Mahasiswa::select('tahun_angkatan as tahun')->distinct()->whereNotNull('tahun_angkatan')->get();
+
+        $data = compact(
+            'pelanggaran',
+            'tahun',
+            'semester',
+            'tahun_list',
+            'semester_list'
+        );
+
+        return view('admins.pelanggaran.index', $data);
     }
 
-    public function print(AuthService $authService)
+    public function print(AuthService $authService, Request $request)
     {
-        $pelanggaran = $this->get_pelanggaran($authService);
+        $pelanggaran = $this->get_pelanggaran($authService, $request->tahun, $request->semester);
 
         $pdf = Pdf::loadView('pdf.pelanggaran', compact('pelanggaran'));
         $pdf = $pdf->setPaper('a4', 'landscape');
@@ -61,32 +76,36 @@ class PelanggaranController extends Controller
         return redirect('/pelanggaran')->with('success', 'Data berhasil dihapus!');
     }
 
-    private function get_pelanggaran(AuthService $authService)
+    private function get_pelanggaran(AuthService $authService, $tahun = null, $semester = null)
     {
-        $current_guard = $authService->currentUserGuard();
         $current_user = $authService->currentUserGuardInstance()->user();
 
-        if ($authService->currentUserGuard() == 'web') {
-            if ($authService->currentUserIsAdmin()) $pelanggaran = Pelanggaran::get();
+        $pelanggaran = Pelanggaran::with('mahasiswa');
 
+        if ($authService->currentUserGuard() == 'web') {
             if ($authService->currentUserIsDosen()) {
                 $pelanggaran = Pelanggaran::whereHas(
                     'mahasiswa.kelas.dosen', fn ($query) => $query->where('id_user', $current_user->id_user)
-                )->get();
+                );
             }
 
             if ($authService->currentUserIsKaprodi()) {
                 $pelanggaran = Pelanggaran::whereHas(
                     'mahasiswa.kelas.prodi', fn ($query) => $query->where('id_user', $current_user->id_user)
-                )->get();
+                );
             }
         }
 
         if ($authService->currentUserGuard() == 'mahasiswa') {
-            $pelanggaran = Pelanggaran::where('id_mhs', $current_user->id_mhs)->get();
+            $pelanggaran = Pelanggaran::where('id_mhs', $current_user->id_mhs);
         }
 
-        return $pelanggaran;
+        if ($semester) $pelanggaran = $pelanggaran->where('semester', $semester);
+        if ($tahun) $pelanggaran = $pelanggaran->whereHas(
+            'mahasiswa', fn ($query) => $query->where('tahun_angkatan', $tahun)
+        );
+
+        return $pelanggaran->get();
     }
 
     private function save_pelanggaran(Request $request, Pelanggaran $pelanggaran)
@@ -94,6 +113,18 @@ class PelanggaranController extends Controller
         $pelanggaran->id_sp = $request->id_sp;
         $pelanggaran->pelanggaran = $request->pelanggaran;
         $pelanggaran->id_mhs = $request->id_mhs;
+        $pelanggaran->tanggal = $request->tanggal;
+        $pelanggaran->semester = $request->semester;
+
+        if ($request->hasFile('surat')) {
+            if ($pelanggaran->surat) unlink(public_path('surat/' . $pelanggaran->surat));
+            $surat = $request->file('surat');
+            $surat_name = time() . '_' . $surat->getClientOriginalName();
+            $surat->move(public_path('surat'), $surat_name);
+
+            $pelanggaran->surat = $surat_name;
+        }
+
         $pelanggaran->save();
     }
 
@@ -109,12 +140,21 @@ class PelanggaranController extends Controller
     {
         $rules = [
             'id_sp' => 'required',
-            'id_mhs' => 'required'
+            'id_mhs' => 'required',
+            'pelanggaran' => 'required',
+            'surat' => 'nullable|mimes:pdf|max:5120', // max 5MB
+            'tanggal' => 'required',
+            'semester' => 'required'
         ];
 
         $messages = [
             'id_sp.required' => 'ID SP harus diisi',
-            'id_mhs.required' => 'ID Mahasiswa harus diisi'
+            'id_mhs.required' => 'ID Mahasiswa harus diisi',
+            'pelanggaran.required' => 'Pelanggaran harus diisi',
+            'surat.mimes' => 'Surat harus berupa file PDF',
+            'surat.max' => 'Ukuran file maksimal 5MB',
+            'tanggal.required' => 'Tanggal harus diisi',
+            'semester.required' => 'Semester harus diisi'
         ];
 
         $request->validate($rules, $messages);
