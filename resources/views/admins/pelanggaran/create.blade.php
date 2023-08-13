@@ -46,6 +46,7 @@
                                 </div>
                                 @enderror
                             </div>
+
                             <div class="mb-3">
                                 <label for="dosen" class="form-label">Mahasiswa</label>
                                 <select class="form-select @error('id_mhs') is-invalid @enderror" name="id_mhs" aria-label="Default select example">
@@ -64,6 +65,54 @@
                                 </div>
                                 @enderror
                             </div>
+
+                            <div class="mb-3">
+                                <label for="surat" class="form-label">Surat SP</label>
+                                <input
+                                    type="file"
+                                    name="surat"
+                                    class="form-control @error('surat') is-invalid @enderror"
+                                    id="surat"
+                                    value="{{ old('surat') }}"
+                                >
+                                @error('surat')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tanggal" class="form-label">Tanggal</label>
+                                <input
+                                    type="date"
+                                    name="tanggal"
+                                    class="form-control @error('tanggal') is-invalid @enderror"
+                                    id="tanggal"
+                                >
+                                @error('tanggal')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tanggal" class="form-label">Semester</label>
+                                <input
+                                    type="number"
+                                    name="semester"
+                                    class="form-control @error('semester') is-invalid @enderror"
+                                    id="semester"
+                                    value="{{ old('semester') }}"
+                                >
+                                @error('semester')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <button class="btn btn-primary" type="submit">Simpan</button>
                             </div>
