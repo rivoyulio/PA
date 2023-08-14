@@ -12,20 +12,20 @@
         <h1>Pelanggaran</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item">
+                    <a href="{{ $authService->dashboardUrl() }}">Dashboard</a>
+                </li>
                 <li class="breadcrumb-item active">Data Pelanggaran</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section dashboard">
         <div class="row">
 
-            <!-- Left side columns -->
             <div class="col-lg">
                 <div class="row">
 
-                    <!-- Recent Sales -->
                     <div class="col-12">
                         @if($authService->currentUserIsAdmin())
                             <a href="/pelanggaran/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Pelanggaran</a>

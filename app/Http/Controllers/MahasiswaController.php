@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 
-
 class MahasiswaController extends Controller
 {
     public function index()
@@ -121,7 +120,6 @@ class MahasiswaController extends Controller
                 'anak_ke' => 'required|numeric',
                 'jmlh_saudara' => 'required|numeric',
                 'provinsi' => 'required',
-                'provinsi' => 'required',
                 'kecamatan' => 'required',
                 'alamat_mhs' => 'required',
                 'nama_sekolah' => 'required',
@@ -140,7 +138,7 @@ class MahasiswaController extends Controller
             ];
         }
 
-        $request->validate($rules);
+        $request->validate($rules, []);
     }
 
     public function save_mahasiswa(Request $request, Mahasiswa $mahasiswa)

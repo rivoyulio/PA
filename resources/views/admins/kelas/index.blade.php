@@ -1,5 +1,6 @@
-@extends('admins.layouts.main')
+@inject('authService', 'App\Http\Services\AuthService')
 
+@extends('admins.layouts.main')
 @section('container')
     @if (session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show mt-2" role="alert"">
@@ -22,7 +23,7 @@
         <h1>Kelas</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ $authService->dashboardUrl() }}">Dashboard</a></li>
                 <li class="breadcrumb-item active">Kelas</li>
             </ol>
         </nav>

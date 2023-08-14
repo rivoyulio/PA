@@ -1,15 +1,18 @@
-@extends('admins.layouts.main')
+@inject('authService', 'App\Http\Services\AuthService')
 
+@extends('admins.layouts.main')
 @section('container')
 <div class="pagetitle">
   <h1>Profile</h1>
   <nav>
       <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
-          <li class="breadcrumb-item active">Profile</li>
+            <li class="breadcrumb-item">
+                <a href="{{ $authService->dashboardUrl() }}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Profile</li>
       </ol>
   </nav>
-</div> 
+</div>
     <section class="section profile">
     <div class="row">
       <div class="col-xl-4">
@@ -21,7 +24,7 @@
             <h3>{{ Auth::user()->nama_user }}</h3>
             <h3>{{ Auth::user()->level }}</h3>
           </div>
-        </div> 
+        </div>
       </div>
 
       <div class="col-xl-8">
@@ -42,7 +45,7 @@
               <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
                 <h5 class="card-title">Profile</h5>
-    
+
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Nama User</div>
                     <div class="col-lg-9 col-md-8">{{ Auth::user()->nama_user }}</div>
@@ -66,7 +69,7 @@
 
 
               </div>
-         
+
             </div>
 
           </div>
@@ -75,4 +78,4 @@
       </div>
     </div>
   </section>
-  @endsection  
+  @endsection
