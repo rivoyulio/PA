@@ -242,6 +242,261 @@
                                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                                 @enderror
                                                             </div>
+                                                            <div class="col-md-6">
+                                                                <label for="provinsi" class="form-label">
+                                                                    Provinsi
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="provinsi"
+                                                                    name="provinsi"
+                                                                    value="{{ old('provinsi', $mahasiswa->provinsi) }}"
+                                                                />
+                                                                @error('provinsi')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="kabupaten" class="form-label">
+                                                                    Kabupaten
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="kabupaten"
+                                                                    name="kabupaten"
+                                                                    value="{{ old('kabupaten', $mahasiswa->kabupaten) }}"
+                                                                />
+                                                                @error('kabupaten')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="kecamatan" class="form-label">
+                                                                    Kecamatan
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="kecamatan"
+                                                                    name="kecamatan"
+                                                                    value="{{ old('kecamatan', $mahasiswa->kecamatan) }}"
+                                                                />
+                                                                @error('kecamatan')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="alamat_mhs" class="form-label">
+                                                                    Alamat Mahasiswa
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="alamat_mhs"
+                                                                    name="alamat_mhs"
+                                                                    value="{{ old('alamat_mhs', $mahasiswa->alamat_mhs) }}"
+                                                                />
+                                                                @error('alamat_mhs')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="nama_sekolah" class="form-label">
+                                                                    Nama Sekolah
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="nama_sekolah"
+                                                                    name="nama_sekolah"
+                                                                    value="{{ old('nama_sekolah', $mahasiswa->nama_sekolah) }}"
+                                                                />
+                                                                @error('nama_sekolah')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="jurusan" class="form-label">
+                                                                    Jurusan Sekolah
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="jurusan"
+                                                                    name="jurusan"
+                                                                    value="{{ old('jurusan', $mahasiswa->jurusan) }}"
+                                                                />
+                                                                @error('jurusan')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="alamat_sekolah" class="form-label">
+                                                                    Alamat Sekolah
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="alamat_sekolah"
+                                                                    name="alamat_sekolah"
+                                                                    value="{{ old('alamat_sekolah', $mahasiswa->alamat_sekolah) }}"
+                                                                />
+                                                                @error('alamat_sekolah')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="prestasi" class="form-label">
+                                                                    Prestasi
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="prestasi"
+                                                                    name="prestasi"
+                                                                    value="{{ old('prestasi', $mahasiswa->prestasi) }}"
+                                                                />
+                                                                @error('prestasi')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="nama_ortu" class="form-label">
+                                                                    Nama Orangtua
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="nama_ortu"
+                                                                    name="nama_ortu"
+                                                                    value="{{ old('nama_ortu', $mahasiswa->nama_ortu) }}"
+                                                                />
+                                                                @error('nama_ortu')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="alamat_ortu" class="form-label">
+                                                                    Alamat Orangtua
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="alamat_ortu"
+                                                                    name="alamat_ortu"
+                                                                    value="{{ old('alamat_ortu', $mahasiswa->alamat_ortu) }}"
+                                                                />
+                                                                @error('alamat_ortu')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="pekerjaan_ortu" class="form-label">
+                                                                    Pekerjaan Orangtua
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="pekerjaan_ortu"
+                                                                    name="pekerjaan_ortu"
+                                                                    value="{{ old('pekerjaan_ortu', $mahasiswa->pekerjaan_ortu) }}"
+                                                                />
+                                                                @error('pekerjaan_ortu')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="nohp_ortu" class="form-label">
+                                                                    No HP Orangtua
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="nohp_ortu"
+                                                                    name="nohp_ortu"
+                                                                    value="{{ old('nohp_ortu', $mahasiswa->nohp_ortu) }}"
+                                                                />
+                                                                @error('nohp_ortu')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="nama_wali" class="form-label">
+                                                                    Nama Wali
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="nama_wali"
+                                                                    name="nama_wali"
+                                                                    value="{{ old('nama_wali', $mahasiswa->nama_wali) }}"
+                                                                />
+                                                                @error('nama_wali')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="alamat_wali" class="form-label">
+                                                                    Alamat Wali
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="alamat_wali"
+                                                                    name="alamat_wali"
+                                                                    value="{{ old('alamat_wali', $mahasiswa->alamat_wali) }}"
+                                                                />
+                                                                @error('alamat_wali')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="pekerjaan_wali" class="form-label">
+                                                                    Pekerjaan Wali
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="pekerjaan_wali"
+                                                                    name="pekerjaan_wali"
+                                                                    value="{{ old('pekerjaan_wali', $mahasiswa->pekerjaan_wali) }}"
+                                                                />
+                                                                @error('pekerjaan_wali')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="nohp_wali" class="form-label">
+                                                                    No Hp Wali
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="nohp_wali"
+                                                                    name="nohp_wali"
+                                                                    value="{{ old('nohp_wali', $mahasiswa->nohp_wali) }}"
+                                                                />
+                                                                @error('nohp_wali')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="status_biodata" class="form-label">
+                                                                    Status Biodata
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="status_biodata"
+                                                                    name="status_biodata"
+                                                                    value="{{ old('status_biodata', $mahasiswa->status_biodata) }}"
+                                                                />
+                                                                @error('status_biodata')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
                                                             <div class="d-flex justify-content-end">
                                                                 <button type="submit" class="btn btn-primary">Simpan</button>
                                                             </div>

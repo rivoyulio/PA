@@ -120,6 +120,23 @@ class MahasiswaController extends Controller
                 'no_hp' => 'required',
                 'anak_ke' => 'required|numeric',
                 'jmlh_saudara' => 'required|numeric',
+                'provinsi' => 'required',
+                'provinsi' => 'required',
+                'kecamatan' => 'required',
+                'alamat_mhs' => 'required',
+                'nama_sekolah' => 'required',
+                'jurusan' => 'required',
+                'alamat_sekolah' => 'required',
+                'prestasi' => 'required',
+                'nama_ortu' => 'required',
+                'alamat_ortu' => 'required',
+                'pekerjaan_ortu' => 'required',
+                'nohp_ortu' => 'required',
+                'nama_wali' => 'required',
+                'alamat_wali' => 'required',
+                'pekerjaan_wali' => 'required',
+                'nohp_wali' => 'required',
+                'status_biodata' => 'required',
             ];
         }
 
@@ -140,6 +157,24 @@ class MahasiswaController extends Controller
         $mahasiswa->jmlh_saudara = $request->jmlh_saudara;
         $mahasiswa->id_prodi = $request->id_prodi;
         $mahasiswa->id_kelas = $request->id_kelas;
+        $mahasiswa->provinsi = $request->provinsi;
+        $mahasiswa->kabupaten = $request->kabupaten;
+        $mahasiswa->kecamatan = $request->kecamatan;
+        $mahasiswa->alamat_mhs = $request->alamat_mhs;
+        $mahasiswa->nama_sekolah = $request->nama_sekolah;
+        $mahasiswa->jurusan = $request->jurusan;
+        $mahasiswa->alamat_sekolah = $request->alamat_sekolah;
+        $mahasiswa->prestasi = $request->prestasi;
+        $mahasiswa->nama_ortu = $request->nama_ortu;
+        $mahasiswa->alamat_ortu = $request->alamat_ortu;
+        $mahasiswa->pekerjaan_ortu = $request->pekerjaan_ortu;
+        $mahasiswa->nohp_ortu = $request->nohp_ortu;
+        $mahasiswa->nama_wali = $request->nama_wali;
+        $mahasiswa->alamat_wali = $request->alamat_wali;
+        $mahasiswa->pekerjaan_wali = $request->pekerjaan_wali;
+        $mahasiswa->nohp_wali = $request->nohp_wali;
+        $mahasiswa->status_biodata = $request->status_biodata;
+
 
         if ($request->password) {
             $mahasiswa->password = Hash::make($request->password);
