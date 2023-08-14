@@ -49,7 +49,6 @@ class AuthenticationController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if (Auth::guard('web')->attempt($credentials)) {
-            $request->session()->regenerate();
             $user = Auth::guard('web')->user();
 
             session(['nama_user' => $user->nama_user]);

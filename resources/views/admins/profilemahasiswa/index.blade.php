@@ -1,3 +1,5 @@
+@inject('authService', 'App\Http\Services\AuthService')
+
 @extends('admins.layouts.main')
 @section('container')
     <div class="pagetitle">

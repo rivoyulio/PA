@@ -94,7 +94,7 @@ Route::middleware([RedirectIfNotAuthenticated::class])->group(
         Route::resource('/mahasiswa', MahasiswaController::class)->only(['show']);
         Route::resource('/bimbingan', BimbinganController::class)->except(['index']);
         Route::resource('/sp', SpController::class);
-        Route::resource('/pelanggaran', PelanggaranController::class);
+        Route::resource('/pelanggaran', PelanggaranController::class)->except(['show']);
     }
 );
 
