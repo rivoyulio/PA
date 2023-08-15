@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Http\Services\AuthService;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
@@ -101,11 +101,11 @@ class AuthenticationController extends Controller
         return redirect('/login')->with('success', 'Register Berhasil');
     }
 
-    public function logout(){
-        Auth::guard('web')->logout();
-        Auth::guard('mahasiswa')->logout();
+    public function logout(AuthService $authService) {
+        if ($guard = $authService->currentUserGuard()) {
+            Auth::guard($guard)->logout();
+        }
 
-        return redirect('/');
+        return redirect('/welcome');
     }
-
 }

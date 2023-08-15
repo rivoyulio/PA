@@ -15,42 +15,79 @@
                                 <h5 class="card-title">
                                     <i class="bi bi-file-earmark-person"></i> {{ $dosen->nama_dosen }}
                                 </h5>
-                                <form class="row g-3">
+                                @if($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            {!! implode('', $errors->all('<li>:message</li>')) !!}
+                                        </ul>
+                                    </div>
+                                @endif
+                                <form class="row g-3" action="/admin/data/dosen/{{ $dosen->id_dosen }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
                                     <div class="col-md-6">
-                                        <label for="nip" class="form-label">
-                                            NIP
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="nip" value="{{ $dosen->nip }}">
+                                        <label for="nip" class="form-label">NIP</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            value="{{ $dosen->nip }}"
+                                            id="nip"
+                                            name="nip"
+                                            disabled
+                                        />
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="nama_dosen" class="form-label">
-                                            Nama Dosen
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="nama_dosen" value="{{ $dosen->nama_dosen }}">
+                                        <label for="nama_dosen" class="form-label">Nama Dosen</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="nama_dosen"
+                                            name="nama_dosen"
+                                            value="{{ old('nama_dosen', $dosen->nama_dosen) }}"
+                                        />
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="tempat_lahir" class="form-label">
-                                            Tempat Lahir
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="tempat_lahir" value="{{ $dosen->tempat_lahir }}">
+                                        <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="tempat_lahir"
+                                            name="tempat_lahir"
+                                            value="{{ old('tempat_lahir', $dosen->tempat_lahir) }}"
+                                        />
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="tgl_lahir" class="form-label">
-                                            Tanggal Lahir
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="tgl_lahir" value="{{ $dosen->tgl_lahir }}">
+                                        <label for="tgl_lahir" class="form-label">Tanggal Lahir</label>
+                                        <input
+                                            type="date"
+                                            class="form-control"
+                                            id="tgl_lahir"
+                                            name="tgl_lahir"
+                                            value="{{ old('tgl_lahir', $dosen->tgl_lahir) }}"
+                                        >
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="alamat" class="form-label">
-                                            Alamat
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="alamat" value="{{ $dosen->alamat }}">
+                                        <label for="alamat" class="form-label">Alamat</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="alamat"
+                                            name="alamat"
+                                            value="{{ old('alamat', $dosen->alamat) }}"
+                                        />
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="notelp" class="form-label">
-                                            No HP
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="notelp" value="{{ $dosen->notelp }}">
+                                        <label for="notelp" class="form-label">No HP</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="notelp"
+                                            name="notelp"
+                                            value="{{ old('notelp', $dosen->notelp) }}"
+                                        />
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </form>
                             </div>

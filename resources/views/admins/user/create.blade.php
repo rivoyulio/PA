@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8 mt-5">
-                <form action="/user" method="post" enctype="multipart/form-data">
+                <form action="/admin/data/user" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card">
                         <h5 class="card-header text-center font-weight-bold">Tambah User</h5><br>
@@ -60,10 +60,10 @@
                                 {{-- <button href="{{ url('user') }}" class="btn btn-secondary me-md-2" type="redirect">Kembali</button> --}}
                                 <button class="btn btn-primary" type="submit">Simpan</button>
                             </div>
-    
+
                         </div>
                     </div>
-    
+
                 </form>
             </div>
     </div>

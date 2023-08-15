@@ -66,19 +66,11 @@
                         </div>
                     </div><!-- End Recent Sales -->
 
-                    {{-- {{ $kelass->links() }} --}}
                 </div>
             </div><!-- End Left side columns -->
 
 
         </div>
     </section>
-
-    <!-- The Modal -->
-    <div id="modal_img" class="modal-image">
-        <span class="close">&times;</span>
-        <img class="modal-content-image" id="img01">
-        <div id="caption"></div>
-    </div>
 
 @endsection

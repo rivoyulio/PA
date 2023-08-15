@@ -27,7 +27,7 @@ class RedirectIfNotAuthenticated
         }
 
         if (!$has_session) {
-            return redirect('/login')->with('notLogin', 'Anda Harus Login Terlebih Dahulu');
+            return redirect('/welcome')->with('notLogin', 'Anda Harus Login Terlebih Dahulu');
         }
 
         return $next($request);

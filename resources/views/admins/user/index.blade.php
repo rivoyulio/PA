@@ -41,7 +41,7 @@
                     <!-- Recent Sales -->
                     <div class="col-12">
 
-                        <a href="/user/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah User</a>
+                        <a href="/admin/data/user/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah User</a>
                         <div class="card recent-sales overflow-auto">
 
                             <div class="card-body">
@@ -76,16 +76,16 @@
                                                 </td>
                                                 <td>
 
-                                                    <a href="{{ url('/user/' . $user->id_user) }}" class="btn btn-link"><span
+                                                    <a href="{{ url('/admin/data/user/' . $user->id_user) }}" class="btn btn-link"><span
                                                         class="badge bg-info text-dark"><i
                                                         class="bi bi-info-circle"></i> Detail</span></a>
 
-                                                        <a href="{{ url('/user/' . $user->id_user . '/edit/') }}" class="btn btn-link"><span
+                                                        <a href="{{ url('/admin/data/user/' . $user->id_user . '/edit/') }}" class="btn btn-link"><span
                                                             class="badge bg-warning text-dark"><i
                                                             class="bi bi-info-circle"></i> Edit</span></a>
 
                                                     <form
-                                                        action="{{ '/user/' . $user->id_user }}"
+                                                        action="{{ '/admin/data/user/' . $user->id_user }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -98,7 +98,6 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{ $users->links() }}
                             </div>
 
                         </div>

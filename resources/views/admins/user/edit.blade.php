@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8 mt-5">
-                <form action="/user/{{ $data->id_user }}" method="post" enctype="multipart/form-data">
+                <form action="/admin/data/user/{{ $data->id_user }}" method="post" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     <div class="card">
@@ -30,8 +30,14 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label" style="text-align: center;">Password</label>
-                                <input type="text" name="password" class="form-control @error('password') is-invalid @enderror" id="password" value="{{old('password',$data->password)}}" autofocus placeholder="Password">
+                                <label for="password" class="form-label" style="text-align: center;">Password</label>
+                                <input
+                                    type="text"
+                                    class="form-control @error('password') is-invalid @enderror"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Kosongkan jika tidak mengubah password"
+                                />
                                 @error('password')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -68,10 +74,10 @@
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <button class="btn btn-primary" type="submit">Simpan</button>
                             </div>
-    
+
                         </div>
                     </div>
-    
+
                 </form>
             </div>
     </div>

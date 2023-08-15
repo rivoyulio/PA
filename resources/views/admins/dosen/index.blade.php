@@ -47,7 +47,6 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
-                                            {{-- <th scope="col">Id User</th> --}}
                                             <th scope="col">NIP</th>
                                             <th scope="col">Nama Dosen</th>
                                             <th scope="col">Jabatan</th>
@@ -93,8 +92,6 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{ $dosens->links() }}
-
                             </div>
 
                         </div>

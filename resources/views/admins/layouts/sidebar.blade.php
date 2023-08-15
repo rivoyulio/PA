@@ -54,7 +54,7 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('user') ? 'active' : '' }}" href="{{ url('user') }}">
+                <a class="nav-link {{ Request::is('/admin/data/user') ? 'active' : '' }}" href="{{ url('/admin/data/user') }}">
                     <i class="bi bi-person"></i>
                     <span>User</span>
                 </a>

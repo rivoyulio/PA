@@ -65,7 +65,7 @@ class ProdiController extends Controller
         $title = 'Tambah Prodi';
 
         Prodi::create($data);
-        return redirect()->route('/admin/data/prodi')->withSuccessMessage('Data Prodi Berhasil Ditambahkan', compact('title'));
+        return redirect('/admin/data/prodi')->withSuccessMessage('Data Prodi Berhasil Ditambahkan', compact('title'));
     }
 
     /**
@@ -125,7 +125,7 @@ class ProdiController extends Controller
         $title = 'Edit Prodi';
 
         Prodi::where('id_prodi', $prodi->id_prodi)->update($data);
-        return redirect()->route('/admin/data/prodi')->withSuccessMessage('Data Prodi Berhasil Diubah', compact('title'));
+        return redirect('/admin/data/prodi')->withSuccessMessage('Data Prodi Berhasil Diubah', compact('title'));
     }
 
     /**
@@ -138,6 +138,6 @@ class ProdiController extends Controller
     {
         $data = Prodi::where('id_prodi', $prodi->id_prodi)->first();
         Prodi::where('id_prodi', $prodi->id_prodi)->delete();
-        return redirect()->route('/admin/data/prodi')->withSuccessMessage('Data Prodi Berhasil Dihapus');
+        return redirect('/admin/data/prodi')->withSuccessMessage('Data Prodi Berhasil Dihapus');
     }
 }

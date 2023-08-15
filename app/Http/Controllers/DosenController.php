@@ -6,25 +6,12 @@ use App\Http\Services\AuthService;
 use App\Models\Dosen;
 use App\Models\User;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Auth;
 
 class DosenController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        if(session('success_message')){
-            Alert::toast( session('success_message'),'success');
-        }
-
-        return view('admins.dosen.index',[
-            'dosens' => Dosen::paginate(5)
-        ]);
+        return view('admins.dosen.index', ['dosens' => Dosen::all()]);
     }
 
     public function biodatadosen(AuthService $authService)
@@ -35,29 +22,50 @@ class DosenController extends Controller
         return view('admins.dosen.biodatadosen', compact('dosen'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $users = User::all();
         $title = 'Dosen';
+
         return view('admins.dosen.create', compact('users', 'title'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request, AuthService $authService)
     {
-// dd($request->all());
+        $this->validate_dosen($request);
+        $this->save_dosen($request, new Dosen());
 
-        $request->validate([
+        return $this->redirect_to_index($authService, 'Data Dosen Berhasil Ditambahkan');
+    }
+
+    public function show(Dosen $dosens)
+    {
+        return view('admins.dosen.details', compact('dosens'));
+    }
+
+    public function edit(Dosen $dosen)
+    {
+        return view('admins.dosen.edit')->with('data', $dosen);
+    }
+
+    public function update(Request $request, Dosen $dosen, AuthService $authService)
+    {
+        $this->validate_dosen($request, true);
+        $this->save_dosen($request, $dosen);
+
+        return $this->redirect_to_index($authService, 'Data dosen Berhasil Diubah');
+    }
+
+    public function destroy(Dosen $dosen, AuthService $authService)
+    {
+        $dosen->delete();
+
+        return $this->redirect_to_index($authService, 'Data Dosen Berhasil Dihapus');
+    }
+
+    private function validate_dosen(Request $request, $is_edit = false)
+    {
+        $rules = [
             'id_user' => 'required|numeric',
             'nip' => 'numeric',
             'nama_dosen'  => 'required',
@@ -66,7 +74,19 @@ class DosenController extends Controller
             'tgl_lahir'  => 'date',
             'alamat' => 'required',
             'notelp'  => 'numeric',
-        ], [
+        ];
+
+        if ($is_edit) {
+            $rules = [
+                'nama_dosen'  => 'required',
+                'tempat_lahir'  => 'required',
+                'tgl_lahir'  => 'date',
+                'alamat' => 'required',
+                'notelp'  => 'numeric',
+            ];
+        }
+
+        $messages = [
             'id_user' => '',
             'nip.numeric' => 'NIP Harus Diisi',
             'nama_dosen.required' => 'Nama Dosen Harus Diisi',
@@ -75,109 +95,30 @@ class DosenController extends Controller
             'tgl_lahir.date' => 'Tanggal Lahir Dosen Harus Diisi',
             'alamat.required' => 'Alamat Dosen Harus Diisi',
             'notelp.numeric' => 'No Telepon Dosen Harus Diisi',
-
-        ]);
-
-        $data = [
-            'id_user' => $request->id_user,
-            'nip' => $request->nip,
-            'nama_dosen' => $request->nama_dosen,
-            'jabatan' => $request->jabatan,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tgl_lahir' => $request->tgl_lahir,
-            'alamat' => $request->alamat,
-            'notelp' => $request->notelp,
         ];
 
-        $title = 'Tambah Dosen';
-
-        Dosen::create($data);
-        return redirect()->route('dosen.index')->withSuccessMessage('Data Dosen Berhasil Ditambahkan', compact('title'));
+        $request->validate($rules, $messages);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Dosen  $dosen
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Dosen $dosen)
+    private function save_dosen(Request $request, Dosen $dosen)
     {
-        $dosens = $dosen;
-        $breadcrum = 'Details Dosen';
-        return view('admins.dosen.details')->with('dosen', $dosens,compact('breadcrum'));
+        $dosen->id_user ??= $request->id_user;
+        $dosen->nip ??= $request->nip;
+        $dosen->nama_dosen = $request->nama_dosen;
+        $dosen->jabatan ??= $request->jabatan;
+        $dosen->tempat_lahir = $request->tempat_lahir;
+        $dosen->tgl_lahir = $request->tgl_lahir;
+        $dosen->alamat = $request->alamat;
+        $dosen->notelp = $request->notelp;
+        $dosen->save();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Dosen  $dosen
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Dosen $dosen)
+    private function redirect_to_index(AuthService $authService, $message)
     {
-        $data = Dosen::where('id_dosen', $dosen->id_dosen)->first();
-        return view('admins.dosen.edit')->with('data', $data);
-    }
+        if ($authService->currentUserIsAdmin()) {
+            return redirect('/admin/data/dosen')->withSuccess($message);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Dosen  $dosen
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Dosen $dosen)
-    {
-        $request->validate([
-            'id_user' => 'required|numeric',
-            'nip' => 'numeric',
-            'nama_dosen'  => 'required',
-            'jabatan'  => 'required',
-            'tempat_lahir'  => 'required',
-            'tgl_lahir'  => 'date',
-            'alamat' => 'required',
-            'notelp'  => 'numeric',
-        ], [
-            'id_user' => '',
-            'nip.numeric' => 'NIP Harus Diisi',
-            'nama_dosen.required' => 'Nama Dosen Harus Diisi',
-            'jabatan.required' => 'Jabatan Dosen Harus Diisi',
-            'tempat_lahir.required' => 'Tempat Lahir Dosen Harus Diisi',
-            'tgl_lahir.date' => 'Tanggal Lahir Dosen Harus Diisi',
-            'alamat.required' => 'Alamat Dosen Harus Diisi',
-            'notelp.numeric' => 'No Telepom Dosen Harus Diisi',
-
-        ]);
-
-        $data = [
-            'id_user' => $request->id_user,
-            'nip' => $request->nip,
-            'nama_dosen' => $request->nama_dosen,
-            'jabatan' => $request->jabatan,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tgl_lahir' => $request->tgl_lahir,
-            'alamat' => $request->alamat,
-            'notelp' => $request->notelp,
-        ];
-
-        $title = 'Edit Dosen';
-
-        Dosen::where('id_dosen', $dosen->id_dosen)->update($data);
-        return redirect()->route('dosen.index')->withSuccessMessage('Data dosen Berhasil Diubah', compact('title'));
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Dosen  $dosen
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Dosen $dosen)
-    {
-        $data = Dosen::where('id_dosen', $dosen->id_dosen)->first();
-        // File::delete(public_path('images/' . $data->foto_brg));
-        Dosen::where('id_dosen', $dosen->id_dosen)->delete();
-        return redirect()->route('dosen.index')->withSuccessMessage('Data Dosen Berhasil Dihapus');
+        return redirect('/dosen')->withSuccess($message);
     }
 }
