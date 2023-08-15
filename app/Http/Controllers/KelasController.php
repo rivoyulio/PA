@@ -96,7 +96,7 @@ class KelasController extends Controller
         $title = 'Tambah Kelas';
 
         Kelas::create($data);
-        return redirect()->route('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Ditambahkan', compact('title'));
+        return redirect('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Ditambahkan', compact('title'));
     }
 
     /**
@@ -161,7 +161,7 @@ class KelasController extends Controller
         $title = 'Edit Kelas';
 
         Kelas::find($id)->update($data);
-        return redirect()->route('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Diubah', compact('title'));
+        return redirect('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Diubah', compact('title'));
     }
 
     /**
@@ -174,7 +174,7 @@ class KelasController extends Controller
     {
         $data = Kelas::where('id_kelas', $kelas->id_kelas)->first();
         Kelas::where('id_kelas', $kelas->id_kelas)->delete();
-        return redirect()->route('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Dihapus');
+        return redirect('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Dihapus');
     }
 
     public function delete(Mahasiswa $mahasiswa)

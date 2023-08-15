@@ -60,7 +60,7 @@ class BimbinganController extends Controller
         $bimbingans = $bimbinganService->getBimbinganMahasiswa($mhs_id);
         $mahasiswa = Mahasiswa::where('id_mhs', $mhs_id)->first();
 
-        return view('admins.bimbingan.detailbimbingan', compact('bimbingans', 'mahasiswa'));
+        return view('admins.bimbingan.detail', compact('bimbingans', 'mahasiswa'));
     }
 
     public function cetak(BimbinganService $bimbinganService, AuthService $authService)

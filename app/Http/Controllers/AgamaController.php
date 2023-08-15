@@ -56,7 +56,7 @@ class AgamaController extends Controller
         $title = 'Tambah Agama';
 
         Agama::create($data);
-        return redirect()->route('agama.index')->withSuccessMessage('Agama Berhasil Ditambahkan', compact('title'));
+        return redirect('/admin/data/agama')->withSuccessMessage('Agama Berhasil Ditambahkan', compact('title'));
     }
 
     /**
@@ -104,7 +104,7 @@ class AgamaController extends Controller
         $title = 'Edit Agama';
 
         Agama::where('id_agama', $agama->id_agama)->update($data);
-        return redirect()->route('/admin/data/agama')->withSuccessMessage('Data Agama Berhasil Diubah', compact('title'));
+        return redirect('/admin/data/agama')->withSuccessMessage('Data Agama Berhasil Diubah', compact('title'));
     }
 
     /**
@@ -117,6 +117,6 @@ class AgamaController extends Controller
     {
         $data = Agama::where('id_agama', $agama->id_agama)->first();
         Agama::where('id_agama', $agama->id_agama)->delete();
-        return redirect()->route('agama.index')->withSuccessMessage('Data Agama Berhasil Dihapus');
+        return redirect('/admin/data/agama')->withSuccessMessage('Data Agama Berhasil Dihapus');
     }
 }

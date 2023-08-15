@@ -33,8 +33,8 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Bimbingan</th>
                 <th>Tanggal Bimbingang</th>
+                <th>Bimbingan</th>
                 <th>Permasalahan Mahasiswa</th>
                 <th>Solusi Dosen</th>
             </tr>

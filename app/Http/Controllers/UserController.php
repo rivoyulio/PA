@@ -6,122 +6,74 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-use RealRashid\SweetAlert\Facades\Alert;
-use App\Http\Controllers\DB;
-// use Method Illuminate\Auth\SessionGuard;
+use App\Http\Services\AuthService;
+
 
 class UserController extends Controller
 {
     public function index()
     {
-        if(session('success_message')){
-            Alert::toast( session('success_message'),'success');
-        }
-        
-        return view('admins.user.index',[
-            'users' => User::paginate(5)
-        ]);
+        return view('admins.user.index', ['users' => User::all()]);
     }
 
-    // public function profile()
-    // {
-    //     return view('admins.user.profile',[
-    //         'users' => User::all()
-    //     ]);
-    // }
-    
     public function create()
-    {   
-        $title = 'User';
-        return view('admins.user.create')->with('title', $title);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
     {
-        $request->validate([
-            'nama_user' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'level' => 'required',
-            'foto_user' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ], [
-            'nama_user.required' => 'Nama User Harus Diisi',
-            'email.required' => 'Email Harus Diisi',
-            'password.required' => 'Password Harus Diisi',
-            'level.required' => 'Level User Harus Diisi',
-            'foto_user.required' => 'Foto User Harus Diisi',
-            'foto_user.image' => 'Foto User Harus Gambar',
-            'foto_user.mimes' => 'Foto User Harus Berformat jpeg,png,jpg,gif,svg',
-            'foto_user.max' => 'Foto User Maksimal 2MB',
-        ]);
-
-        $foto_file = $request->file('foto_user');
-        $foto_ekstensi = $foto_file->getClientOriginalExtension();
-        $nama_foto = time() . '.' . $foto_ekstensi;
-        $foto_file->move(public_path('images'), $nama_foto);
-
-        $data = [
-            'nama_user' => $request->nama_user,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'level' => $request->level,
-            'foto_user' => $nama_foto    
-        ];
-
-        $title = 'Tambah User';
-
-        User::create($data);
-        return redirect()->route('user.index')->withSuccessMessage('Data User Berhasil Ditambahkan', compact('title'));
-
+        return view('admins.user.create');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
+    public function store(Request $request, AuthService $authService)
+    {
+        $this->validate_user($request, false);
+        $this->save_user($request, new User());
+
+        return redirect('/admin/data/user')->withSuccess('Data User Berhasil Ditambahkan');
+    }
+
     public function show(User $user)
     {
-        $users = $user;
-        $breadcrum = 'Details User';
-        return view('admins.user.details')->with('user', $users,compact('breadcrum'));
+        return view('admins.user.details', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user)
-    {   
-            $data = User::where('id_user', $user->id_user)->first();
-            return view('admins.user.edit')->with('data', $data);
+    {
+        return view('admins.user.edit')->with('data', $user);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, AuthService $authService)
     {
-        $request->validate([
+        $this->validate_user($request, true);
+        $this->save_user($request, $user);
+
+        return $this->redirect_to_index($authService, 'Data User Berhasil Diubah');
+    }
+
+    public function destroy(User $user, AuthService $authService)
+    {
+        $user->delete();
+        if ($user->foto_user != '') {
+            File::delete(public_path('images/' . $user->foto_user));
+        }
+
+        return $this->redirect_to_index($authService, 'Data User Berhasil Dihapus');
+    }
+
+    private function validate_user(Request $request, $is_edit)
+    {
+        $rules = [
             'nama_user' => 'required',
             'email' => 'required',
             'password' => 'required',
             'level' => 'required',
-            'foto_user' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ], [
+            'foto_user' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ];
+
+        if ($is_edit) {
+            $rules = [
+                'nama_user' => 'required',
+            ];
+        }
+
+        $message = [
             'nama_user.required' => 'Nama User Harus Diisi',
             'email.required' => 'Email Harus Diisi',
             'password.required' => 'Password Harus Diisi',
@@ -130,45 +82,35 @@ class UserController extends Controller
             'foto_user.image' => 'Foto User Harus Gambar',
             'foto_user.mimes' => 'Foto User Harus Berformat jpeg,png,jpg,gif,svg',
             'foto_user.max' => 'Foto User Maksimal 2MB',
-        ]);
-
-        $data = [
-            'nama_user' => $request->nama_user,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'level' => $request->level,
-            // 'foto_user' => $nama_foto   
         ];
 
-        if ($request->hasFile('foto_user')) {
+        $request->validate($rules, $message);
+    }
+
+    private function save_user(Request $request, User $user)
+    {
+        $user->nama_user = $request->nama_user;
+        if ($request->email)  $user->email = $request->email;
+        if ($request->level)  $user->level = $request->level;
+        if ($request->password)  $user->password = Hash::make($request->password);
+
+        if ($request->foto_user) {
             $foto_file = $request->file('foto_user');
-            $foto_ekstensi = $foto_file->getClientOriginalExtension();
-            $nama_foto = time() . '.' . $foto_ekstensi;
-            $foto_file->move(public_path('images'), $nama_foto);
-            $data_foto = User::where('id_user', $user->id_user)->first();
-            File::delete(public_path('images/' . $data_foto->foto_user));
+            $foto_name = time() . '.' . $foto_file->getClientOriginalExtension();
+            $foto_file->move(public_path('images'), $foto_name);
+
+            $user->foto_user = $foto_name;
         }
 
-        $data['foto_user'] = $nama_foto;
-        $title = 'Edit User';
-
-
-        User::where('id_user', $user->id_user)->update($data);
-        return redirect()->route('user.index')->withSuccessMessage('Data User Berhasil Diubah', compact('title'));
+        $user->save();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
+    private function redirect_to_index(AuthService $authService, $message)
     {
-        $data = User::where('id_user', $user->id_user)->first();
-        File::delete(public_path('images/' . $data->foto_user));
-        User::where('id_user', $user->id_user)->delete();
-        return redirect()->route('user.index')->withSuccessMessage('Data User Berhasil Dihapus');
+        if ($authService->currentUserIsKaprodi()) {
+            return redirect('/kaprodi')->withSuccess($message);
+        }
+
+        return redirect('/admin/data/user')->withSuccess($message);
     }
-   
 }

@@ -49,6 +49,14 @@
                                                         <h5 class="card-title">
                                                             <i class="bi bi-file-earmark-person"></i> {{ $mahasiswa->nama_mhs }}
                                                         </h5>
+                                                        @if($errors->any())
+                                                            <div class="alert alert-danger">
+                                                                <ul>
+                                                                    {!! implode('', $errors->all('<li>:message</li>')) !!}
+                                                                </ul>
+                                                            </div>
+                                                        @endif
+
                                                         <form method="POST" action="/admin/data/mahasiswa/{{ $mahasiswa->id_mhs }}" class="row g-3">
                                                             @csrf
                                                             @method('PUT')

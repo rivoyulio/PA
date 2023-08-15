@@ -16,44 +16,44 @@
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <i class="bi bi-file-earmark-person"></i> {{ $kaprodi->nama_user }}
+                                    <i class="bi bi-file-earmark-person"></i> {{ $user->nama_user }}
                                 </h5>
-                                <form class="row g-3">
-                                    <div class="col-md-6">
-                                        <label for="nip" class="form-label">
-                                            NIP
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="nip" value="{{ $kelas->dosen->nip }}">
+                                <form class="row g-3" method="POST" action="/admin/data/user/{{ $user->id_user }}">
+                                    @csrf
+                                    @method('put')
+                                    <div class="col-md-12">
+                                        <label for="nama_user" class="form-label">Nama</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="nama_user"
+                                            name="nama_user"
+                                            value="{{ old('nama_user', $user->nama_user) }}"
+                                        />
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="nama_dosen" class="form-label">
-                                            Nama Dosen
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="nama_dosen" value="{{ $kelas->dosen->nama_dosen }}">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="email"
+                                            name="email"
+                                            value="{{ old('email', $user->email) }}"
+                                            disabled
+                                        />
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="tempat_lahir" class="form-label">
-                                            Tempat Lahir
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="tempat_lahir" value="{{ $kelas->dosen->tempat_lahir }}">
+                                        <label for="nama_user" class="form-label">Password</label>
+                                        <input
+                                            type="password"
+                                            class="form-control"
+                                            id="password"
+                                            name="password"
+                                            placeholder="Kosongkan jika tidak ingin mengubah password"
+                                        />
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="tgl_lahir" class="form-label">
-                                            Tanggal Lahir
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="tgl_lahir" value="{{ $kelas->dosen->tgl_lahir }}">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="alamat" class="form-label">
-                                            Alamat
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="alamat" value="{{ $kelas->dosen->alamat }}">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="notelp" class="form-label">
-                                            No HP
-                                        </label>
-                                        <input type="text" class="form-control" disabled id="notelp" value="{{ $kelas->dosen->notelp }}">
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </form>
                             </div>

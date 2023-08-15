@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Route;
  * RedirectIfMahasiswaNotAuthenticated -> Jika mahasiswa belum login
  */
 
-Route::get('/', fn() => view('welcome'));
+Route::get('/welcome', fn() => view('welcome'));
 
 Route::middleware([RedirectIfAuthenticated::class])->group(function () {
     Route::get('login','App\Http\Controllers\AuthenticationController@index');

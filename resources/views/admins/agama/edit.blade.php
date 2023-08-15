@@ -13,7 +13,7 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label" style="text-align: center;">Agama</label>
-                                <input type="text" name="agama" class="form-control @error('agama') is-invalid @enderror" id="agama" value="{{ old('agama',$data->id_agama )}}" autofocus placeholder="Agama">
+                                <input type="text" name="agama" class="form-control @error('agama') is-invalid @enderror" id="agama" value="{{ old('agama',$data->agama )}}" autofocus placeholder="Agama">
                                 @error('agama')
                                 <div class="invalid-feedback">
                                     {{ $message }}
