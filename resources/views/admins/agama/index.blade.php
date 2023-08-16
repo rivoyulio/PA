@@ -46,7 +46,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Agama</h5>
 
-                                <table class="table table-borderless datatable">
+                                <table class="table table-borderless">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
@@ -60,13 +60,12 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $agama->agama }}</td>
                                                 <td>
-                                                    <a href="{{ url('/admin/data/agama/' . $agama->id_agama . '/edit/') }}" class="btn btn-link"><span
-                                                        class="badge bg-warning text-dark"><i
-                                                        class="bi bi-info-circle"></i> Edit </span>
+                                                    <a href="{{ url('/admin/data/agama/' . $agama->id_agama . '/edit/') }}" class="btn btn-link">
+                                                        <span class="badge bg-warning text-dark">
+                                                            <i  class="bi bi-info-circle"></i> Edit
+                                                        </span>
                                                     </a>
-                                                    <a
-                                                        action="{{ '/admin/data/agama/' . $agama->id_agama }}"
-                                                        method="POST">
+                                                    <form action="{{ '/admin/data/agama/' . $agama->id_agama }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" id="#delete" class="btn btn-link">
@@ -74,7 +73,7 @@
                                                                 <i class="bi bi-trash"></i> Hapus
                                                             </span>
                                                         </button>
-                                                    </a>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -85,8 +84,6 @@
 
                         </div>
                     </div><!-- End Recent Sales -->
-
-                    {{-- {{ $agamas->links() }} --}}
                 </div>
             </div><!-- End Left side columns -->
 

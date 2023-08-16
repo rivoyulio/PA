@@ -46,8 +46,14 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label" style="text-align: center;">Password</label>
-                                <input type="text" name="password" class="form-control @error('password') is-invalid @enderror" id="password" value="{{old('password',$data->password)}}" autofocus placeholder="Password">
+                                <label for="password" class="form-label" style="text-align: center;">Password</label>
+                                <input
+                                    type="text"
+                                    name="password"
+                                    class="form-control @error('password') is-invalid @enderror"
+                                    id="password"
+                                    placeholder="Kosongkan jika tidak ingin mengubah password"
+                                />
                                 @error('password')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -60,7 +66,7 @@
                                         <label for="prodi" class="form-label">Prodi</label>
                                         <select class="form-select" name="id_prodi" aria-label="Default select example">
                                             <option selected></option>
-                                            @foreach($prodis as $prodi)
+                                            @foreach(\App\Models\Prodi::all() as $prodi)
                                                 @if (old('id_prodi',$data->id_prodi) == $prodi->id_prodi)
                                                     <option value="{{ $prodi->id_prodi }}" selected>{{ $prodi->nama_prodi.'-'. $prodi->jenjang }}</option>
                                                 @else
@@ -77,7 +83,7 @@
                                         <label for="kelas" class="form-label">Kelas</label>
                                         <select class="form-select" name="id_kelas" aria-label="Default select example">
                                             <option selected></option>
-                                            @foreach($kelass as $kelas)
+                                            @foreach(\App\Models\Kelas::all() as $kelas)
                                                 @if (old('id_kelas',$data->id_kelas) == $kelas->id_kelas)
                                                     <option value="{{ $kelas->id_kelas }}" selected>{{ $kelas->nama_kelas }}</option>
                                                 @else

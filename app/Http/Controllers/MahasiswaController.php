@@ -49,11 +49,7 @@ class MahasiswaController extends Controller
 
    public function create()
    {
-       $prodis = Prodi::all();
-       $kelass = Kelas::all();
-       $title = 'Mahasiswa';
-
-       return view('admins.mahasiswa.create', compact('kelass', 'prodis'));
+       return view('admins.mahasiswa.create');
    }
 
     public function store(Request $request, AuthService $authService)
@@ -69,12 +65,9 @@ class MahasiswaController extends Controller
         return view('admins.mahasiswa.detailbiodata')->with('mahasiswa', $mahasiswa);
     }
 
-    public function edit(Mahasiswa $data)
+    public function edit(Mahasiswa $mahasiswa)
     {
-        $prodis = Prodi::all();
-        $kelass = Kelas::all();
-
-        return view('admins.mahasiswa.edit', compact('kelass', 'prodis', 'data'));
+        return view('admins.mahasiswa.edit', ['data' => $mahasiswa]);
     }
 
     public function update(Request $request, Mahasiswa $mahasiswa, AuthService $authService)
@@ -107,35 +100,37 @@ class MahasiswaController extends Controller
         ];
 
         if ($is_edit) {
-            $rules = [
-                'nama_mhs' => 'required',
-                'nama_panggilan' => 'required',
-                'id_agama' => 'required|numeric',
-                'tahun_angkatan' => 'required|numeric',
-                'password' => 'nullable',
-                'tempat_lahir' => 'required',
-                'tgl_lahir' => 'required|date',
-                'jekel' => 'required',
-                'no_hp' => 'required',
-                'anak_ke' => 'required|numeric',
-                'jmlh_saudara' => 'required|numeric',
-                'provinsi' => 'required',
-                'kecamatan' => 'required',
-                'alamat_mhs' => 'required',
-                'nama_sekolah' => 'required',
-                'jurusan' => 'required',
-                'alamat_sekolah' => 'required',
-                'prestasi' => 'required',
-                'nama_ortu' => 'required',
-                'alamat_ortu' => 'required',
-                'pekerjaan_ortu' => 'required',
-                'nohp_ortu' => 'required',
-                'nama_wali' => 'required',
-                'alamat_wali' => 'required',
-                'pekerjaan_wali' => 'required',
-                'nohp_wali' => 'required',
-                'status_biodata' => 'required',
-            ];
+            $rules = [];
+            // $rules = [
+            //     'nim' => 'required|numeric',
+            //     'nama_mhs' => 'required',
+            //     'nama_panggilan' => 'required',
+            //     'id_agama' => 'required|numeric',
+            //     'tahun_angkatan' => 'required|numeric',
+            //     'password' => 'nullable',
+            //     'tempat_lahir' => 'required',
+            //     'tgl_lahir' => 'required|date',
+            //     'jekel' => 'required',
+            //     'no_hp' => 'required',
+            //     'anak_ke' => 'required|numeric',
+            //     'jmlh_saudara' => 'required|numeric',
+            //     'provinsi' => 'required',
+            //     'kecamatan' => 'required',
+            //     'alamat_mhs' => 'required',
+            //     'nama_sekolah' => 'required',
+            //     'jurusan' => 'required',
+            //     'alamat_sekolah' => 'required',
+            //     'prestasi' => 'required',
+            //     'nama_ortu' => 'required',
+            //     'alamat_ortu' => 'required',
+            //     'pekerjaan_ortu' => 'required',
+            //     'nohp_ortu' => 'required',
+            //     'nama_wali' => 'required',
+            //     'alamat_wali' => 'required',
+            //     'pekerjaan_wali' => 'required',
+            //     'nohp_wali' => 'required',
+            //     'status_biodata' => 'required',
+            // ];
         }
 
         $request->validate($rules, []);
@@ -143,6 +138,7 @@ class MahasiswaController extends Controller
 
     public function save_mahasiswa(Request $request, Mahasiswa $mahasiswa)
     {
+        $mahasiswa->nim = $request->nim;
         $mahasiswa->nama_mhs = $request->nama_mhs;
         $mahasiswa->nama_panggilan = $request->nama_panggilan;
         $mahasiswa->id_agama = $request->id_agama;

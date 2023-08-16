@@ -4,18 +4,7 @@
 @section('container')
     @if (session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show mt-2" role="alert"">
-            Data Berhasil di Tambah
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @elseif(session()->has('pesan_edit'))
-        <div class="alert alert-primary alert-dismissible fade show mt-2" role="alert"">
-            Data Berhasil di Edit
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @elseif(session()->has('pesan_hapus'))
-        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert"">
-            Data Berhasil di Hapus
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            {{ session('success') }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
@@ -27,7 +16,7 @@
                 <li class="breadcrumb-item active">Data Mahasiswa</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section dashboard">
         <div class="row">
@@ -79,18 +68,13 @@
                                                         Belum memiliki kelas
                                                     @endif
                                                 </td>
-                                                {{-- <td>{{ $mahasiswa->password }}</td> --}}
                                                 <td>
-                                                    <a href="{{ url('/mahasiswa/' . $mahasiswa->id_mhs) }}" class="btn btn-link"><span
-                                                        class="badge bg-info text-dark"><i
-                                                        class="bi bi-info-circle"></i> Detail</span></a>
-
-                                                        <a href="{{ url('/mahasiswa/' . $mahasiswa->id_mhs . '/edit/') }}" class="btn btn-link"><span
-                                                            class="badge bg-warning text-dark"><i
-                                                            class="bi bi-info-circle"></i> Edit</span></a>
+                                                    <a href="{{ url('/admin/data/mahasiswa/' . $mahasiswa->id_mhs . '/edit/') }}" class="btn btn-link"><span
+                                                        class="badge bg-warning text-dark"><i
+                                                        class="bi bi-info-circle"></i> Edit</span></a>
 
                                                     <form
-                                                        action="{{ '/mahasiswa/' . $mahasiswa->id_mhs }}"
+                                                        action="{{ '/admin/data/mahasiswa/' . $mahasiswa->id_mhs }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -116,12 +100,5 @@
 
         </div>
     </section>
-
-    <!-- The Modal -->
-    <div id="modal_img" class="modal-image">
-        <span class="close">&times;</span>
-        <img class="modal-content-image" id="img01">
-        <div id="caption"></div>
-    </div>
 
 @endsection

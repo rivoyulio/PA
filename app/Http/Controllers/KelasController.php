@@ -27,7 +27,7 @@ class KelasController extends Controller
         $kelass = Kelas::with('prodi','dosen');
 
         return view('admins.kelas.index',[
-            'kelass' => $kelass->paginate(5)
+            'kelass' => $kelass->get()
         ]);
     }
 
@@ -35,23 +35,18 @@ class KelasController extends Controller
     {
         $kelas = Kelas::find($id);
         $mahasiswas = Mahasiswa::all()->where('id_kelas', $id);
-        // dd($mahasiswa);
         return view('admins.kelas.kelasdetail',[
             'kelas' => $kelas,
             'mahasiswas' => $mahasiswas
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $dosens = Dosen::all();
         $prodis = Prodi::all();
         $title = 'Kelas';
+
         return view('admins.kelas.create', compact('dosens', 'prodis', 'title'));
     }
 
@@ -60,15 +55,10 @@ class KelasController extends Controller
         $dosens = Dosen::all();
         $prodis = Prodi::all();
         $title = 'Kelas';
+
         return view('admins.kelas.kelascreate', compact('dosens', 'prodis', 'title'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -99,23 +89,11 @@ class KelasController extends Controller
         return redirect('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Ditambahkan', compact('title'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Kelas  $kelas
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         return view('admins.kelas.kelasdetail', ['kelas' => Kelas::find($id)]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Kelas  $kelas
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Kelas $kelas, $id)
     {
         $prodis = Prodi::all();
@@ -125,13 +103,6 @@ class KelasController extends Controller
         return view('admins.kelas.edit', compact('dosens', 'prodis', 'data'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Kelas  $kelas
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Kelas $kelas, $id)
     {
 
@@ -164,16 +135,9 @@ class KelasController extends Controller
         return redirect('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Diubah', compact('title'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Kelas  $kelas
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Kelas $kelas)
+    public function destroy($id)
     {
-        $data = Kelas::where('id_kelas', $kelas->id_kelas)->first();
-        Kelas::where('id_kelas', $kelas->id_kelas)->delete();
+        Kelas::where('id_kelas', $id)->delete();
         return redirect('/admin/data/kelas')->withSuccessMessage('Data Kelas Berhasil Dihapus');
     }
 
