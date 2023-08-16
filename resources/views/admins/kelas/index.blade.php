@@ -57,7 +57,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Kelas</h5>
 
-                                <table class="table table-borderless datatable">
+                                <table class="table table-borderless">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
@@ -74,28 +74,24 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td><a href="{{ url('/admin/data/kelas/'.$kelas->id_kelas) }}" style="text-decoration: none;">{{ $kelas->nama_kelas }}</a></td>
-                                                {{-- <td>{{ $kelas->nama_kelas }}</td> --}}
                                                 <td>{{ $kelas->prodi->nama_prodi }}</td>
                                                 <td>{{ $kelas->dosen->nama_dosen }}</td>
                                                 <td>{{ $kelas->tahun_angkatan }}</td>
                                                 <td>{{ $kelas->jumlah }}</td>
                                                 <td>
-                                                    {{-- <a href="{{ url('/admin/data/kelas/' . $kelas->id_kelas) }}" class="btn btn-link"><span
-                                                        class="badge bg-info text-dark"><i
-                                                        class="bi bi-info-circle"></i> Detail</span></a> --}}
-
-                                                        <a href="{{ url('/admin/data/kelas/' . $kelas->id_kelas . '/edit/') }}" class="btn btn-link"><span
-                                                            class="badge bg-warning text-dark"><i
-                                                            class="bi bi-info-circle"></i> Edit</span></a>
-
-                                                    <form
-                                                        action="{{ '/admin/data/kelas/' . $kelas->id_kelas }}"
-                                                        method="POST">
+                                                    <a href="{{ url('/admin/data/kelas/' . $kelas->id_kelas . '/edit/') }}" class="btn btn-link">
+                                                        <span class="badge bg-warning text-dark">
+                                                            <i class="bi bi-info-circle"></i> Edit
+                                                        </span>
+                                                    </a>
+                                                    <form action="{{ '/admin/data/kelas/' . $kelas->id_kelas }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" id="#delete" class="btn btn-link"><span
-                                                                class="badge bg-danger text-dark"><i
-                                                                    class="bi bi-trash"></i> Hapus</span></button>
+                                                        <button type="submit" id="#delete" class="btn btn-link">
+                                                            <span class="badge bg-danger text-dark">
+                                                                <i class="bi bi-trash"></i> Hapus
+                                                            </span>
+                                                        </button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -115,12 +111,5 @@
 
         </div>
     </section>
-
-    <!-- The Modal -->
-    <div id="modal_img" class="modal-image">
-        <span class="close">&times;</span>
-        <img class="modal-content-image" id="img01">
-        <div id="caption"></div>
-    </div>
 
 @endsection
