@@ -44,8 +44,7 @@
                                         <label for="prodi" class="form-label">Prodi</label>
                                         <select class="form-select" name="id_prodi" aria-label="Default select example">
                                             <option selected></option>
-                                            @foreach($prodis as $prodi)
-
+                                            @foreach(\App\Models\Prodi::all() as $prodi)
                                                 @if (old('id_prodi') == $prodi->id_prodi)
                                                     <option value="{{ $prodi->id_prodi }}" selected>{{ $prodi->nama_prodi.'-'. $prodi->jenjang }}</option>
                                                 @else
@@ -62,8 +61,7 @@
                                         <label for="kelas" class="form-label">Kelas</label>
                                         <select class="form-select" name="id_kelas" aria-label="Default select example">
                                             <option selected></option>
-                                            @foreach($kelass as $kelas)
-
+                                            @foreach(\App\Models\Kelas::all() as $kelas)
                                                 @if (old('id_kelas') == $kelas->id_kelas)
                                                     <option value="{{ $kelas->id_kelas }}" selected>{{ $kelas->nama_kelas }}</option>
                                                 @else
