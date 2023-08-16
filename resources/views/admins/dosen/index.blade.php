@@ -70,13 +70,9 @@
                                                 <td>{{ $dosen->alamat }}</td>
                                                 <td>{{ $dosen->notelp }}</td>
                                                 <td>
-                                                    <a href="{{ url('/admin/data/dosen/' . $dosen->id_dosen) }}" class="btn btn-link"><span
-                                                        class="badge bg-info text-dark"><i
-                                                        class="bi bi-info-circle"></i> Detail</span></a>
-
-                                                        <a href="{{ url('/admin/data/dosen/' . $dosen->id_dosen . '/edit/') }}" class="btn btn-link"><span
-                                                            class="badge bg-warning text-dark"><i
-                                                            class="bi bi-info-circle"></i> Edit </span></a>
+                                                    <a href="{{ url('/admin/data/dosen/' . $dosen->id_dosen . '/edit/') }}" class="btn btn-link"><span
+                                                        class="badge bg-warning text-dark"><i
+                                                        class="bi bi-info-circle"></i> Edit </span></a>
 
                                                     <form
                                                         action="{{ '/admin/data/dosen/' . $dosen->id_dosen }}"

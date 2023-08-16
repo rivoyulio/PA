@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dosen extends Model
 {
     use HasFactory;
-    
+
     protected $primaryKey = 'id_dosen';
 
     protected $fillable = [
@@ -24,8 +24,8 @@ class Dosen extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
-      
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
+
     }
 
     public function mahasiswa()

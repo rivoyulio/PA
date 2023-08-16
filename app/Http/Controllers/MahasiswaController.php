@@ -138,7 +138,9 @@ class MahasiswaController extends Controller
 
     public function save_mahasiswa(Request $request, Mahasiswa $mahasiswa)
     {
-        $mahasiswa->nim = $request->nim;
+        if ($request->nim) {
+            $mahasiswa->nim = $request->nim;
+        }
         $mahasiswa->nama_mhs = $request->nama_mhs;
         $mahasiswa->nama_panggilan = $request->nama_panggilan;
         $mahasiswa->id_agama = $request->id_agama;
