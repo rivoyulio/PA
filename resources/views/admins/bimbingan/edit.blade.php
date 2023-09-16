@@ -35,7 +35,7 @@
                                             class="form-control @error('tanggal_bimbingan') is-invalid @enderror"
                                             id="tanggal_bimbingan"
                                             value="{{ old('tanggal_bimbingan', $bimbingan->tanggal_bimbingan) }}"
-                                            {{ $is_dosen ? 'disabled' : '' }}
+                                            {{ $is_dosen ? 'readonly' : '' }}
                                         />
                                         @error('tanggal_bimbingan')
                                             <div class="invalid-feedback">
@@ -45,7 +45,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="bimbingan" class="form-label">Bimbingan</label>
-                                        <textarea class="form-control @error('pesan_mhs') is-invalid @enderror" name="bimbingan" id="bimbingan" rows="4" {{ $is_dosen ? 'disabled' : '' }}>{{ old('bimbingan', $bimbingan->bimbingan) }}</textarea>
+                                        <textarea class="form-control @error('pesan_mhs') is-invalid @enderror" name="bimbingan" id="bimbingan" rows="4" {{ $is_dosen ? 'readonly' : '' }}>{{ old('bimbingan', $bimbingan->bimbingan) }}</textarea>
                                         @error('bimbingan')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -54,7 +54,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="pesan_mhs" class="form-label">Permasalahan Mahasiswa</label>
-                                        <textarea class="form-control @error('pesan_mhs') is-invalid @enderror" name="pesan_mhs" id="pesan_mhs" rows="4" {{ $is_dosen ? 'disabled' : '' }}>{{ old('pesan_mhs', $bimbingan->pesan_mhs) }}</textarea>
+                                        <textarea class="form-control @error('pesan_mhs') is-invalid @enderror" name="pesan_mhs" id="pesan_mhs" rows="4" {{ $is_dosen ? 'readonly' : '' }}>{{ old('pesan_mhs', $bimbingan->pesan_mhs) }}</textarea>
                                         @error('pesan_mhs')
                                             <div class="invalid-feedback">
                                                 {{ $message }}

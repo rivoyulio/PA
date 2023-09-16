@@ -22,7 +22,7 @@
     <script src="/NiceAdmin/assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="/NiceAdmin/assets/vendor/php-email-form/validate.js"></script>
     <script src="/NiceAdmin/assets/js/main.js"></script>
-    <script src="/js/script.js"></script>
+    {{-- <script src="/js/script.js"></script> --}}
 
   </body>
 </html>

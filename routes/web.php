@@ -9,6 +9,7 @@ use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\AgamaController;
 use App\Http\Controllers\BimbinganController;
 use App\Http\Controllers\PelanggaranController;
+use App\Http\Controllers\KomdisController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpController;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -59,6 +60,7 @@ Route::middleware([RedirectIfNotAuthenticated::class])->group(
         Route::resource('/admin/data/kelas', KelasController::class);
         Route::resource('/admin/data/prodi', ProdiController::class);
         Route::resource('/admin/data/agama', AgamaController::class);
+        Route::resource('/admin/data/komdis', KomdisController::class);
 
         Route::get('/sp/print', [SpController::class, 'print'])->name('sp.print');
         Route::get('/pelanggaran/print', [PelanggaranController::class, 'print'])->name('pelanggaran.print');

@@ -26,7 +26,7 @@
                                         <i class="bi bi-people"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{ App\Models\User::count() }}</h6>
+                                        <h6>{{ App\Models\Mahasiswa::count() }}</h6>
                                         <span class="text-muted small pt-2 ps-1">
                                             Total Mahasiswa
                                         </span>

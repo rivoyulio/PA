@@ -51,6 +51,11 @@
                             <i class="bi bi-circle"></i><span>Data Pelanggaran</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="nav-link {{ Request::is('/komdis') ? 'active' : '' }}" href="{{ url('/komdis') }}">
+                            <i class="bi bi-circle"></i><span>Data Komdis</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item">
@@ -59,24 +64,29 @@
                     <span>User</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/laporan/kelas') }}">
-                    <i class="bi bi-file-earmark"></i>
-                    <span>Laporan Per Kelas</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/laporan/mahasiswa-bimbingan') }}">
-                    <i class="bi bi-file-earmark"></i>
-                    <span>Laporan Bimbingan Mahasiswa</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/laporan/mahasiswa-tidak-bimbingan') }}">
-                    <i class="bi bi-file-earmark"></i>
-                    <span>Laporan Yang Tidak Bimbingan</span>
-                </a>
-            </li>
+            <a class="nav-link" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-journal-text"></i><span>Laporan</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/laporan/kelas') }}">
+                        <i class="bi bi-file-earmark"></i>
+                        <span>Laporan Per Kelas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/laporan/mahasiswa-bimbingan') }}">
+                        <i class="bi bi-file-earmark"></i>
+                        <span>Laporan Bimbingan Mahasiswa</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/laporan/mahasiswa-tidak-bimbingan') }}">
+                        <i class="bi bi-file-earmark"></i>
+                        <span>Laporan Yang Tidak Bimbingan</span>
+                    </a>
+                </li>
+            </ul>
         @endif
 
         @if($authService->currentUserIsDosen())
