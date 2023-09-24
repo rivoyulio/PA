@@ -2,6 +2,9 @@
 
 @extends('admins.layouts.main')
 @section('container')
+@php
+    use Illuminate\Support\Str;
+@endphp
     @if(session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show mt-2" role="alert"">
             {{ session('success')}} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -41,8 +44,9 @@
                                             <th scope="col">NIM</th>
                                             <th scope="col">Tanggal Bimbingan</th>
                                             <th scope="col">Bimbingan</th>
+                                            <th scope="col">Topik</th>
                                             <th scope="col">Permasalahan Mahasiswa</th>
-                                            <th scope="col">Solusi Dosen</th>
+                                            <th scope="col">Dokumen</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
@@ -54,13 +58,21 @@
                                                 <td>{{ $bimbingan->mahasiswa->nim }}</td>
                                                 <td>{{ $bimbingan->tanggal_bimbingan }}</td>
                                                 <td>{{ $bimbingan->bimbingan }}</td>
+                                                <td>{{ $bimbingan->topic }}</td>
                                                 <td>{{ $bimbingan->pesan_mhs }}</td>
-                                                <td>{{ $bimbingan->pesan_dosen }}</td>
                                                 <td>
-                                                    <a href="{{ url('/bimbingan/' . $bimbingan->id_bimbingan) }}" class="btn btn-link">
+                                                    <a href="{{ Storage::url($bimbingan->file) }}" target="_blank" class="card p-2 rounded">{{ \Illuminate\Support\Str::afterLast($bimbingan->file, '/') }}</a>
+                                                </td>
+                                                <td>
+                                                    <!-- <a href="{{ url('/bimbingan/' . $bimbingan->id_bimbingan) }}" class="btn btn-link">
                                                         <span class="badge bg-warning text-dark">
-                                                            <i class="bi bi-info-circle"></i> Edit</span>
-                                                        </a>
+                                                            <i class="bi bi-info-circle"></i> Edit
+                                                        </span>
+                                                    </a> -->
+                                                    <a href="{{ url('/bimbingan/' . $bimbingan->id_bimbingan) }}" class="btn btn-link">
+                                                    <span class="badge bg-warning text-dark">
+                                                        <i class="bi bi-info-circle"></i> Detail</span>
+                                                    </a>
                                                     <form action="{{ '/bimbingan/' . $bimbingan->id_bimbingan }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')

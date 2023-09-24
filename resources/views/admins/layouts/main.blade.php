@@ -12,6 +12,8 @@
       <i class="bi bi-arrow-up-short"></i>
     </a>
 
+    @stack('reply')
+    @stack('reset_waktu')
     <!-- Vendor JS Files -->
     <script src="/NiceAdmin/assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

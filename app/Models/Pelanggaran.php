@@ -13,17 +13,20 @@ class Pelanggaran extends Model
 
     protected $fillable = [
         'id_pelanggaran',
-        'id_sp',
         'id_mhs',
+        'tanggal',
+        'id_semester',
+        'waktu_keterlambatan',
+        'surat'
     ];
-
-    public function sp()
-    {
-        return $this->belongsTo(Sp::class, 'id_sp', 'id_sp');
-    }
 
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'id_mhs', 'id_mhs');
+    }
+
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class, 'id_semester');
     }
 }

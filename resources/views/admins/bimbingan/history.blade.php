@@ -33,6 +33,7 @@
                                             <th scope="col">NIM</th>
                                             <th scope="col">Kelas</th>
                                             <th scope="col">Program Studi</th>
+                                            <th>Topik Bimbingan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -47,7 +48,13 @@
                                                 <td>{{ $mahasiswa->nim }}</td>
                                                 <td>{{ $mahasiswa->kelas->nama_kelas }}</td>
                                                 <td>{{ $mahasiswa->prodi->nama_prodi }}</td>
-                                                <td>
+                                                <td rowspan="2">
+                                                @foreach($mahasiswa->bimbingan as $data)
+                                                    <ul>
+                                                        <li>{{ $data->topic }}</li>
+                                                    </ul>
+                                                @endforeach
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

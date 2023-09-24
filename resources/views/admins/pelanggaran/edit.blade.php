@@ -6,7 +6,7 @@
             <div class="col-md-2"></div>
             <div class="col-md-8 mt-5">
                 <form action="/pelanggaran/{{ $pelanggaran->id_pelanggaran }}" method="post" enctype="multipart/form-data">
-                    @method('PUT')
+                    @method('PATCH')
                     @csrf
                     <div class="card">
                         <h5 class="card-header text-center font-weight-bold">Edit Data Pelanggaran</h5><br>
@@ -24,25 +24,6 @@
                                     placeholder="Pelanggaran"
                                 >
                                 @error('pelanggaran')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="prodi" class="form-label">SP</label>
-                                <select class="form-select @error('id_sp') is-invalid @enderror" name="id_sp">
-                                    <option selected value="">Pilih SP</option>
-                                    @foreach($sps as $sp)
-                                        @if (old('id_sp', $pelanggaran->id_sp) == $sp->id_sp)
-                                            <option value="{{ $sp->id_sp }}" selected>{{ $sp->nama_sp }}</option>
-                                        @else
-                                            <option value="{{ $sp->id_sp }}">{{ $sp->nama_sp }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                @error('id_sp')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -69,21 +50,6 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="surat" class="form-label">Surat SP</label>
-                                <input
-                                    type="file"
-                                    name="surat"
-                                    class="form-control @error('surat') is-invalid @enderror"
-                                    id="surat"
-                                >
-                                @error('surat')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="tanggal" class="form-label">Tanggal</label>
                                 <input
                                     type="date"
@@ -100,15 +66,29 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="tanggal" class="form-label">Semester</label>
+                                <label for="semester" class="form-label">Semester</label>
+                                <select name="id_semester" id="semester" class="form-select">
+                                    @foreach($semesters as $semester)
+                                        <option value="{{ $semester->id_semester }}" @if ($pelanggaran->id_semester == $semester->id_semester || old('semester') === $semester->id_semester) selected @endif>{{ $semester->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('semester')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="waktu_keterlambatan" class="form-label">Tambahan Waktu Keterlambatan</label>
                                 <input
                                     type="number"
-                                    name="semester"
-                                    class="form-control @error('semester') is-invalid @enderror"
-                                    id="semester"
-                                    value="{{ old('semester', $pelanggaran->semester) }}"
+                                    name="waktu_keterlambatan"
+                                    class="form-control @error('waktu_keterlambatan') is-invalid @enderror"
+                                    id="waktu_keterlambatan"
+                                    value="{{ old('waktu_keterlambatan', $pelanggaran->waktu_keterlambatan) }}"
                                 >
-                                @error('semester')
+                                @error('waktu_keterlambatan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -124,4 +104,15 @@
             </div>
         </div>
     </div>
+@push('reset_waktu')
+<script>
+    const semesterSelect = document.getElementById('semester');
+
+    const waktuKeterlambatan = document.getElementById('waktu_keterlambatan');
+
+    semesterSelect.addEventListener('change', function(){
+        waktuKeterlambatan.value = 0;
+    });
+</script>
+@endpush
 @endsection

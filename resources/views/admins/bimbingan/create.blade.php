@@ -49,6 +49,15 @@
                                         @enderror
                                     </div>
                                     <div class="mb-3">
+                                        <label for="topic" class="form-label">Topik Bimbingan</label>
+                                        <input type="text" class="form-control @error('topic') is-invalid @enderror" name="topic" id="topic" value="{{ old('topic') }}">
+                                        @error('topic')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="bimbingan" class="form-label">Bimbingan</label>
                                         <textarea class="form-control @error('pesan_mhs') is-invalid @enderror" name="bimbingan" id="bimbingan" rows="4">{{ old('bimbingan')  }}</textarea>
                                         @error('bimbingan')
@@ -61,6 +70,15 @@
                                         <label for="pesan_mhs" class="form-label">Permasalahan Mahasiswa</label>
                                         <textarea class="form-control @error('pesan_mhs') is-invalid @enderror" name="pesan_mhs" id="pesan_mhs" rows="4">{{ old('pesan_mhs') }}</textarea>
                                         @error('pesan_mhs')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="file" class="form-label">Upload File Pendukung</label>
+                                        <input type="file" name="file" id="file" class="form-control @error('file') is-invalid @enderror">
+                                        @error('file')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>

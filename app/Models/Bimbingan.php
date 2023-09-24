@@ -13,13 +13,20 @@ class Bimbingan extends Model
     protected $fillable = [
         'id_mhs',
         'tanggal_bimbingan',
+        'topic',
         'bimbingan',
         'pesan_mhs',
         'pesan_dosen',
+        'file'
     ];
 
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'id_mhs', 'id_mhs');
+    }
+
+    public function reply()
+    {
+        return $this->hasMany(ReplyBimbingan::class, 'id_bimbingan');
     }
 }

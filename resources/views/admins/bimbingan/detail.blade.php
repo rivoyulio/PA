@@ -1,6 +1,9 @@
 @extends('admins.layouts.main')
 
 @section('container')
+@php
+    use Illuminate\Support\Str;
+@endphp
     <div class="pagetitle">
         <h1>Detail Bimbingan</h1>
         <nav>
@@ -42,9 +45,11 @@
                                         <tr>
                                             <th scope="col">No</th>
                                             <th scope="col">Tanggal Bimbingan</th>
+                                            <th scope="col">Topik</th>
                                             <th scope="col">Bimbingan</th>
                                             <th scope="col">Permasalahan Mahasiswa</th>
-                                            <th scope="col">Solusi Dosen</th>
+                                            <th scope="col">File</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -52,9 +57,15 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $bimbingan->tanggal_bimbingan }}</td>
+                                                <td>{{ $bimbingan->topic }}</td>
                                                 <td>{{ $bimbingan->bimbingan }}</td>
                                                 <td>{{ $bimbingan->pesan_mhs }}</td>
-                                                <td>{{ $bimbingan->pesan_dosen }}</td>
+                                                <td>
+                                                    <a href="{{ Storage::url($bimbingan->file) }}" target="_blank" class="card p-2 rounded">{{ \Illuminate\Support\Str::afterLast($bimbingan->file, '/') }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('bimbingan.detail', $bimbingan->id_bimbingan) }}" class="btn btn-outline-primary">Lihat Detail</a>
+                                                </td>
                                                 <td>
                                             </tr>
                                         @endforeach

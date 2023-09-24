@@ -74,6 +74,9 @@ Route::middleware([RedirectIfNotAuthenticated::class])->group(
         Route::get('/dosen/bimbingan','App\Http\Controllers\BimbinganController@indexdosen');
         Route::get('/dosen/bimbingan/history','App\Http\Controllers\BimbinganController@indexhistory');
         Route::get('/dosen/bimbingan/detailbimbingan','App\Http\Controllers\BimbinganController@indexhistorydetail'); //baru bikin
+        // additional route dosen
+        Route::get('dosen/bimbingan/detail/{id}', [BimbinganController::class, 'detail_bimbingan'])->name('bimbingan.detail');
+
 
         // route kaprodi
         Route::get('/kaprodi','App\Http\Controllers\KaprodiController@profile');
@@ -91,6 +94,10 @@ Route::middleware([RedirectIfNotAuthenticated::class])->group(
         Route::get('/mahasiswa/bimbingan','App\Http\Controllers\BimbinganController@indexdetail');
         // Route::get('/mahasiswa/bimbingan/detail','App\Http\Controllers\BimbinganController@indexdetail');
         Route::get('/mahasiswa/bimbingan/cetak','App\Http\Controllers\BimbinganController@cetak');
+        
+        // route mahasiswa additional detail bimbingan
+        Route::get('mahasiswa/bimbingan/detail/{id}', [BimbinganController::class, 'detail_bimbingan'])->name('bimbingan.detail');
+        Route::post('mahasiswa/post_reply/{id}', [BimbinganController::class, 'store_reply'])->name('bimbingan.reply');
 
         // Shared
         Route::resource('/mahasiswa', MahasiswaController::class)->only(['show']);

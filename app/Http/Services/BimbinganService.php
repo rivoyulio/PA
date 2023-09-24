@@ -8,7 +8,7 @@ class BimbinganService
 {
     public function getBimbinganMahasiswa($mahasiswa_id)
     {
-        return Bimbingan::whereHas('mahasiswa', fn ($query) => $query->where('id_mhs', $mahasiswa_id))->get();
+        return Bimbingan::with(['reply'])->whereHas('mahasiswa', fn ($query) => $query->where('id_mhs', $mahasiswa_id))->get();
     }
 
     public function getBimbinganDosen()

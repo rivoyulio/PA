@@ -46,7 +46,7 @@
                                                 <select style="width: 200px" class="form-select form-select-sm" name="semester" id="semester">
                                                     <option selected value="">Pilih Semester</option>
                                                     @foreach ($semester_list as $s)
-                                                        <option value="{{ $s->semester }}" {{ $s->semester == $semester ? 'selected' : '' }}>{{ $s->semester }}</option>
+                                                        <option value="{{ $s->id_semester }}">{{ $s->semester->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -63,13 +63,14 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">No</th>
-                                                <th scope="col">SP</th>
                                                 <th scope="col">Pelanggaran</th>
                                                 <th scope="col">Tanggal</th>
                                                 <th scope="col">Semester</th>
                                                 <th scope="col">Nama Mahasiswa</th>
                                                 <th scope="col">Prodi</th>
                                                 <th scope="col">Kelas</th>
+                                                <th scope="col">Waktu Keterlambatan</th>
+                                                <th scope="col">Status</th>
                                                 <th scope="col">Surat</th>
                                                 @if($authService->currentUserIsAdmin())
                                                     <th scope="col">Aksi</th>
@@ -80,16 +81,17 @@
                                             @foreach ($pelanggaran as $p)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $p->sp->nama_sp }}</td>
                                                     <td>{{ $p->pelanggaran }}</td>
                                                     <td>{{ $p->tanggal }}</td>
-                                                    <td>{{ $p->semester }}</td>
+                                                    <td>{{ $p->semester->name }}</td>
                                                     <td>{{ $p->mahasiswa->nama_mhs }}</td>
                                                     <td>{{ $p->mahasiswa->prodi->nama_prodi }}</td>
                                                     <td>{{ $p->mahasiswa->kelas->nama_kelas }}</td>
+                                                    <td>{{ $p->waktu_keterlambatan }}</td>
+                                                    <td>{{ $p->status }}</td>
                                                     <td>
                                                         @if($p->surat)
-                                                            <a href="{{ url('surat') . '/' . $p->surat }}" target="_blank">
+                                                            <a href="{{ Storage::url($p->surat) }}" target="_blank">
                                                                 Buka Surat
                                                             </a>
                                                         @else -

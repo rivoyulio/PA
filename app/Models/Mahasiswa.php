@@ -17,7 +17,7 @@ class Mahasiswa extends Model implements Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-
+    protected $table = 'mahasiswas';  
     protected $primaryKey = 'id_mhs';
 
     protected $fillable = [

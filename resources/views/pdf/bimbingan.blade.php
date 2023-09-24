@@ -24,7 +24,7 @@
 </style>
 <div class="bimbingan">
     <div class="overview">
-        <span>Nama Dosen: {{ $mahasiswa->kelas->dosen->nama_dosen}}</span>
+        <span>Nama Dosen: {{ $mahasiswa->kelas->dosen->nama_dosen }}</span>
         <span>Nama Mahasiswa: {{ $mahasiswa->nama_mhs }}</span>
         <span>NIM: {{ $mahasiswa->nim }}</span>
         <span>Kelas: {{ $mahasiswa->kelas->nama_kelas }}</span>
@@ -36,7 +36,6 @@
                 <th>Tanggal Bimbingang</th>
                 <th>Bimbingan</th>
                 <th>Permasalahan Mahasiswa</th>
-                <th>Solusi Dosen</th>
             </tr>
         </thead>
         <tbody>
@@ -46,8 +45,16 @@
                 <td>{{ $bimbingan->tanggal_bimbingan  }}</td>
                 <td>{{ $bimbingan->bimbingan }}</td>
                 <td>{{ $bimbingan->pesan_mhs }}</td>
-                <td>{{ $bimbingan->pesan_dosen }}</td>
             </tr>
+            <tr>
+                <th colspan="12">Solusi Dosen</th>
+            </tr>
+                @foreach($replies as $data)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td colspan="12">{{ $data->message }}</td>
+                </tr>
+                @endforeach
             @endforeach
         </tbody>
     </table>

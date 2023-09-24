@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PelanggaranRequest;
 use App\Http\Services\AuthService;
 use App\Models\Mahasiswa;
 use App\Models\Pelanggaran;
+use App\Models\Semester;
 use App\Models\Sp;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PelanggaranController extends Controller
 {
@@ -17,7 +21,8 @@ class PelanggaranController extends Controller
         $semester = $request->semester;
 
         $pelanggaran = $this->get_pelanggaran($authService, $tahun, $semester);
-        $semester_list = Pelanggaran::selectRaw('semester')->distinct()->whereNotNull('semester')->get();
+        $semester_list = Pelanggaran::with('semester')->selectRaw('id_semester')->distinct()->whereNotNull('id_semester')->get();
+        
         $tahun_list = Mahasiswa::select('tahun_angkatan as tahun')->distinct()->whereNotNull('tahun_angkatan')->get();
 
         $data = compact(
@@ -62,10 +67,41 @@ class PelanggaranController extends Controller
         return view('admins.pelanggaran.edit', $data);
     }
 
-    public function update(Request $request, Pelanggaran $pelanggaran)
+    public function update(PelanggaranRequest $request, $id)
     {
-        $this->validate_pelanggaran($request);
-        $this->save_pelanggaran($request, $pelanggaran);
+        $data = $request->all();
+        $pelanggaran = Pelanggaran::with('mahasiswa')->findOrFail($id);
+        $existing = $pelanggaran->waktu_keterlambatan;
+        $newtime = (int)$data['waktu_keterlambatan'];
+        
+        //akan berjalan ketika semester masih sama
+        if($pelanggaran->id_semester == $data['id_semester']){
+            $totaltime = $existing += $newtime;
+            $data['waktu_keterlambatan'] = $totaltime;
+        } else {
+            $data['waktu_keterlambatan'] = $newtime;
+        }
+
+        $pelanggaran->update($data);
+
+        // dd($data);
+        if($totaltime >= 15)
+        {
+            $pelanggaran->status = 'sp1';
+            $pelanggaran->save();
+
+            $pdfPath = $this->generate_sp1($id);
+            $pelanggaran->surat = $pdfPath;
+            $pelanggaran->save();
+        } 
+        elseif ($totaltime >= 30){
+            $pelanggaran->status = 'sp2';
+        }
+        elseif ($totaltime >= 45){
+            $pelanggaran->status = 'sp3';
+        }
+
+        // dd($data);
 
         return redirect('/pelanggaran')->with('success', 'Data berhasil diubah!');
     }
@@ -80,7 +116,7 @@ class PelanggaranController extends Controller
     {
         $current_user = $authService->currentUserGuardInstance()->user();
 
-        $pelanggaran = Pelanggaran::with('mahasiswa');
+        $pelanggaran = Pelanggaran::with('mahasiswa', 'semester');
 
         if ($authService->currentUserGuard() == 'web') {
             if ($authService->currentUserIsDosen()) {
@@ -100,7 +136,7 @@ class PelanggaranController extends Controller
             $pelanggaran = Pelanggaran::where('id_mhs', $current_user->id_mhs);
         }
 
-        if ($semester) $pelanggaran = $pelanggaran->where('semester', $semester);
+        if ($semester) $pelanggaran = $pelanggaran->where('id_semester', $semester);
         if ($tahun) $pelanggaran = $pelanggaran->whereHas(
             'mahasiswa', fn ($query) => $query->where('tahun_angkatan', $tahun)
         );
@@ -110,53 +146,77 @@ class PelanggaranController extends Controller
 
     private function save_pelanggaran(Request $request, Pelanggaran $pelanggaran)
     {
-        $pelanggaran->id_sp = $request->id_sp;
         $pelanggaran->pelanggaran = $request->pelanggaran;
         $pelanggaran->id_mhs = $request->id_mhs;
         $pelanggaran->tanggal = $request->tanggal;
-        $pelanggaran->semester = $request->semester;
+        $pelanggaran->id_semester = $request->id_semester;
+        $pelanggaran->waktu_keterlambatan = $request->waktu_keterlambatan;
 
-        if ($request->hasFile('surat')) {
-            if ($pelanggaran->surat) unlink(public_path('surat/' . $pelanggaran->surat));
-            $surat = $request->file('surat');
-            $surat_name = time() . '_' . $surat->getClientOriginalName();
-            $surat->move(public_path('surat'), $surat_name);
-
-            $pelanggaran->surat = $surat_name;
+        if($request->waktu_keterlambatan >= 15){
+            $pelanggaran->status = 'sp1';
+        } elseif ($request->waktu_keterlambatan >= 30){
+            $pelanggaran->status = 'sp2';
+        } elseif ($request->waktu_keterlambatan >= 45){
+            $pelanggaran->status = 'sp3';
         }
+
+        // if ($request->hasFile('surat')) {
+        //     if ($pelanggaran->surat) unlink(public_path('surat/' . $pelanggaran->surat));
+        //     $surat = $request->file('surat');
+        //     $surat_name = time() . '_' . $surat->getClientOriginalName();
+        //     $surat->move(public_path('surat'), $surat_name);
+
+        //     $pelanggaran->surat = $surat_name;
+        // }
 
         $pelanggaran->save();
     }
 
     private function load_relation()
     {
-        $sps = Sp::all();
+        $semesters = Semester::all();
         $mahasiswas = Mahasiswa::all();
 
-        return compact('sps', 'mahasiswas');
+        return compact('mahasiswas', 'semesters');
     }
 
     private function validate_pelanggaran(Request $request)
     {
         $rules = [
-            'id_sp' => 'required',
-            'id_mhs' => 'required',
+            'id_mhs' => 'required|exists:mahasiswas,id_mhs',
             'pelanggaran' => 'required',
-            'surat' => 'nullable|mimes:pdf|max:5120', // max 5MB
             'tanggal' => 'required',
-            'semester' => 'required'
+            'id_semester' => 'required|exists:semester,id_semester',
+            'waktu_keterlambatan' => 'required|numeric'
         ];
 
         $messages = [
-            'id_sp.required' => 'ID SP harus diisi',
             'id_mhs.required' => 'ID Mahasiswa harus diisi',
             'pelanggaran.required' => 'Pelanggaran harus diisi',
-            'surat.mimes' => 'Surat harus berupa file PDF',
-            'surat.max' => 'Ukuran file maksimal 5MB',
             'tanggal.required' => 'Tanggal harus diisi',
-            'semester.required' => 'Semester harus diisi'
+            'id_semester.required' => 'Semester harus diisi',
+            'waktu_keterlambatan.required' => 'Waktu harus diisi'
         ];
 
         $request->validate($rules, $messages);
+    }
+
+    public function generate_sp1($id)
+    {
+        $pelanggaran = Pelanggaran::findOrFail($id);
+        $pdf = Pdf::loadView('pdf.sp', compact('pelanggaran'));
+        $pdf = $pdf->setPaper('a4', 'potrait');
+
+        $pdfContent = $pdf->output();
+
+        $pdfPath = 'sp1/'. uniqid() . '.pdf';
+        Storage::disk('public')->put($pdfPath, $pdfContent);
+
+        return $pdfPath;
+    }
+
+    public function generate_sp3($id)
+    {
+
     }
 }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('bimbingan');
             $table->text('pesan_mhs');
             $table->text('pesan_dosen')->nullable();
+            $table->string('file');
             $table->timestamps();
         });
     }
