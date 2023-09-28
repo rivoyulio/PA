@@ -48,11 +48,11 @@
                                                 <td>{{ $mahasiswa->nim }}</td>
                                                 <td>{{ $mahasiswa->kelas->nama_kelas }}</td>
                                                 <td>{{ $mahasiswa->prodi->nama_prodi }}</td>
-                                                <td rowspan="2">
+                                                <td colspan="2">
                                                 @foreach($mahasiswa->bimbingan as $data)
-                                                    <ul>
-                                                        <li>{{ $data->topic }}</li>
-                                                    </ul>
+                                                <ul>
+                                                    <li>{{ $data->topic }}</li>
+                                                </ul>
                                                 @endforeach
                                                 </td>
                                             </tr>

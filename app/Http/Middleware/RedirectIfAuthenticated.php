@@ -26,7 +26,7 @@ class RedirectIfAuthenticated
         }
 
         if ($has_session) {
-            return redirect($has_session == 'web' ? '/dashboard' : '/mahasiswa')->with('messageLogin', 'Kamu Dalam Keadaan Login');
+            return redirect($has_session == 'web' ? '/' : '/mahasiswa')->with('messageLogin', 'Kamu Dalam Keadaan Login');
         }
 
         return $next($request);

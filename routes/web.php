@@ -17,6 +17,7 @@ use App\Http\Middleware\RedirectIfMahasiswaNotAuthenticated;
 use App\Http\Middleware\RedirectIfNotAuthenticated;
 use App\Models\Bimbingan;
 use App\Models\Mahasiswa;
+use App\Models\Pelanggaran;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -76,7 +77,7 @@ Route::middleware([RedirectIfNotAuthenticated::class])->group(
         Route::get('/dosen/bimbingan/detailbimbingan','App\Http\Controllers\BimbinganController@indexhistorydetail'); //baru bikin
         // additional route dosen
         Route::get('dosen/bimbingan/detail/{id}', [BimbinganController::class, 'detail_bimbingan'])->name('bimbingan.detail');
-
+        Route::get('dosen/pelanggaran/action', [PelanggaranController::class, 'tindak_lanjut'])->name('pelanggaran.action');
 
         // route kaprodi
         Route::get('/kaprodi','App\Http\Controllers\KaprodiController@profile');

@@ -52,7 +52,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link {{ Request::is('/komdis') ? 'active' : '' }}" href="{{ url('/komdis') }}">
+                        <a class="nav-link {{ Request::is('/admin/data/komdis') ? 'active' : '' }}" href="{{ url('/admin/data/komdis') }}">
                             <i class="bi bi-circle"></i><span>Data Komdis</span>
                         </a>
                     </li>
@@ -128,10 +128,22 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('/pelanggaran') ? 'active' : '' }}" href="{{ url('/pelanggaran') }}">
-                    <i class="bi bi-file-earmark"></i>
-                    <span>Pelanggaran</span>
-                </a>
+                <a class="nav-link" data-bs-target="#pelanggaran-nav" data-bs-toggle="collapse" href="#">Pelanggaran</a>
+                <ul id="pelanggaran-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a class="nav-link {{ Request::is('/pelanggaran') ? 'active' : '' }}" href="{{ url('/pelanggaran') }}">
+                            <i class="bi bi-file-earmark"></i>
+                            <span>Pelanggaran Siswa Wali</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link {{ Request::is('/komdis') ? 'active' : '' }}" href="{{ url('dosen/pelanggaran/action') }}">
+                            <i class="bi bi-file-earmark"></i>
+                            <span>Tindak Lanjut</span>
+                        </a>
+                    </li>
+                </ul>
+                
             </li>
         @endif
 

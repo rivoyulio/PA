@@ -13,6 +13,20 @@ class Sp extends Model
 
     protected $fillable = [
         'id_sp',
-        'nama_sp',
+        'id_mhs',
+        'id_semester',
+        'tanggal',
+        'alfa',
+        'surat'
     ];
+
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'id_mhs');
+    }
+
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class, 'id_semester');
+    }
 }

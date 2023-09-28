@@ -32,7 +32,7 @@
                         @endif
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Pelanggaran</h5>
+                                <h5 class="card-title">Tindak Lanjut Pelanggaran</h5>
                                 <form method="GET">
                                     <div class="d-flex flex-row align-items-center">
                                         <div class="d-flex flex-fill gap-2 align-items-center">
@@ -92,7 +92,7 @@
                                                         <td>
                                                             <a href="{{ url('/pelanggaran/' . $p->id_pelanggaran . '/edit/') }}" class="btn btn-link">
                                                                 <span class="badge bg-warning text-dark">
-                                                                    <i class="bi bi-info-circle"></i> Edit
+                                                                    <i class="bi bi-info-circle"></i> Lihat
                                                                 </span>
                                                             </a>
                                                             <form action="{{ '/pelanggaran/' . $p->id_pelanggaran }}" method="POST" style="display: inline;">

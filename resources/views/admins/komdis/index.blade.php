@@ -3,7 +3,7 @@
 @extends('admins.layouts.main')
 @section('container')
     @if (session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show mt-2" role="alert"">
+        <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             {{ session('success') }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
@@ -29,7 +29,7 @@
 
                     <!-- Recent Sales -->
                     <div class="col-12">
-                        <a href="/komdis/create" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Dosen Komdis</a>
+                        <a href="{{ route('komdis.create') }}" type="button" class="btn btn-primary btn-sm mb-4">+ Tambah Dosen Komdis</a>
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Dosen Komdis</h5>
@@ -38,6 +38,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
+                                            <th>ID</th>
                                             <th scope="col">Dosen Komdis</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
@@ -46,14 +47,15 @@
                                         @foreach ($komdiss as $komdis)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $komdis->nama_komdis }}</td>
+                                                <td>{{ $komdis->id_komdis }}</td>
+                                                <td>{{ $komdis->dosen->nama_dosen }}</td>
                                                 <td>
-                                                    <a href="{{ url('/komdis/' . $komdis->id_komdis . '/edit/') }}" class="btn btn-link">
+                                                    <a href="{{ route('komdis.edit', $komdis->id_komdis) }}" class="btn btn-link">
                                                         <span class="badge bg-warning text-dark">
                                                             <i class="bi bi-info-circle"></i> Edit
                                                         </span>
                                                     </a>
-                                                    <form action="{{ '/komdis/' . $komdis->id_komdis }}" method="POST" style="display: inline">
+                                                    <form action="{{ route('komdis.destroy', $komdis->id_komdis) }}" method="POST" style="display: inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" id="#delete" class="btn btn-link">

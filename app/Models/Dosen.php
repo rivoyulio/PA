@@ -33,4 +33,9 @@ class Dosen extends Model
         return $this->hasOne(Mahasiswa::class, 'id_dosen');
     }
 
+    public function komdis()
+    {
+        return $this->hasOne(komdis::class, 'id_dosen');
+    }
+
 }

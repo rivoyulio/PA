@@ -14,9 +14,9 @@ class DosenSeeder extends Seeder
     public function run(): void
     {
         Dosen::create([
-            'id_user' => '',
+            'id_user' => '5',
             'nip' => '12345',
-            'nama_dosen' => 'Seno',
+            'nama_dosen' => 'Todi',
             'jabatan' => 'Dosen',
             'tempat_lahir' => '',
             'tgl_lahir' => '',

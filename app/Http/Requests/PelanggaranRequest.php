@@ -26,7 +26,8 @@ class PelanggaranRequest extends FormRequest
             'pelanggaran' => 'required',
             'tanggal' => 'required',
             'id_semester' => 'required',
-            'waktu_keterlambatan' => 'required|numeric'
+            'deskripsi' => 'required',
+            'id_komdis' => 'required|exists:komdis,id_komdis'
         ];
     }
 
@@ -37,7 +38,8 @@ class PelanggaranRequest extends FormRequest
             'pelanggaran.required' => 'Pelanggaran harus diisi',
             'tanggal.required' => 'Tanggal harus diisi',
             'id_semester.required' => 'Semester harus diisi',
-            'waktu_keterlambatan.required' => 'Waktu harus diisi'
+            'deskripsi.required' => 'Waktu harus diisi',
+            'id_komdis.required' => 'Komdis harus diisi'
         ];
     }
 }

@@ -38,7 +38,13 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
-                                            <th scope="col">SP</th>
+                                            <th scope="col">Nama Mahasiswa</th>
+                                            <th>Prodi</th>
+                                            <th>Kelas</th>
+                                            <th>Dosen PA</th>
+                                            <th>Jam Alfa</th>
+                                            <th scope="col">Status</th>
+                                            <th>Tanggal</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
@@ -46,7 +52,13 @@
                                         @foreach ($sps as $sp)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $sp->nama_sp }}</td>
+                                                <td>{{ $sp->mahasiswa->nama_mhs }}</td>
+                                                <td>{{ $sp->mahasiswa->prodi->nama_prodi }}</td>
+                                                <td>{{ $sp->mahasiswa->kelas->nama_kelas }}</td>
+                                                <td>{{ $sp->mahasiswa->kelas->dosen->nama_dosen }}</td>
+                                                <td>{{ $sp->alfa }} jam</td>
+                                                <td>{{ $sp->status }}</td>
+                                                <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $sp->tanggal)->format('d/m/Y') }}</td>
                                                 <td>
                                                     <a href="{{ url('/sp/' . $sp->id_sp . '/edit/') }}" class="btn btn-link">
                                                         <span class="badge bg-warning text-dark">
@@ -62,6 +74,12 @@
                                                             </span>
                                                         </button>
                                                     </form>
+                                                    @if($sp->surat)
+                                                        <a href="{{ Storage::url($sp->surat) }}" target="_blank">
+                                                            Buka Surat
+                                                        </a>
+                                                    @else -
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

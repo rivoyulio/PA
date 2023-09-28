@@ -112,6 +112,11 @@ class Mahasiswa extends Model implements Authenticatable
         return $this->hasMany(Bimbingan::class, 'id_mhs', 'id_mhs');
     }
 
+    public function sp()
+    {
+        return $this->hasMany(Sp::class, 'id_mhs');
+    }
+
       /**
      * The attributes that should be hidden for serialization.
      *

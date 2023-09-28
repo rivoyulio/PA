@@ -19,7 +19,7 @@
                                     id="pelanggaran"
                                     value="{{ old('pelanggaran') }}"
                                     autofocus
-                                    placeholder="Pelanggaran"
+                                    placeholder="Judul pelanggaran"
                                 >
                                 @error('pelanggaran')
                                 <div class="invalid-feedback">
@@ -93,15 +93,29 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="waktu_keterlambatan" class="form-label">Waktu Keterlambatan (jam)</label>
-                                <input
-                                    type="number"
-                                    name="waktu_keterlambatan"
-                                    class="form-control @error('waktu_keterlambatan') is-invalid @enderror"
-                                    id="waktu_keterlambatan"
-                                    value="{{ old('waktu_keterlambatan') }}"
-                                >
-                                @error('waktu_keterlambatan')
+                                <label for="deskripsi" class="form-label">Deskripsi</label>
+                                <textarea
+                                    name="deskripsi"
+                                    class="form-control @error('deskripsi') is-invalid @enderror"
+                                    id="deskripsi"
+                                    value="{{ old('deskripsi') }}"
+                                    rows="3"
+                                ></textarea>
+                                @error('deskripsi')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="komdis" class="form-label">Komdis</label>
+                                <select name="id_komdis" id="komdis" class="form-control @error('id_komdis') is-invalid @enderror">
+                                    @foreach($komdis as $data)
+                                        <option value="{{ $data->id_komdis }}">{{ $data->dosen->nama_dosen }}</option>
+                                    @endforeach
+                                </select>
+                                @error('deskripsi')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

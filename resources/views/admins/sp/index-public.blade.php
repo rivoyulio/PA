@@ -41,7 +41,7 @@
                                                 <select style="width: 200px" class="form-select form-select-sm" name="semester" id="semester">
                                                     <option selected value="">Pilih Semester</option>
                                                     @foreach ($semester_list as $s)
-                                                        <option value="{{ $s->semester }}" {{ $s->semester == $semester ? 'selected' : '' }}>{{ $s->semester }}</option>
+                                                        <option value="{{ $s->id_semester }}" {{ $s->id_semester == $s->semester->id_semester ? 'selected' : '' }}>{{ $s->semester->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -60,17 +60,33 @@
                                             <th scope="col">Nama</th>
                                             <th scope="col">NIM</th>
                                             <th scope="col">Kelas</th>
+                                            <th scope="col">Semester</th>
+                                            <th>Jenjang</th>
+                                            <th>Prodi</th>
                                             <th scope="col">SP</th>
+                                            <th scope="col">Waktu Keterlambatan</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Surat</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($pelanggaran as $p)
+                                        @foreach ($sp as $p)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $p->mahasiswa->nama_mhs }}</td>
                                                 <td>{{ $p->mahasiswa->nim }}</td>
                                                 <td>{{ $p->mahasiswa->kelas->nama_kelas }}</td>
-                                                <td>{{ $p->sp->nama_sp }}</td>
+                                                <td>{{ $p->semester->name }}</td>
+                                                <td>{{ $p->mahasiswa->prodi->jenjang }}</td>
+                                                <td>{{ $p->mahasiswa->prodi->nama_prodi }}</td>
+                                                <td>{{ $p->nama_sp }}</td>
+                                                <td>{{ $p->waktu_keterlambatan }}</td>
+                                                <td>{{ $p->status }}</td>
+                                                <td>
+                                                    <a href="{{ Storage::url($p->surat) }}" target="_blank">
+                                                        Buka Surat
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SPRequest;
 use App\Http\Services\AuthService;
 use App\Models\Mahasiswa;
 use App\Models\Pelanggaran;
+use App\Models\Semester;
 use App\Models\Sp;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class SpController extends Controller
 {
@@ -20,12 +23,12 @@ class SpController extends Controller
         $tahun = $request->tahun;
         $semester = $request->semester;
 
-        $pelanggaran = $this->get_readonly_sp($authService, $tahun, $semester);
-        $semester_list = Pelanggaran::selectRaw('semester')->distinct()->whereNotNull('semester')->get();
+        $sp = $this->get_sp($authService, $tahun, $semester);
+        $semester_list = Sp::with('semester')->selectRaw('id_semester')->distinct()->whereNotNull('id_semester')->get();
         $tahun_list = Mahasiswa::select('tahun_angkatan as tahun')->distinct()->whereNotNull('tahun_angkatan')->get();
 
         $data = compact(
-            'pelanggaran',
+            'sp',
             'tahun',
             'semester',
             'tahun_list',
@@ -37,9 +40,9 @@ class SpController extends Controller
 
     public function print(AuthService $authService, Request $request)
     {
-        $pelanggaran = $this->get_readonly_sp($authService, $request->tahun, $request->semester);
+        $sp = $this->get_sp($authService, $request->tahun, $request->semester);
 
-        $pdf = Pdf::loadView('pdf.sp', compact('pelanggaran'));
+        $pdf = Pdf::loadView('pdf.list-sp', compact('sp'));
         $pdf = $pdf->setPaper('a4', 'landscape');
 
         return $pdf->stream();
@@ -47,26 +50,68 @@ class SpController extends Controller
 
     public function create()
     {
-        return view('admins.sp.create');
+        $semesters = Semester::all();
+        $mahasiswas = Mahasiswa::all();
+        return view('admins.sp.create', compact('semesters', 'mahasiswas'));
     }
 
     public function store(Request $request)
     {
         $this->validate_sp($request);
         $this->save_sp($request, new Sp());
-
+        // dd($data);
         return redirect('/sp')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit(Sp $sp)
     {
-        return view('admins.sp.edit', compact('sp'));
+        $semesters = Semester::all();
+        return view('admins.sp.edit', compact('sp', 'semesters'));
     }
 
-    public function update(Request $request, Sp $sp)
+    public function update(SPRequest $request, $id)
     {
-        $this->validate_sp($request);
-        $this->save_sp($request, $sp);
+        $data = $request->all();
+        $sp = Sp::with('mahasiswa')->findOrFail($id);
+
+        $existing = $sp->waktu_keterlambatan;
+        $newtime = (int)$data['waktu_keterlambatan'];
+
+        if($sp->id_semester == $data['id_semester']){
+            $totaltime = $existing += $newtime;
+            $data['waktu_keterlambatan'] = $totaltime;
+        } else {
+            $data['waktu_keterlambatan'] = $newtime;
+        }
+
+        $sp->update($data);
+        // dd($data);
+
+        if($totaltime >= 15)
+        {
+            $sp->status = 'sp1';
+            $sp->save();
+
+            $pdfPath = $this->generate_sp($id);
+            $sp->surat = $pdfPath;
+            $sp->save();
+        } 
+        if ($totaltime >= 30){
+            $sp->status = 'sp2';
+            $sp->save();
+
+            $pdfPath = $this->generate_sp($id);
+            $sp->surat = $pdfPath;
+            $sp->save();
+        }
+        if ($totaltime >= 45){
+            $sp->status = 'sp3';
+            $sp->save();
+
+            $pdfPath = $this->generate_sp($id);
+            $sp->surat = $pdfPath;
+            $sp->save();
+        }
 
         return redirect('/sp')->with('success', 'Data berhasil diubah!');
     }
@@ -77,49 +122,76 @@ class SpController extends Controller
         return redirect('/sp')->with('success', 'Data berhasil dihapus!');
     }
 
-    private function get_readonly_sp(AuthService $authService, $tahun = null, $semester = null)
+    private function get_sp(AuthService $authService, $tahun = null, $semester = null)
     {
         $current_user = $authService->currentUserGuardInstance()->user();
 
-        $pelanggaran = Pelanggaran::with('mahasiswa');
+        $sp = Sp::with('mahasiswa');
 
         if ($authService->currentUserGuard() == 'web') {
             if ($authService->currentUserIsDosen()) {
-                $pelanggaran = Pelanggaran::whereHas(
+                $sp = Sp::whereHas(
                     'mahasiswa.kelas.dosen', fn ($query) => $query->where('id_user', $current_user->id_user)
                 );
             }
 
             if ($authService->currentUserIsKaprodi()) {
-                $pelanggaran = Pelanggaran::whereHas(
+                $sp = Sp::whereHas(
                     'mahasiswa.kelas.prodi', fn ($query) => $query->where('id_user', $current_user->id_user)
                 );
             }
         }
 
         if ($authService->currentUserGuard() == 'mahasiswa') {
-            $pelanggaran = Pelanggaran::where('id_mhs', $current_user->id_mhs);
+            $sp = Sp::where('id_mhs', $current_user->id_mhs);
         }
 
-        if ($semester) $pelanggaran = $pelanggaran->where('semester', $semester);
-        if ($tahun) $pelanggaran = $pelanggaran->whereHas(
+        if ($semester) $sp = $sp->where('id_semester', $semester);
+        if ($tahun) $sp = $sp->whereHas(
             'mahasiswa', fn ($query) => $query->where('tahun_angkatan', $tahun)
         );
 
-        return $pelanggaran->get();
+        return $sp->get();
     }
 
     private function save_sp(Request $request, Sp $sp)
     {
-        $sp->nama_sp = $request->sp_name;
+        $sp->id_mhs = $request->id_mhs;
+        $sp->id_semester = $request->id_semester;
+        $sp->tanggal = $request->tanggal;
+        $sp->alfa = $request->alfa;
         $sp->save();
     }
 
     private function validate_sp(Request $request)
     {
-        $rules = ['sp_name' => 'required'];
-        $messages = ['sp_name.required' => 'Nama SP harus diisi'];
+        $rules = [
+            'id_mhs' => 'required|exists:mahasiswas,id_mhs',
+            'id_semester' => 'required|exists:semester,id_semester',
+            'tanggal' => 'required|date',
+            'alfa' => 'required'
+        ];
+        $messages = [
+            'id_mhs.required' => 'Harus memilih mahasiswa',
+            'id_semester.required' => 'Harus memilih semester',
+            'tanggal.required' => 'Harus mengisi tanggal',
+            'alfa.required' => 'Harus mengisi waktu alfa'
+        ];
 
         $request->validate($rules, $messages);
+    }
+
+    public function generate_sp($id)
+    {
+        $sp = Sp::findOrFail($id);
+        $pdf = Pdf::loadView('pdf.sp', compact('sp'));
+        $pdf = $pdf->setPaper('a4', 'potrait');
+
+        $pdfContent = $pdf->output();
+
+        $pdfPath = 'sp1/'. uniqid() . '.pdf';
+        Storage::disk('public')->put($pdfPath, $pdfContent);
+
+        return $pdfPath;
     }
 }

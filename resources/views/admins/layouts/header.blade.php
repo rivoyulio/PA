@@ -26,6 +26,8 @@
         <link href="{{ 'css/imgModal.css' }}" rel="stylesheet">
 
         <link href="/NiceAdmin/assets/css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
     </head>
 
     <body>
