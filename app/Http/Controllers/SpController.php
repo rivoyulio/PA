@@ -73,19 +73,20 @@ class SpController extends Controller
     {
         $data = $request->all();
         $sp = Sp::with('mahasiswa')->findOrFail($id);
-        
+
         $existing = $sp->alfa;
         $newtime = (int)$data['alfa'];
+        $totaltime = 0;
 
         if($sp->id_semester == $data['id_semester']){
             $totaltime = $existing += $newtime;
             $data['alfa'] = $totaltime;
         } else {
             $data['alfa'] = $newtime;
+            $data['status'] = 'baik';
         }
 
         $sp->update($data);
-        // dd($data);
 
         if($totaltime >= 15)
         {
@@ -160,6 +161,21 @@ class SpController extends Controller
         $sp->id_semester = $request->id_semester;
         $sp->tanggal = $request->tanggal;
         $sp->alfa = $request->alfa;
+        if($sp->alfa >= 15 &&  $sp->alfa < 30){
+            $sp->status = 'sp1';
+            
+        } elseif($sp->alfa >= 30 && $sp->alfa < 45) {
+            $sp->status = 'sp2';
+
+        } elseif($sp->alfa >= 45) {
+            $sp->status = 'sp3';
+        }
+        $sp->save();
+
+        
+        $pdfPath = $this->generate_sp($sp->id_sp);
+        $sp->surat = $pdfPath;
+
         $sp->save();
     }
 
