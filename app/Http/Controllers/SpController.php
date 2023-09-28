@@ -74,14 +74,14 @@ class SpController extends Controller
         $data = $request->all();
         $sp = Sp::with('mahasiswa')->findOrFail($id);
 
-        $existing = $sp->waktu_keterlambatan;
-        $newtime = (int)$data['waktu_keterlambatan'];
+        $existing = $sp->alfa;
+        $newtime = (int)$data['alfa'];
 
         if($sp->id_semester == $data['id_semester']){
             $totaltime = $existing += $newtime;
-            $data['waktu_keterlambatan'] = $totaltime;
+            $data['alfa'] = $totaltime;
         } else {
-            $data['waktu_keterlambatan'] = $newtime;
+            $data['alfa'] = $newtime;
         }
 
         $sp->update($data);

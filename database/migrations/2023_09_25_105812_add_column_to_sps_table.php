@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('sps', function (Blueprint $table) {
             $table->unsignedBigInteger('id_mhs');
             $table->unsignedBigInteger('id_semester');
-            $table->integer('waktu_keterlambatan');
+            $table->integer('alfa');
             $table->string('surat');
         });
     }
