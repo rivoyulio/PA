@@ -22,20 +22,18 @@ class SPRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sp_name' => 'required',
             'id_mhs' => 'required|exists:mahasiswas,id_mhs',
             'id_semester' => 'required|exists:semester,id_semester',
-            'waktu_keterlambatan' => 'required'
+            'alfa' => 'required'
         ];
     }
 
     public function message()
     {
         return [
-            'sp_name.required' => 'Nama SP harus diisi',
             'id_mhs.required' => 'Harus memilih mahasiswa',
             'id_semester.required' => 'Harus memilih semester',
-            'waktu_keterlambatan.required' => 'Harus mengisi waktu keterlambatan'
+            'alfa.required' => 'Harus mengisi waktu keterlambatan'
         ];
     }
 }

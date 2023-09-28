@@ -11,23 +11,7 @@
                     <div class="card">
                         <h5 class="card-header text-center font-weight-bold">Edit SP</h5><br>
                         <div class="card-body">
-                            <div class="mb-3">
-                                <label for="sp_name" class="form-label" style="text-align: center;">SP</label>
-                                <input
-                                    type="text"
-                                    name="sp_name"
-                                    class="form-control @error('sp_name') is-invalid @enderror"
-                                    id="sp_name"
-                                    value="{{ old('sp_name', $sp->nama_sp) }}"
-                                    autofocus
-                                    placeholder="Nama SP"
-                                >
-                                @error('sp_name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+                            
                             <div class="mb-3">
                                 <label for="dosen" class="form-label">Mahasiswa</label>
                                 <select class="form-select @error('id_mhs') is-invalid @enderror" name="id_mhs">
@@ -54,18 +38,18 @@
                             </div>
                             <div class="mb-3">
                                 <label for="waktu_existing" class="form-label">Waktu Keterlambatan Saat Ini</label>
-                                <input type="text" value="{{ old('waktu_keterlambatan', $sp->waktu_keterlambatan) }}" class="form-control" disabled>
+                                <input type="text" value="{{ old('alfa', $sp->alfa) }}" class="form-control" disabled>
                             </div>
                             <div class="mb-3">
-                                <label for="waktu_keterlambatan" class="form-label">Tambahan Waktu Keterlambatan</label>
+                                <label for="alfa" class="form-label">Tambahan Waktu Keterlambatan</label>
                                 <input
                                     type="number"
-                                    name="waktu_keterlambatan"
-                                    class="form-control @error('waktu_keterlambatan') is-invalid @enderror"
-                                    id="waktu_keterlambatan"
+                                    name="alfa"
+                                    class="form-control @error('alfa') is-invalid @enderror"
+                                    id="alfa"
                                     value="0"
                                 >
-                                @error('waktu_keterlambatan')
+                                @error('alfa')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -86,7 +70,7 @@
 <script>
     const semesterSelect = document.getElementById('semester');
 
-    const waktuKeterlambatan = document.getElementById('waktu_keterlambatan');
+    const waktuKeterlambatan = document.getElementById('alfa');
 
     semesterSelect.addEventListener('change', function(){
         waktuKeterlambatan.value = 0;

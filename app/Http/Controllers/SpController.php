@@ -73,7 +73,7 @@ class SpController extends Controller
     {
         $data = $request->all();
         $sp = Sp::with('mahasiswa')->findOrFail($id);
-
+        
         $existing = $sp->alfa;
         $newtime = (int)$data['alfa'];
 

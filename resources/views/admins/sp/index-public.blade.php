@@ -61,10 +61,9 @@
                                             <th scope="col">NIM</th>
                                             <th scope="col">Kelas</th>
                                             <th scope="col">Semester</th>
-                                            <th>Jenjang</th>
-                                            <th>Prodi</th>
-                                            <th scope="col">SP</th>
-                                            <th scope="col">Waktu Keterlambatan</th>
+                                            <th scope="col">Jenjang</th>
+                                            <th scope="col">Prodi</th>
+                                            <th scope="col">Waktu Alfa</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Surat</th>
                                         </tr>
@@ -79,8 +78,7 @@
                                                 <td>{{ $p->semester->name }}</td>
                                                 <td>{{ $p->mahasiswa->prodi->jenjang }}</td>
                                                 <td>{{ $p->mahasiswa->prodi->nama_prodi }}</td>
-                                                <td>{{ $p->nama_sp }}</td>
-                                                <td>{{ $p->waktu_keterlambatan }}</td>
+                                                <td>{{ $p->alfa }}</td>
                                                 <td>{{ $p->status }}</td>
                                                 <td>
                                                     <a href="{{ Storage::url($p->surat) }}" target="_blank">

@@ -49,7 +49,7 @@ table, tr, td, th {
         </tr>
         <tr>
             <th>Waktu Keterlambatan : </th>
-            <td>{{ $sp->waktu_keterlambatan }} Jam</td>
+            <td>{{ $sp->alfa }} Jam</td>
         </tr>
         <tr>
             <th>Status : </th>
