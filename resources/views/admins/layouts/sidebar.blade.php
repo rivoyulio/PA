@@ -86,6 +86,18 @@
                         <span>Laporan Yang Tidak Bimbingan</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/laporan/pelanggaran') }}">
+                        <i class="bi bi-file-earmark"></i>
+                        <span>Laporan Pelanggaran</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/laporan/sp') }}">
+                        <i class="bi bi-file-earmark"></i>
+                        <span>Laporan SP</span>
+                    </a>
+                </li>
             </ul>
         @endif
 

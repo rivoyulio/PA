@@ -10,6 +10,7 @@ use App\Http\Controllers\AgamaController;
 use App\Http\Controllers\BimbinganController;
 use App\Http\Controllers\PelanggaranController;
 use App\Http\Controllers\KomdisController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpController;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -88,6 +89,10 @@ Route::middleware([RedirectIfNotAuthenticated::class])->group(
         Route::get('/laporan/mahasiswa-bimbingan/print', 'App\Http\Controllers\LaporanController@print_mahasiswa_bimbingan');
         Route::get('/laporan/mahasiswa-tidak-bimbingan', 'App\Http\Controllers\LaporanController@mahasiswa_tidak_bimbingan');
         Route::get('/laporan/mahasiswa-tidak-bimbingan/print', 'App\Http\Controllers\LaporanController@print_mahasiswa_tidak_bimbingan');
+        Route::get('/laporan/pelanggaran', [LaporanController::class, 'pelanggaran'])->name('laporan.pelanggaran');
+        Route::post('/laporan/pelanggaran', [LaporanController::class, 'print_pelanggaran'])->name('laporan.pelanggaran.print');
+        Route::get('/laporan/sp', [LaporanController::class, 'sp'])->name('laporan.sp');
+        Route::post('/laporan/sp', [LaporanController::class, 'print_sp'])->name('laporan.sp.print');
 
         // route mahasiswa
         Route::get('/mahasiswa','App\Http\Controllers\MahasiswaController@profile');

@@ -16,15 +16,11 @@ class SpController extends Controller
 {
     public function index(AuthService $authService, Request $request)
     {
-        if ($authService->currentUserIsAdmin()) {
-            return view('admins.sp.index', ['sps' => Sp::all()]);
-        }
-
         $tahun = $request->tahun;
         $semester = $request->semester;
 
         $sp = $this->get_sp($authService, $tahun, $semester);
-        $semester_list = Sp::with('semester')->selectRaw('id_semester')->distinct()->whereNotNull('id_semester')->get();
+        $semester_list = Sp::with('semester')->selectRaw('id_semester')->distinct()->whereNotNull('id_semester')->orderBy('id_semester','asc')->get();
         $tahun_list = Mahasiswa::select('tahun_angkatan as tahun')->distinct()->whereNotNull('tahun_angkatan')->get();
 
         $data = compact(
@@ -34,8 +30,11 @@ class SpController extends Controller
             'tahun_list',
             'semester_list'
         );
-
-        return view('admins.sp.index-public', $data);
+        if ($authService->currentUserIsAdmin()) {
+            return view('admins.sp.index', $data);
+        } else {
+            return view('admins.sp.index-public', $data);
+        }
     }
 
     public function print(AuthService $authService, Request $request)
@@ -140,6 +139,10 @@ class SpController extends Controller
                 $sp = Sp::whereHas(
                     'mahasiswa.kelas.prodi', fn ($query) => $query->where('id_user', $current_user->id_user)
                 );
+            }
+
+            if($authService->currentUserIsAdmin()) {
+                $sp = Sp::with('semester', 'mahasiswa');
             }
         }
 
