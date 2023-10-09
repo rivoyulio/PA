@@ -17,7 +17,8 @@ class Pelanggaran extends Model
         'tanggal',
         'id_semester',
         'deskripsi',
-        'id_komdis'
+        'id_komdis',
+        'id_kategori'
     ];
 
     public function mahasiswa()
@@ -33,5 +34,10 @@ class Pelanggaran extends Model
     public function komdis()
     {
         return $this->belongsTo(komdis::class, 'id_komdis');
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(PelanggaranCategory::class, 'id_kategori');
     }
 }

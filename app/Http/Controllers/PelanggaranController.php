@@ -8,6 +8,7 @@ use App\Models\Dosen;
 use App\Models\komdis;
 use App\Models\Mahasiswa;
 use App\Models\Pelanggaran;
+use App\Models\PelanggaranCategory;
 use App\Models\Semester;
 use App\Models\Sp;
 use Illuminate\Http\Request;
@@ -90,7 +91,7 @@ class PelanggaranController extends Controller
     {
         $current_user = $authService->currentUserGuardInstance()->user();
 
-        $pelanggaran = Pelanggaran::with('mahasiswa', 'semester', 'komdis');
+        $pelanggaran = Pelanggaran::with('mahasiswa', 'semester', 'komdis', 'kategori');
         // dd($pelanggaran);
         if ($authService->currentUserGuard() == 'web') {
             if ($authService->currentUserIsDosen()) {
@@ -121,7 +122,7 @@ class PelanggaranController extends Controller
 
     private function save_pelanggaran(Request $request, Pelanggaran $pelanggaran)
     {
-        $pelanggaran->pelanggaran = $request->pelanggaran;
+        $pelanggaran->id_kategori = $request->id_kategori;
         $pelanggaran->id_mhs = $request->id_mhs;
         $pelanggaran->tanggal = $request->tanggal;
         $pelanggaran->id_semester = $request->id_semester;
@@ -144,15 +145,16 @@ class PelanggaranController extends Controller
         $komdis = komdis::all();
         $semesters = Semester::all();
         $mahasiswas = Mahasiswa::all();
+        $kategori = PelanggaranCategory::all();
 
-        return compact('mahasiswas', 'semesters', 'komdis');
+        return compact('mahasiswas', 'semesters', 'komdis', 'kategori');
     }
 
     private function validate_pelanggaran(Request $request)
     {
         $rules = [
             'id_mhs' => 'required|exists:mahasiswas,id_mhs',
-            'pelanggaran' => 'required',
+            'id_kategori' => 'required|exists:kategori_pelanggaran,id',
             'tanggal' => 'required',
             'id_semester' => 'required|exists:semester,id_semester',
             'deskripsi' => 'required',
@@ -161,7 +163,7 @@ class PelanggaranController extends Controller
 
         $messages = [
             'id_mhs.required' => 'ID Mahasiswa harus diisi',
-            'pelanggaran.required' => 'Pelanggaran harus diisi',
+            'id_kategori.required' => 'Tipe pelanggaran harus diisi',
             'tanggal.required' => 'Tanggal harus diisi',
             'id_semester.required' => 'Semester harus diisi',
             'deskripsi.required' => 'Deskripsi harus diisi',

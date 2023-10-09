@@ -13,17 +13,17 @@
                         <div class="card-body">
 
                             <div class="mb-3">
-                                <label  class="form-label" style="text-align: center;">Pelanggaran</label>
-                                <input
-                                    type="text"
-                                    name="pelanggaran"
-                                    class="form-control @error('pelanggaran') is-invalid @enderror"
-                                    id="pelanggaran"
-                                    value="{{ old('pelanggaran', $pelanggaran->pelanggaran) }}"
-                                    autofocus
-                                    placeholder="Pelanggaran"
-                                >
-                                @error('pelanggaran')
+                                <label for="kategori" class="form-label" style="text-align: center;">Pelanggaran</label>
+                                <select name="id_kategori" id="kategori" class="form-control">
+                                    @foreach($kategori as $data)
+                                    @if (old('id_kategori', $pelanggaran->id_kategori) == $data->id)
+                                        <option value="{{ $data->id }}" selected>{{ $data->name }}</option>
+                                    @else
+                                        <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                                @error('id_kategori')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>

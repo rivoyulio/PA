@@ -8,6 +8,7 @@ use App\Http\Controllers\KelasController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\AgamaController;
 use App\Http\Controllers\BimbinganController;
+use App\Http\Controllers\KategoriPelanggaranController;
 use App\Http\Controllers\PelanggaranController;
 use App\Http\Controllers\KomdisController;
 use App\Http\Controllers\LaporanController;
@@ -63,7 +64,8 @@ Route::middleware([RedirectIfNotAuthenticated::class])->group(
         Route::resource('/admin/data/prodi', ProdiController::class);
         Route::resource('/admin/data/agama', AgamaController::class);
         Route::resource('/admin/data/komdis', KomdisController::class);
-
+        Route::resource('/admin/data/pelanggaran/kategori', KategoriPelanggaranController::class);
+        
         Route::get('/sp/print', [SpController::class, 'print'])->name('sp.print');
         Route::get('/pelanggaran/print', [PelanggaranController::class, 'print'])->name('pelanggaran.print');
 

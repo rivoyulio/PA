@@ -99,6 +99,12 @@
                     </a>
                 </li>
             </ul>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('/admin/data/pelanggaran/kategori') ? 'active' : '' }}" href="{{ url('/admin/data/pelanggaran/kategori') }}">
+                    <i class="bi bi-tag"></i>
+                    <span>Kategori Pelanggaran</span>
+                </a>
+            </li>
         @endif
 
         @if($authService->currentUserIsDosen())
