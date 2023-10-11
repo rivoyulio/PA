@@ -38,6 +38,10 @@
                 margin-top: 1rem;
             }
 
+            .header-cover-description {
+                font-size: 0.8rem;
+            }
+
             .body {
                 font-family: sans-serif;
             }
@@ -72,6 +76,7 @@
             <div class="header-cover">
                 <div class="header-cover-title">@yield('title')</div>
                 <div class="header-cover-subtitle">@yield('subtitle')</div>
+                <div class="header-cover-description">@yield('description')</div>
             </div>
         </div>
         <div class="body">

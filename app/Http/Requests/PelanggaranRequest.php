@@ -23,10 +23,11 @@ class PelanggaranRequest extends FormRequest
     {
         return [
             'id_mhs' => 'required|exists:mahasiswas,id_mhs',
-            'pelanggaran' => 'required',
+            'id_kategori' => 'required|exists:kategori_pelanggaran,id',
             'tanggal' => 'required',
             'id_semester' => 'required',
-            'waktu_keterlambatan' => 'required|numeric'
+            'deskripsi' => 'required',
+            'id_komdis' => 'required|exists:komdis,id_komdis'
         ];
     }
 
@@ -34,10 +35,11 @@ class PelanggaranRequest extends FormRequest
     {
         return [
             'id_mhs.required' => 'ID Mahasiswa harus diisi',
-            'pelanggaran.required' => 'Pelanggaran harus diisi',
+            'id_kategori.required' => 'Tipe pelanggaran harus diisi',
             'tanggal.required' => 'Tanggal harus diisi',
             'id_semester.required' => 'Semester harus diisi',
-            'waktu_keterlambatan.required' => 'Waktu harus diisi'
+            'deskripsi.required' => 'Waktu harus diisi',
+            'id_komdis.required' => 'Komdis harus diisi'
         ];
     }
 }

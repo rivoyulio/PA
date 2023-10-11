@@ -13,17 +13,17 @@
                         <div class="card-body">
 
                             <div class="mb-3">
-                                <label  class="form-label" style="text-align: center;">Pelanggaran</label>
-                                <input
-                                    type="text"
-                                    name="pelanggaran"
-                                    class="form-control @error('pelanggaran') is-invalid @enderror"
-                                    id="pelanggaran"
-                                    value="{{ old('pelanggaran', $pelanggaran->pelanggaran) }}"
-                                    autofocus
-                                    placeholder="Pelanggaran"
-                                >
-                                @error('pelanggaran')
+                                <label for="kategori" class="form-label" style="text-align: center;">Pelanggaran</label>
+                                <select name="id_kategori" id="kategori" class="form-control">
+                                    @foreach($kategori as $data)
+                                    @if (old('id_kategori', $pelanggaran->id_kategori) == $data->id)
+                                        <option value="{{ $data->id }}" selected>{{ $data->name }}</option>
+                                    @else
+                                        <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                                @error('id_kategori')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -80,19 +80,22 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="waktu_keterlambatan" class="form-label">Tambahan Waktu Keterlambatan</label>
-                                <input
-                                    type="number"
-                                    name="waktu_keterlambatan"
-                                    class="form-control @error('waktu_keterlambatan') is-invalid @enderror"
-                                    id="waktu_keterlambatan"
-                                    value="{{ old('waktu_keterlambatan', $pelanggaran->waktu_keterlambatan) }}"
-                                >
-                                @error('waktu_keterlambatan')
+                                <label for="deskripsi" class="form-label">Deskripsi</label>
+                                <textarea name="deskripsi" id="deskripsi" rows="3" class="form-control @error('deskripsi') invalid-feedback @enderror">{{ $pelanggaran->deskripsi }}</textarea>
+                                @error('deskripsi')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="komdis" class="form-label">Komdis</label>
+                                <select name="id_komdis" id="komdis" class="form-control">
+                                    @foreach($komdis as $data)
+                                    <option value="{{ $data->id_komdis }}" @if ($pelanggaran->id_komdis == $data->id_komdis || old('id_komdis') === $data->id_komdis) selected @endif>{{ $data->dosen->nama_dosen }}</option>
+                                    @endforeach 
+                                </select>
                             </div>
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">

@@ -18,7 +18,7 @@ class DosenController extends Controller
     {
         $user = $authService->currentUserGuardInstance()->user();
         $dosen = Dosen::where('id_user', $user->id_user)->first();
-        dd($dosen);
+        // dd($dosen);
         return view('admins.dosen.biodatadosen', compact('dosen'));
     }
 

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Services\AuthService;
 use App\Models\Kelas;
 use App\Models\Mahasiswa;
+use App\Models\Pelanggaran;
 use App\Models\Prodi;
+use App\Models\Sp;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -115,4 +117,119 @@ class LaporanController extends Controller
 
         return $pdf->stream();
     }
+
+    public function get_kelas(AuthService $authService)
+    {
+        $tahun = Mahasiswa::select('tahun_angkatan')->distinct();
+        $kelas = Kelas::all();
+
+        if ($authService->currentUserIsKaprodi()) {
+            $kaprodi = $authService->currentUserGuardInstance()->user();
+            $prodi = Prodi::where('id_user', $kaprodi->id_user)->first();
+            $tahun = $tahun->where('id_prodi', $prodi->id_prodi);
+            $kelas = $prodi->kelas;
+        }
+
+        $tahun = array_map(
+            fn ($item) => $item['tahun_angkatan'], $tahun->get()->toArray()
+        );
+
+        return $kelas;
+        return $tahun;
+    }
+
+    public function pelanggaran(AuthService $authService)
+    {
+        $title = 'Pelanggaran';
+
+        $tahun = Mahasiswa::select('tahun_angkatan')->distinct()->get();
+        $pelanggaran = Pelanggaran::with('komdis')->get();
+
+        $kelas = $this->get_kelas($authService);
+        
+        // dd($tahun);
+
+        return view('admins.laporan.pelanggaran', compact('pelanggaran', 'title', 'kelas', 'tahun'));
+    }
+
+    public function print_pelanggaran(AuthService $authService, Request $request)
+    {
+        $kelas = $request->id_kelas;
+        $tahun = $request->tahun;
+
+        $mahasiswa = Mahasiswa::whereHas('pelanggaran');
+        if ($authService->currentUserIsKaprodi()) {
+            $kaprodi = $authService->currentUserGuardInstance()->user();
+            $prodi = Prodi::where('id_user', $kaprodi->id_user)->first();
+            $mahasiswa = $mahasiswa->whereHas(
+                'kelas', fn ($query) => $query->where('id_prodi', $prodi->id_prodi)
+            );
+        }
+
+        if($kelas) {
+            $mahasiswa->where('id_kelas', $kelas);
+        }
+        if($tahun) {
+            $tahunArray = json_decode($tahun, true);
+
+            if(!empty($tahunArray)){
+                $mahasiswa->where('tahun_angkatan', $tahunArray['tahun_angkatan']);
+            }
+        }
+        $mahasiswa = $mahasiswa->get();
+        // dd($mahasiswa);
+
+        $pdf = Pdf::loadView('pdf.laporan-pelanggaran', compact('mahasiswa'));
+        $pdf = $pdf->setPaper('a4', 'landscape');
+
+        return $pdf->stream();
+    }
+
+    public function sp(AuthService $authService)
+    {
+        $title = 'SP';
+
+        $tahun = Mahasiswa::select('tahun_angkatan')->distinct()->get();
+        $sp = Sp::with('semester')->get();
+
+        $kelas = $this->get_kelas($authService);
+        
+        // dd($tahun);
+
+        return view('admins.laporan.sp', compact('sp', 'title', 'kelas', 'tahun'));
+    }
+
+    public function print_sp(AuthService $authService, Request $request)
+    {
+        $kelas = $request->id_kelas;
+        $tahun = $request->tahun;
+        
+        $mahasiswa = Mahasiswa::whereHas('sp');
+        if ($authService->currentUserIsKaprodi()) {
+            $kaprodi = $authService->currentUserGuardInstance()->user();
+            $prodi = Prodi::where('id_user', $kaprodi->id_user)->first();
+            $mahasiswa = $mahasiswa->whereHas(
+                'kelas', fn ($query) => $query->where('id_prodi', $prodi->id_prodi)
+            );
+        }
+
+        if($kelas) {
+            $mahasiswa->where('id_kelas', $kelas);
+        }
+        if($tahun) {
+            $tahunArray = json_decode($tahun, true);
+
+            if(!empty($tahunArray)){
+                $mahasiswa->where('tahun_angkatan', $tahunArray['tahun_angkatan']);
+            }
+        }
+        $mahasiswa = $mahasiswa->get();
+        // dd($mahasiswa);
+
+        $pdf = Pdf::loadView('pdf.laporan-sp', compact('mahasiswa'));
+        $pdf = $pdf->setPaper('a4', 'landscape');
+
+        return $pdf->stream();
+    }
+
 }

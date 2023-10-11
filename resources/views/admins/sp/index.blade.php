@@ -33,20 +33,57 @@
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">SP</h5>
-
-                                <table class="table table-borderless">
+                                <form method="GET">
+                                    <div class="d-flex flex-row align-items-center">
+                                        <div class="d-flex flex-fill gap-2 align-items-center">
+                                            <div class="d-flex gap-1">
+                                                <select class="form-select form-select-sm" name="tahun" id="tahun">
+                                                    <option selected value="">Pilih Tahun</option>
+                                                    @foreach ($tahun_list as $t)
+                                                        <option value="{{ $t->tahun }}" {{ $t->tahun == $tahun ? 'selected' : '' }}>{{ $t->tahun }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <select style="width: 200px" class="form-select form-select-sm" name="semester" id="semester">
+                                                    <option selected value="">Pilih Semester</option>
+                                                    @foreach ($semester_list as $s)
+                                                        <option value="{{ $s->id_semester }}">{{ $s->semester->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <button formaction="/sp" class="btn btn-sm btn-primary" type="submit">Filter</button>
+                                        </div>
+                                        <button formaction="/sp/print" type="submit" class="btn btn-primary btn-sm">
+                                            Print
+                                        </button>
+                                    </div>
+                                </form>
+                                <table class="table table-borderless mt-3">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
-                                            <th scope="col">SP</th>
+                                            <th scope="col">Nama Mahasiswa</th>
+                                            <th>Prodi</th>
+                                            <th>Kelas</th>
+                                            <th>Dosen PA</th>
+                                            <th>Jam Alfa</th>
+                                            <th>SMT</th>
+                                            <th scope="col">Status</th>
+                                            <th>Tanggal</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($sps as $sp)
+                                        @foreach ($sp as $sp)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $sp->nama_sp }}</td>
+                                                <td>{{ $sp->mahasiswa->nama_mhs }}</td>
+                                                <td>{{ $sp->mahasiswa->prodi->nama_prodi }}</td>
+                                                <td>{{ $sp->mahasiswa->kelas->nama_kelas }}</td>
+                                                <td>{{ $sp->mahasiswa->kelas->dosen->nama_dosen }}</td>
+                                                <td>{{ $sp->alfa }} jam</td>
+                                                <td>{{ $sp->id_semester }}</td>
+                                                <td>{{ $sp->status }}</td>
+                                                <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $sp->tanggal)->format('d/m/Y') }}</td>
                                                 <td>
                                                     <a href="{{ url('/sp/' . $sp->id_sp . '/edit/') }}" class="btn btn-link">
                                                         <span class="badge bg-warning text-dark">
@@ -62,6 +99,12 @@
                                                             </span>
                                                         </button>
                                                     </form>
+                                                    @if($sp->surat)
+                                                        <a href="{{ Storage::url($sp->surat) }}" target="_blank">
+                                                            Buka Surat
+                                                        </a>
+                                                    @else -
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
