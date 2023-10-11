@@ -79,7 +79,7 @@
                                             @foreach ($pelanggaran as $p)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $p->pelanggaran }}</td>
+                                                    <td>{{ $p->kategori->name }}</td>
                                                     <td>{{ $p->tanggal }}</td>
                                                     <td>{{ $p->semester->name }}</td>
                                                     <td>{{ $p->mahasiswa->nama_mhs }}</td>

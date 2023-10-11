@@ -57,8 +57,6 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
-                                            <th scope="col">Nama</th>
-                                            <th scope="col">NIM</th>
                                             <th scope="col">Kelas</th>
                                             <th scope="col">Semester</th>
                                             <th scope="col">Jenjang</th>
@@ -72,8 +70,6 @@
                                         @foreach ($sp as $p)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $p->mahasiswa->nama_mhs }}</td>
-                                                <td>{{ $p->mahasiswa->nim }}</td>
                                                 <td>{{ $p->mahasiswa->kelas->nama_kelas }}</td>
                                                 <td>{{ $p->semester->name }}</td>
                                                 <td>{{ $p->mahasiswa->prodi->jenjang }}</td>
@@ -81,9 +77,13 @@
                                                 <td>{{ $p->alfa }}</td>
                                                 <td>{{ $p->status }}</td>
                                                 <td>
+                                                    @if($p->surat)
                                                     <a href="{{ Storage::url($p->surat) }}" target="_blank">
                                                         Buka Surat
                                                     </a>
+                                                    @else
+                                                    -
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

@@ -62,12 +62,13 @@
                                         <tr>
                                             <th scope="col">No</th>
                                             <th scope="col">Nama Mahasiswa</th>
-                                            <th>Prodi</th>
-                                            <th>Kelas</th>
-                                            <th>Dosen PA</th>
-                                            <th>Jam Alfa</th>
+                                            <th scope="col">Prodi</th>
+                                            <th scope="col">Kelas</th>
+                                            <th scope="col">Semester</th>
+                                            <th scope="col">Dosen PA</th>
+                                            <th scope="col">Jam Alfa</th>
                                             <th scope="col">Status</th>
-                                            <th>Tanggal</th>
+                                            <th scope="col">Tanggal</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
@@ -78,6 +79,7 @@
                                                 <td>{{ $sp->mahasiswa->nama_mhs }}</td>
                                                 <td>{{ $sp->mahasiswa->prodi->nama_prodi }}</td>
                                                 <td>{{ $sp->mahasiswa->kelas->nama_kelas }}</td>
+                                                <td>{{ $sp->semester->name }}</td>
                                                 <td>{{ $sp->mahasiswa->kelas->dosen->nama_dosen }}</td>
                                                 <td>{{ $sp->alfa }} jam</td>
                                                 <td>{{ $sp->status }}</td>
@@ -101,7 +103,8 @@
                                                         <a href="{{ Storage::url($sp->surat) }}" target="_blank">
                                                             Buka Surat
                                                         </a>
-                                                    @else -
+                                                    @else 
+                                                    -
                                                     @endif
                                                 </td>
                                             </tr>
