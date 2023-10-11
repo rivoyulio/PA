@@ -52,6 +52,11 @@
                         </a>
                     </li>
                     <li>
+                        <a class="nav-link {{ Request::is('/admin/data/pelanggaran/kategori') ? 'active' : '' }}" href="{{ url('/admin/data/pelanggaran/kategori') }}">
+                            <i class="bi bi-circle"></i><span>Data Kategori Pelanggaran</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="nav-link {{ Request::is('/admin/data/komdis') ? 'active' : '' }}" href="{{ url('/admin/data/komdis') }}">
                             <i class="bi bi-circle"></i><span>Data Komdis</span>
                         </a>
@@ -99,12 +104,12 @@
                     </a>
                 </li>
             </ul>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link {{ Request::is('/admin/data/pelanggaran/kategori') ? 'active' : '' }}" href="{{ url('/admin/data/pelanggaran/kategori') }}">
                     <i class="bi bi-tag"></i>
                     <span>Kategori Pelanggaran</span>
                 </a>
-            </li>
+            </li> --}}
         @endif
 
         @if($authService->currentUserIsDosen())

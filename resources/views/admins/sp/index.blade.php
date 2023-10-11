@@ -66,6 +66,7 @@
                                             <th>Kelas</th>
                                             <th>Dosen PA</th>
                                             <th>Jam Alfa</th>
+                                            <th>SMT</th>
                                             <th scope="col">Status</th>
                                             <th>Tanggal</th>
                                             <th scope="col">Aksi</th>
@@ -80,6 +81,7 @@
                                                 <td>{{ $sp->mahasiswa->kelas->nama_kelas }}</td>
                                                 <td>{{ $sp->mahasiswa->kelas->dosen->nama_dosen }}</td>
                                                 <td>{{ $sp->alfa }} jam</td>
+                                                <td>{{ $sp->id_semester }}</td>
                                                 <td>{{ $sp->status }}</td>
                                                 <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $sp->tanggal)->format('d/m/Y') }}</td>
                                                 <td>
