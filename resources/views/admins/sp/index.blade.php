@@ -62,19 +62,11 @@
                                         <tr>
                                             <th scope="col">No</th>
                                             <th scope="col">Nama Mahasiswa</th>
-<<<<<<< HEAD
                                             <th scope="col">Prodi</th>
                                             <th scope="col">Kelas</th>
                                             <th scope="col">Semester</th>
                                             <th scope="col">Dosen PA</th>
                                             <th scope="col">Jam Alfa</th>
-=======
-                                            <th>Prodi</th>
-                                            <th>Kelas</th>
-                                            <th>Dosen PA</th>
-                                            <th>Jam Alfa</th>
-                                            <th>SMT</th>
->>>>>>> d12c5bf07cb756da10e8b7ac69c973439a79c167
                                             <th scope="col">Status</th>
                                             <th scope="col">Tanggal</th>
                                             <th scope="col">Aksi</th>
@@ -90,7 +82,6 @@
                                                 <td>{{ $sp->semester->name }}</td>
                                                 <td>{{ $sp->mahasiswa->kelas->dosen->nama_dosen }}</td>
                                                 <td>{{ $sp->alfa }} jam</td>
-                                                <td>{{ $sp->id_semester }}</td>
                                                 <td>{{ $sp->status }}</td>
                                                 <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $sp->tanggal)->format('d/m/Y') }}</td>
                                                 <td>
