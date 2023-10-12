@@ -57,6 +57,10 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
+                                            @if($authService->currentUserIsDosen())
+                                            <th scope="col">Mahasiswa</th>
+                                            <th scope="col">NIM</th>
+                                            @endif
                                             <th scope="col">Kelas</th>
                                             <th scope="col">Semester</th>
                                             <th scope="col">Jenjang</th>
@@ -70,6 +74,10 @@
                                         @foreach ($sp as $p)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
+                                                @if($authService->currentUserIsDosen())
+                                                <td>{{ $p->mahasiswa->nama_mhs }}</td>
+                                                <td>{{ $p->mahasiswa->nim }}</td>
+                                                @endif
                                                 <td>{{ $p->mahasiswa->kelas->nama_kelas }}</td>
                                                 <td>{{ $p->semester->name }}</td>
                                                 <td>{{ $p->mahasiswa->prodi->jenjang }}</td>

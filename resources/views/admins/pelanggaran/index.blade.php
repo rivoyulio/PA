@@ -63,8 +63,10 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">No</th>
-                                                <th scope="col">Nama Mahasiswa</th>
+                                                @if($authService->currentUserIsDosen() || $authService->currentUserIsAdmin())
+                                                <th scope="col">Mahasiswa</th>
                                                 <th scope="col">NIM</th>
+                                                @endif
                                                 <th scope="col">Pelanggaran</th>
                                                 <th scope="col">Tanggal</th>
                                                 <th scope="col">Semester</th>
@@ -80,8 +82,10 @@
                                             @foreach ($pelanggaran as $p)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
+                                                    @if($authService->currentUserIsDosen() || $authService->currentUserIsAdmin())
                                                     <td>{{ $p->mahasiswa->nama_mhs }}</td>
                                                     <td>{{ $p->mahasiswa->nim }}</td>
+                                                    @endif
                                                     <td>{{ $p->kategori->name }}</td>
                                                     <td>{{ $p->tanggal }}</td>
                                                     <td>{{ $p->semester->name }}</td>

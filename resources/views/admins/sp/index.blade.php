@@ -62,6 +62,7 @@
                                         <tr>
                                             <th scope="col">No</th>
                                             <th scope="col">Nama Mahasiswa</th>
+                                            <th scope="col">NIM</th>
                                             <th scope="col">Prodi</th>
                                             <th scope="col">Kelas</th>
                                             <th scope="col">Semester</th>
@@ -77,6 +78,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $sp->mahasiswa->nama_mhs }}</td>
+                                                <td>{{ $sp->mahasiswa->nim }}</td>
                                                 <td>{{ $sp->mahasiswa->prodi->nama_prodi }}</td>
                                                 <td>{{ $sp->mahasiswa->kelas->nama_kelas }}</td>
                                                 <td>{{ $sp->semester->name }}</td>
