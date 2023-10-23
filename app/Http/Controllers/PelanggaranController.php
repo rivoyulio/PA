@@ -65,7 +65,7 @@ class PelanggaranController extends Controller
     {
         $data = compact('pelanggaran');
         $data = array_merge($data, $this->load_relation());
-
+        // dd($data);
         return view('admins.pelanggaran.edit', $data);
     }
 
@@ -144,6 +144,7 @@ class PelanggaranController extends Controller
     {
         $komdis = komdis::all();
         $semesters = Semester::all();
+        // $mahasiswas = Mahasiswa::select('nama_mhs')->distinct()->get();
         $mahasiswas = Mahasiswa::all();
         $kategori = PelanggaranCategory::all();
 
@@ -182,7 +183,7 @@ class PelanggaranController extends Controller
         $dosen = Dosen::where('id_user', $current_user->id_user)->first();
         $komdis = komdis::with('dosen')->where('id_dosen', $dosen->id_dosen)->first();
         // dd($komdis);
-        $pelanggaran = Pelanggaran::with('komdis')->where('id_komdis', $komdis->id_komdis)->get();
+        $pelanggaran = Pelanggaran::with('komdis', 'kategori')->where('id_komdis', $komdis->id_komdis)->get();
         // dd($pelanggaran);
         $semester_list = Pelanggaran::with('semester')->selectRaw('id_semester')->distinct()->whereNotNull('id_semester')->get();
         

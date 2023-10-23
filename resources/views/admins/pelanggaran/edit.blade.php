@@ -33,13 +33,9 @@
                             <div class="mb-3">
                                 <label for="dosen" class="form-label">Mahasiswa</label>
                                 <select class="form-select @error('id_mhs') is-invalid @enderror" name="id_mhs">
-                                    <option selected value="">Pilih Mahasiswa</option>
-                                    @foreach($mahasiswas as $mhs)
-                                        @if (old('id_mhs', $pelanggaran->id_mhs) == $pelanggaran->id_mhs)
-                                            <option value="{{ $mhs->id_mhs }}" selected>{{ $mhs->nama_mhs }}</option>
-                                        @else
-                                            <option value="{{ $mhs->id_mhs }}">{{ $mhs->nama_mhs }}</option>
-                                        @endif
+                                    <option value="">Pilih Mahasiswa</option>
+                                    @foreach($mahasiswas as $mahasiswa)
+                                        <option value="{{ $mahasiswa->id_mhs }}" {{ $mahasiswa->id_mhs == $pelanggaran->id_mhs ? 'selected' : '' }}>{{ $mahasiswa->nama_mhs }}</option>
                                     @endforeach
                                 </select>
                                 @error('id_mhs')
