@@ -82,7 +82,7 @@
                                             @foreach ($pelanggaran as $p)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    @if($authService->currentUserIsDosen() || $authService->currentUserIsAdmin())
+                                                    @if($authService->currentUserIsDosen() || $authService->currentUserIsAdmin ())
                                                     <td>{{ $p->mahasiswa->nama_mhs }}</td>
                                                     <td>{{ $p->mahasiswa->nim }}</td>
                                                     @endif

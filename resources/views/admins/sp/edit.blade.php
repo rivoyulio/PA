@@ -37,11 +37,11 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="waktu_existing" class="form-label">Waktu Keterlambatan Saat Ini</label>
+                                <label for="waktu_existing" class="form-label">Jam Alfa Saat Ini</label>
                                 <input type="text" value="{{ old('alfa', $sp->alfa) }}" class="form-control" disabled>
                             </div>
                             <div class="mb-3">
-                                <label for="alfa" class="form-label">Tambahan Waktu Keterlambatan</label>
+                                <label for="alfa" class="form-label">Tambahan Jam Alfa</label>
                                 <input
                                     type="number"
                                     name="alfa"
