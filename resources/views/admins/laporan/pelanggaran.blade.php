@@ -64,15 +64,14 @@
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $title }}</h5>
-                                <a href="{{ url()->current() }}/print" target="_blank" type="button" class="btn btn-primary btn-sm mb-4">
+                                {{-- <a href="{{ url()->current() }}/print" target="_blank" type="button" class="btn btn-primary btn-sm mb-4">
                                     Print
-                                </a>
+                                </a> --}}
 
                                 <table class="table table-borderless">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
-                                            <th scope="col">Pelanggaran</th>
                                             <th scope="col">Tanggal</th>
                                             <th scope="col">Semester</th>
                                             <th scope="col">Nama Mahasiswa</th>
@@ -85,7 +84,6 @@
                                         @foreach ($pelanggaran as $data)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $data->pelanggaran }}</td>
                                                 <td>{{ $data->tanggal }}</td>
                                                 <td>{{ $data->semester->name }}</td>
                                                 <td>{{ $data->mahasiswa->nama_mhs }}</td>

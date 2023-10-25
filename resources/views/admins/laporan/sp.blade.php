@@ -64,9 +64,9 @@
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $title }}</h5>
-                                <a href="{{ url()->current() }}/print" target="_blank" type="button" class="btn btn-primary btn-sm mb-4">
+                                {{-- <a href="{{ url()->current() }}/print" target="_blank" type="button" class="btn btn-primary btn-sm mb-4">
                                     Print
-                                </a>
+                                </a> --}}
 
                                 <table class="table table-borderless">
                                     <thead>
@@ -89,10 +89,11 @@
                                                 <td>{{ $sp->mahasiswa->nama_mhs }}</td>
                                                 <td>{{ $sp->mahasiswa->nim }}</td>
                                                 <td>{{ $sp->mahasiswa->kelas->nama_kelas }}</td>
-                                                <td>{{ $sp->mahasiswa->kelas->dosen->nama_dosen }}</td>
+                                                <td>{{ $sp->semester->name }}</td>
+                                                <td>{{ $sp->mahasiswa->kelas->prodi->jenjang }}</td>
+                                                <td>{{ $sp->mahasiswa->kelas->prodi->nama_prodi }}</td>
                                                 <td>{{ $sp->alfa }} jam</td>
                                                 <td>{{ $sp->status }}</td>
-                                                <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $sp->tanggal)->format('d/m/Y') }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

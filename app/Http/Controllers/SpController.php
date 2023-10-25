@@ -20,6 +20,7 @@ class SpController extends Controller
         $semester = $request->semester;
 
         $sp = $this->get_sp($authService, $tahun, $semester);
+        // dd($sp);
         $semester_list = Sp::with('semester')->selectRaw('id_semester')->distinct()->whereNotNull('id_semester')->orderBy('id_semester','asc')->get();
         $tahun_list = Mahasiswa::select('tahun_angkatan as tahun')->distinct()->whereNotNull('tahun_angkatan')->get();
 
@@ -154,7 +155,7 @@ class SpController extends Controller
         if ($tahun) $sp = $sp->whereHas(
             'mahasiswa', fn ($query) => $query->where('tahun_angkatan', $tahun)
         );
-
+        // dd($sp);
         return $sp->get();
     }
 
