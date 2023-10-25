@@ -52,9 +52,9 @@
                                             </div>
                                             <button formaction="/sp" class="btn btn-sm btn-primary" type="submit">Filter</button>
                                         </div>
-                                        <button formaction="/sp/print" type="submit" class="btn btn-primary btn-sm">
+                                        {{-- <button formaction="/sp/print" type="submit" class="btn btn-primary btn-sm">
                                             Print
-                                        </button>
+                                        </button> --}}
                                     </div>
                                 </form>
                                 <table class="table table-borderless mt-3">
