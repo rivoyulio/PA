@@ -57,7 +57,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
-                                            @if($authService->currentUserIsDosen())
+                                            @if($authService->currentUserIsDosen() || $authService->currentUserIsKaprodi())
                                             <th scope="col">Mahasiswa</th>
                                             <th scope="col">NIM</th>
                                             @endif
@@ -74,7 +74,7 @@
                                         @foreach ($sp as $p)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                @if($authService->currentUserIsDosen())
+                                                @if($authService->currentUserIsDosen() || $authService->currentUserIsKaprodi())
                                                 <td>{{ $p->mahasiswa->nama_mhs }}</td>
                                                 <td>{{ $p->mahasiswa->nim }}</td>
                                                 @endif

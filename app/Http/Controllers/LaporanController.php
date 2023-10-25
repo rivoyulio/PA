@@ -140,10 +140,20 @@ class LaporanController extends Controller
 
     public function pelanggaran(AuthService $authService)
     {
+        $current_user = $authService->currentUserGuardInstance()->user();
         $title = 'Pelanggaran';
 
         $tahun = Mahasiswa::select('tahun_angkatan')->distinct()->get();
-        $pelanggaran = Pelanggaran::with('komdis')->get();
+        $dataPelanggaran = Pelanggaran::with('komdis');
+        if ($authService->currentUserGuard() == 'web') {
+            if($authService->currentUserIsKaprodi()){
+                $dataPelanggaran->whereHas(
+                    'mahasiswa.kelas.prodi', fn ($query) => $query->where('id_user', $current_user->id_user)
+                );
+            };
+        }
+
+        $pelanggaran = $dataPelanggaran->get();
 
         $kelas = $this->get_kelas($authService);
         
@@ -188,12 +198,23 @@ class LaporanController extends Controller
     public function sp(AuthService $authService)
     {
         $title = 'SP';
+        $current_user = $authService->currentUserGuardInstance()->user();
+
 
         $tahun = Mahasiswa::select('tahun_angkatan')->distinct()->get();
-        $sp = Sp::with('semester')->get();
+        $dataSp = Sp::with('semester');
 
         $kelas = $this->get_kelas($authService);
         
+        if ($authService->currentUserGuard() == 'web') {
+            if($authService->currentUserIsKaprodi()){
+                $dataSp->whereHas(
+                    'mahasiswa.kelas.prodi', fn ($query) => $query->where('id_user', $current_user->id_user)
+                );
+            };
+        }
+
+        $sp = $dataSp->get();
         // dd($tahun);
 
         return view('admins.laporan.sp', compact('sp', 'title', 'kelas', 'tahun'));

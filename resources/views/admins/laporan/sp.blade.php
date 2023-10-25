@@ -89,10 +89,11 @@
                                                 <td>{{ $sp->mahasiswa->nama_mhs }}</td>
                                                 <td>{{ $sp->mahasiswa->nim }}</td>
                                                 <td>{{ $sp->mahasiswa->kelas->nama_kelas }}</td>
-                                                <td>{{ $sp->mahasiswa->kelas->dosen->nama_dosen }}</td>
+                                                <td>{{ $sp->semester->name }}</td>
+                                                <td>{{ $sp->mahasiswa->kelas->prodi->jenjang }}</td>
+                                                <td>{{ $sp->mahasiswa->kelas->prodi->nama_prodi }}</td>
                                                 <td>{{ $sp->alfa }} jam</td>
                                                 <td>{{ $sp->status }}</td>
-                                                <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $sp->tanggal)->format('d/m/Y') }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
