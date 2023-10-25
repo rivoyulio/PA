@@ -59,7 +59,7 @@
                         <tbody>
                             @foreach($p->pelanggaran as $data)
                             <tr>
-                                <td>{{ $data->pelanggaran }}</td>
+                                <td>{{ $data->kategori->name }}</td>
                                 <td>{{ $data->semester->name }}</td>
                                 <td>{{ $data->komdis->dosen->nama_dosen }}</td>
                             </tr>
