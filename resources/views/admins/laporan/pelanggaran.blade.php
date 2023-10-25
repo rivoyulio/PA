@@ -64,9 +64,9 @@
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $title }}</h5>
-                                <a href="{{ url()->current() }}/print" target="_blank" type="button" class="btn btn-primary btn-sm mb-4">
+                                {{-- <a href="{{ url()->current() }}/print" target="_blank" type="button" class="btn btn-primary btn-sm mb-4">
                                     Print
-                                </a>
+                                </a> --}}
 
                                 <table class="table table-borderless">
                                     <thead>

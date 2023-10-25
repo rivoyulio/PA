@@ -52,9 +52,9 @@
                                             </div>
                                             <button formaction="/pelanggaran" class="btn btn-sm btn-primary" type="submit">Filter</button>
                                         </div>
-                                        <button formaction="/pelanggaran/print" type="submit" class="btn btn-primary btn-sm">
+                                        {{-- <button formaction="/pelanggaran/print" type="submit" class="btn btn-primary btn-sm">
                                             Print
-                                        </button>
+                                        </button> --}}
                                     </div>
                                 </form>
 
