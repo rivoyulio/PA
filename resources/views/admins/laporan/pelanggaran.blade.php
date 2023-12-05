@@ -72,10 +72,10 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
+                                            <th scope="col">Nama Mahasiswa</th>
                                             <th scope="col">Pelanggaran</th>
                                             <th scope="col">Tanggal</th>
                                             <th scope="col">Semester</th>
-                                            <th scope="col">Nama Mahasiswa</th>
                                             <th scope="col">Prodi</th>
                                             <th scope="col">Kelas</th>
                                             <th scope="col">Komdis</th>
@@ -85,10 +85,10 @@
                                         @foreach ($pelanggaran as $data)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $data->mahasiswa->nama_mhs }}</td>
                                                 <td>{{ $data->kategori->name }}</td>
                                                 <td>{{ $data->tanggal }}</td>
                                                 <td>{{ $data->semester->name }}</td>
-                                                <td>{{ $data->mahasiswa->nama_mhs }}</td>
                                                 <td>{{ $data->mahasiswa->prodi->nama_prodi }}</td>
                                                 <td>{{ $data->mahasiswa->kelas->nama_kelas }}</td>
                                                 <td>{{ $data->komdis->dosen->nama_dosen }}</td>

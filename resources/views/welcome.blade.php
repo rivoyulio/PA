@@ -59,7 +59,7 @@
                                 <div class="card-body" style="">
                                     <div class="d-flex justify-content-center py-4">
                                         <a  class="logo d-flex align-items-center w-auto">
-                                            <span class="d-none d-lg-block text-center">Sistem Informasi Pembimbing Akademik</span>
+                                            <span class="d-none d-lg-block text-center">Sistem Informasi Penasehat Akademik</span>
                                             
                                         </a>
                                     </div>
